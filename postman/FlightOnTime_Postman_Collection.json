@@ -1,49 +1,18 @@
 {
   "info": {
     "name": "FlightOnTime API Collection",
-    "description": "Colección completa de endpoints para FlightOnTime - Sistema de Predicción de Puntualidad de Vuelos",
+    "description": "Colección completa de endpoints para FlightOnTime - Sistema de Predicción de Puntualidad de Vuelos.\n\n## Instrucciones de Uso\n\n1. Importar esta colección en Postman\n2. Importar el archivo de environment: `FlightOnTime_Environment.json`\n3. Seleccionar el environment \"FlightOnTime Environment\"\n4. Ejecutar los requests en orden\n\n## Servicios\n\n- **Backend**: http://localhost:8080\n- **ML Service**: http://localhost:8001\n- **Frontend**: http://localhost:8081",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "flightontime"
+    "_exporter_id": "flightontime",
+    "version": "1.0.0"
   },
   "item": [
     {
       "name": "Health Checks",
+      "description": "Endpoints para verificar el estado de los servicios",
       "item": [
         {
           "name": "Backend Health",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base_url}}/api/health",
-              "host": ["{{base_url}}"],
-              "path": ["api", "health"]
-            },
-            "description": "Verifica el estado del backend"
-          },
-          "response": []
-        },
-        {
-          "name": "ML Service Health",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{ml_service_url}}/health",
-              "host": ["{{ml_service_url}}"],
-              "path": ["health"]
-            },
-            "description": "Verifica el estado del servicio ML"
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Prediction API",
-      "item": [
-        {
-          "name": "Predicción Individual - Vuelo Puntual",
           "event": [
             {
               "listen": "test",
@@ -53,11 +22,139 @@
                   "    pm.response.to.have.status(200);",
                   "});",
                   "",
-                  "pm.test(\"Response has prediccion field\", function () {",
+                  "pm.test(\"Response has status field\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('status');",
+                  "    pm.expect(jsonData.status).to.eql('UP');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/health",
+              "host": ["{{base_url}}"],
+              "path": ["api", "health"]
+            },
+            "description": "Verifica el estado del backend Spring Boot.\n\n**Respuesta esperada:**\n- status: UP\n- service: flightontime-backend\n- version: 1.0.0"
+          },
+          "response": []
+        },
+        {
+          "name": "ML Service Health",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has status field\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('status');",
+                  "    pm.expect(jsonData.status).to.eql('healthy');",
+                  "});",
+                  "",
+                  "pm.test(\"ML Model is loaded\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('modelo');",
+                  "    pm.expect(jsonData.modelo).to.eql('cargado');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{ml_service_url}}/health",
+              "host": ["{{ml_service_url}}"],
+              "path": ["health"]
+            },
+            "description": "Verifica el estado del servicio ML FastAPI.\n\n**Respuesta esperada:**\n- status: healthy\n- modelo: cargado\n- timestamp: ISO-8601"
+          },
+          "response": []
+        },
+        {
+          "name": "Prometheus Metrics",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains metrics\", function () {",
+                  "    pm.expect(pm.response.text()).to.include('jvm_memory');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/actuator/prometheus",
+              "host": ["{{base_url}}"],
+              "path": ["actuator", "prometheus"]
+            },
+            "description": "Obtiene métricas del sistema en formato Prometheus.\n\nÚtil para integración con sistemas de monitoreo."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Prediction API",
+      "description": "Endpoints para predicción de vuelos individuales",
+      "item": [
+        {
+          "name": "Predicción Individual - Vuelo Puntual (DL ATL→JFK)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has required fields\", function () {",
                   "    var jsonData = pm.response.json();",
                   "    pm.expect(jsonData).to.have.property('prediccion');",
                   "    pm.expect(jsonData).to.have.property('probabilidad_retraso');",
                   "    pm.expect(jsonData).to.have.property('confianza');",
+                  "    pm.expect(jsonData).to.have.property('distancia_km');",
+                  "    pm.expect(jsonData).to.have.property('clima_origen');",
+                  "    pm.expect(jsonData).to.have.property('metadata');",
+                  "});",
+                  "",
+                  "pm.test(\"Prediccion is 0 or 1\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.prediccion).to.be.oneOf([0, 1]);",
+                  "});",
+                  "",
+                  "pm.test(\"Probabilidad is between 0 and 1\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.probabilidad_retraso).to.be.at.least(0);",
+                  "    pm.expect(jsonData.probabilidad_retraso).to.be.at.most(1);",
+                  "});",
+                  "",
+                  "pm.test(\"Distancia is positive\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.distancia_km).to.be.above(0);",
                   "});"
                 ],
                 "type": "text/javascript"
@@ -69,7 +166,7 @@
             "header": [
               {
                 "key": "Content-Type",
-                "value": "{{content_type}}"
+                "value": "application/json"
               }
             ],
             "body": {
@@ -81,18 +178,37 @@
               "host": ["{{base_url}}"],
               "path": ["api", "predict"]
             },
-            "description": "Predicción de vuelo Delta Air Lines de Atlanta a New York JFK"
+            "description": "Predicción de vuelo Delta Air Lines de Atlanta a New York JFK.\n\n**Campos requeridos:**\n- aerolinea: Código de aerolínea\n- origen: Código IATA origen (3 letras)\n- destino: Código IATA destino (3 letras)\n\n**Campo opcional:**\n- fecha_partida: Fecha ISO-8601"
           },
           "response": []
         },
         {
-          "name": "Predicción Individual - Vuelo Retrasado",
+          "name": "Predicción Individual - Vuelo Largo (LAX→ORD)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Distance is calculated correctly (should be ~2800km)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.distancia_km).to.be.above(2500);",
+                  "    pm.expect(jsonData.distancia_km).to.be.below(3200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
-                "value": "{{content_type}}"
+                "value": "application/json"
               }
             ],
             "body": {
@@ -104,18 +220,77 @@
               "host": ["{{base_url}}"],
               "path": ["api", "predict"]
             },
-            "description": "Predicción de vuelo Southwest Airlines de Los Angeles a Chicago"
+            "description": "Predicción de vuelo Southwest Airlines de Los Angeles a Chicago.\n\nVerifica el cálculo de distancia usando la fórmula de Haversine."
           },
           "response": []
         },
         {
-          "name": "Predicción - Error Validación",
+          "name": "Predicción - Sin fecha (usa fecha actual)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is valid without fecha_partida\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('prediccion');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
-                "value": "{{content_type}}"
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"aerolinea\": \"AA\",\n  \"origen\": \"DFW\",\n  \"destino\": \"MIA\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/predict",
+              "host": ["{{base_url}}"],
+              "path": ["api", "predict"]
+            },
+            "description": "Predicción sin especificar fecha de partida.\n\nEl sistema usará la fecha/hora actual."
+          },
+          "response": []
+        },
+        {
+          "name": "Predicción - Error: Origen = Destino",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 (Bad Request)\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"Response contains error message\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('error').or.have.property('message');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
               }
             ],
             "body": {
@@ -127,18 +302,31 @@
               "host": ["{{base_url}}"],
               "path": ["api", "predict"]
             },
-            "description": "Ejemplo de error: origen y destino son iguales"
+            "description": "Caso de error: origen y destino son el mismo aeropuerto.\n\n**Esperado:** Error 400 - Bad Request"
           },
           "response": []
         },
         {
-          "name": "Predicción - Parámetros Faltantes",
+          "name": "Predicción - Error: Parámetros Faltantes",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 (Bad Request)\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
-                "value": "{{content_type}}"
+                "value": "application/json"
               }
             ],
             "body": {
@@ -150,7 +338,48 @@
               "host": ["{{base_url}}"],
               "path": ["api", "predict"]
             },
-            "description": "Ejemplo de error: faltan parámetros requeridos"
+            "description": "Caso de error: faltan parámetros requeridos (origen, destino).\n\n**Esperado:** Error 400 - Bad Request"
+          },
+          "response": []
+        },
+        {
+          "name": "Predicción - Error: Aeropuerto Inválido",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 (Bad Request)\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"Error message mentions airport not found\", function () {",
+                  "    var responseText = pm.response.text().toLowerCase();",
+                  "    pm.expect(responseText).to.include('not found').or.include('no encontrado').or.include('aeropuerto');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"aerolinea\": \"DL\",\n  \"origen\": \"XXX\",\n  \"destino\": \"YYY\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/predict",
+              "host": ["{{base_url}}"],
+              "path": ["api", "predict"]
+            },
+            "description": "Caso de error: códigos IATA de aeropuerto no válidos.\n\n**Esperado:** Error 400 - Aeropuerto no encontrado"
           },
           "response": []
         }
@@ -158,9 +387,28 @@
     },
     {
       "name": "Batch Processing API",
+      "description": "Endpoints para procesamiento por lotes de vuelos",
       "item": [
         {
-          "name": "Procesamiento por Lote",
+          "name": "Procesamiento por Lote (CSV)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has batch results\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.be.an('array').or.have.property('resultados');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [],
@@ -170,29 +418,24 @@
                 {
                   "key": "file",
                   "type": "file",
-                  "src": []
+                  "src": [],
+                  "description": "Archivo CSV con vuelos. Columnas: aerolinea, origen, destino, fecha_partida"
                 },
                 {
                   "key": "batch_id",
-                  "value": "BATCH-TEST123",
+                  "value": "{{batch_id}}",
                   "type": "text",
-                  "disabled": true
+                  "disabled": true,
+                  "description": "ID opcional para agrupar el lote"
                 }
               ]
             },
             "url": {
-              "raw": "{{base_url}}/api/batch-predict?batch_id={{batch_id}}",
+              "raw": "{{base_url}}/api/batch-predict",
               "host": ["{{base_url}}"],
-              "path": ["api", "batch-predict"],
-              "query": [
-                {
-                  "key": "batch_id",
-                  "value": "{{batch_id}}",
-                  "disabled": true
-                }
-              ]
+              "path": ["api", "batch-predict"]
             },
-            "description": "Procesa un archivo CSV con múltiples vuelos. El batch_id se puede enviar como query parameter o en el form-data."
+            "description": "Procesa un archivo CSV con múltiples vuelos.\n\n**Formato del CSV:**\n```csv\naerolinea,origen,destino,fecha_partida\nDL,ATL,JFK,2026-01-15T14:30:00\nWN,LAX,ORD,2026-01-16T10:00:00\n```\n\n**Parámetros:**\n- file: Archivo CSV (requerido)\n- batch_id: ID de lote (opcional)\n\n**Nota:** Selecciona un archivo CSV antes de ejecutar."
           },
           "response": []
         }
@@ -200,9 +443,30 @@
     },
     {
       "name": "History API",
+      "description": "Endpoints para consultar historial de predicciones",
       "item": [
         {
           "name": "Consultar Predicciones - Sin Filtros",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has pagination info\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('content');",
+                  "    pm.expect(jsonData).to.have.property('totalElements');",
+                  "    pm.expect(jsonData).to.have.property('totalPages');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -213,51 +477,94 @@
               "query": [
                 {
                   "key": "page",
-                  "value": "0"
+                  "value": "0",
+                  "description": "Número de página (0-indexed)"
                 },
                 {
                   "key": "size",
-                  "value": "20"
+                  "value": "20",
+                  "description": "Tamaño de página"
                 },
                 {
                   "key": "sortBy",
-                  "value": "fechaPrediccion"
+                  "value": "fechaPrediccion",
+                  "description": "Campo para ordenar"
                 },
                 {
                   "key": "sortDir",
-                  "value": "desc"
+                  "value": "desc",
+                  "description": "Dirección: asc o desc"
                 }
               ]
             },
-            "description": "Consulta todas las predicciones con paginación"
+            "description": "Consulta todas las predicciones con paginación.\n\nRetorna las predicciones más recientes primero."
           },
           "response": []
         },
         {
           "name": "Consultar Predicciones - Con Filtros",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"All results match filter criteria\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.content && jsonData.content.length > 0) {",
+                  "        jsonData.content.forEach(function(item) {",
+                  "            pm.expect(item.aerolinea).to.eql('DL');",
+                  "        });",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/predictions?fechaInicio=2026-01-01&fechaFin=2026-01-31&aerolinea=DL&prediccion=1&page=0&size=20",
+              "raw": "{{base_url}}/api/predictions?fechaInicio=2026-01-01&fechaFin=2026-12-31&aerolinea=DL&page=0&size=20",
               "host": ["{{base_url}}"],
               "path": ["api", "predictions"],
               "query": [
                 {
                   "key": "fechaInicio",
-                  "value": "2026-01-01"
+                  "value": "2026-01-01",
+                  "description": "Fecha inicio (yyyy-MM-dd)"
                 },
                 {
                   "key": "fechaFin",
-                  "value": "2026-01-31"
+                  "value": "2026-12-31",
+                  "description": "Fecha fin (yyyy-MM-dd)"
                 },
                 {
                   "key": "aerolinea",
-                  "value": "DL"
+                  "value": "DL",
+                  "description": "Filtrar por aerolínea"
+                },
+                {
+                  "key": "origen",
+                  "value": "",
+                  "disabled": true,
+                  "description": "Filtrar por origen"
+                },
+                {
+                  "key": "destino",
+                  "value": "",
+                  "disabled": true,
+                  "description": "Filtrar por destino"
                 },
                 {
                   "key": "prediccion",
-                  "value": "1"
+                  "value": "",
+                  "disabled": true,
+                  "description": "0=Puntual, 1=Retrasado"
                 },
                 {
                   "key": "page",
@@ -269,12 +576,25 @@
                 }
               ]
             },
-            "description": "Consulta predicciones con múltiples filtros"
+            "description": "Consulta predicciones con múltiples filtros aplicados.\n\n**Filtros disponibles:**\n- fechaInicio/fechaFin: Rango de fechas\n- aerolinea: Código de aerolínea\n- origen/destino: Códigos IATA\n- prediccion: 0=Puntual, 1=Retrasado\n- batchId: ID de lote"
           },
           "response": []
         },
         {
           "name": "Consultar Predicciones - Por Batch ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -285,7 +605,8 @@
               "query": [
                 {
                   "key": "batchId",
-                  "value": "{{batch_id}}"
+                  "value": "{{batch_id}}",
+                  "description": "ID del lote a consultar"
                 },
                 {
                   "key": "page",
@@ -297,12 +618,32 @@
                 }
               ]
             },
-            "description": "Consulta todas las predicciones de un lote específico"
+            "description": "Consulta todas las predicciones de un lote específico.\n\n**Nota:** Primero ejecuta una predicción por lotes para obtener un batch_id."
           },
           "response": []
         },
         {
           "name": "Obtener Opciones de Filtros",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has filter options\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('aerolineas');",
+                  "    pm.expect(jsonData).to.have.property('origenes');",
+                  "    pm.expect(jsonData).to.have.property('destinos');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -311,7 +652,7 @@
               "host": ["{{base_url}}"],
               "path": ["api", "predictions", "filters"]
             },
-            "description": "Obtiene listas de valores únicos para los filtros (aerolíneas, aeropuertos)"
+            "description": "Obtiene listas de valores únicos para poblar los filtros del UI.\n\n**Retorna:**\n- aerolineas: Lista de códigos de aerolínea únicos\n- origenes: Lista de aeropuertos de origen únicos\n- destinos: Lista de aeropuertos de destino únicos"
           },
           "response": []
         }
@@ -319,9 +660,28 @@
     },
     {
       "name": "Statistics API",
+      "description": "Endpoints para estadísticas agregadas",
       "item": [
         {
-          "name": "Estadísticas - Sin Parámetros",
+          "name": "Estadísticas - Sin Parámetros (Hoy)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has statistics fields\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('total_predicciones').or.have.property('totalPredicciones');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -330,36 +690,64 @@
               "host": ["{{base_url}}"],
               "path": ["api", "stats"]
             },
-            "description": "Estadísticas del día actual"
+            "description": "Obtiene estadísticas del día actual.\n\n**Incluye:**\n- Total de predicciones\n- Vuelos puntuales vs retrasados\n- Estadísticas por aerolínea\n- Estadísticas por aeropuerto"
           },
           "response": []
         },
         {
           "name": "Estadísticas - Por Rango de Fechas",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/stats?inicio=2026-01-01&fin=2026-01-31",
+              "raw": "{{base_url}}/api/stats?inicio=2026-01-01&fin=2026-12-31",
               "host": ["{{base_url}}"],
               "path": ["api", "stats"],
               "query": [
                 {
                   "key": "inicio",
-                  "value": "2026-01-01"
+                  "value": "2026-01-01",
+                  "description": "Fecha inicio (yyyy-MM-dd)"
                 },
                 {
                   "key": "fin",
-                  "value": "2026-01-31"
+                  "value": "2026-12-31",
+                  "description": "Fecha fin (yyyy-MM-dd)"
                 }
               ]
             },
-            "description": "Estadísticas para un rango de fechas específico"
+            "description": "Estadísticas para un rango de fechas específico.\n\nÚtil para análisis de períodos específicos."
           },
           "response": []
         },
         {
           "name": "Estadísticas - Por Batch ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -370,21 +758,46 @@
               "query": [
                 {
                   "key": "batchId",
-                  "value": "{{batch_id}}"
+                  "value": "{{batch_id}}",
+                  "description": "ID del lote"
                 }
               ]
             },
-            "description": "Estadísticas para un lote específico"
+            "description": "Estadísticas para un lote específico.\n\nÚtil para analizar resultados de un procesamiento por lotes."
           },
           "response": []
         }
       ]
     },
     {
-      "name": "ML Service API",
+      "name": "ML Service API (Interno)",
+      "description": "Endpoints del servicio ML - Uso interno",
       "item": [
         {
           "name": "Listar Aeropuertos",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is an object with airports\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(Object.keys(jsonData).length).to.be.above(100);",
+                  "});",
+                  "",
+                  "pm.test(\"ATL airport exists\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('ATL');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -393,18 +806,37 @@
               "host": ["{{ml_service_url}}"],
               "path": ["airports"]
             },
-            "description": "Lista todos los aeropuertos disponibles en el sistema"
+            "description": "Lista todos los aeropuertos disponibles en el sistema.\n\n**Formato:**\n```json\n{\n  \"ATL\": {\n    \"name\": \"Hartsfield-Jackson Atlanta International Airport\",\n    \"lat\": 33.6407,\n    \"lon\": -84.4277\n  }\n}\n```"
           },
           "response": []
         },
         {
-          "name": "Predicción Interna",
+          "name": "Predicción Interna (ML directo)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has ML prediction\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('prediccion');",
+                  "    pm.expect(jsonData).to.have.property('probabilidad_retraso');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
-                "value": "{{content_type}}"
+                "value": "application/json"
               }
             ],
             "body": {
@@ -416,7 +848,7 @@
               "host": ["{{ml_service_url}}"],
               "path": ["predict_internal"]
             },
-            "description": "Endpoint interno para predicción (normalmente llamado por el backend)"
+            "description": "Endpoint interno para predicción directa con el modelo ML.\n\n**Nota:** Este endpoint es llamado internamente por el backend. No es recomendable usarlo directamente desde clientes externos."
           },
           "response": []
         }
@@ -424,9 +856,28 @@
     },
     {
       "name": "Documentation",
+      "description": "Endpoints de documentación",
       "item": [
         {
           "name": "API Documentation",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has endpoints info\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('endpoints');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -435,23 +886,58 @@
               "host": ["{{base_url}}"],
               "path": ["api", "docs"]
             },
-            "description": "Documentación automática de endpoints"
+            "description": "Documentación automática de endpoints disponibles.\n\nRetorna información sobre todos los endpoints de la API."
           },
           "response": []
         }
       ]
     }
   ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Pre-request script global",
+          "// Se ejecuta antes de cada request"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Test script global",
+          "// Se ejecuta después de cada request",
+          "",
+          "// Log response time",
+          "pm.test(\"Response time is less than 5000ms\", function () {",
+          "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+          "});"
+        ]
+      }
+    }
+  ],
   "variable": [
     {
       "key": "base_url",
       "value": "http://localhost:8080",
-      "type": "string"
+      "type": "string",
+      "description": "URL base del Backend (Spring Boot)"
     },
     {
       "key": "ml_service_url",
       "value": "http://localhost:8001",
-      "type": "string"
+      "type": "string",
+      "description": "URL del servicio ML (FastAPI)"
+    },
+    {
+      "key": "batch_id",
+      "value": "",
+      "type": "string",
+      "description": "ID de lote para pruebas"
     }
   ]
 }

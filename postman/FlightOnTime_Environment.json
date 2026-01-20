@@ -6,32 +6,46 @@
       "key": "base_url",
       "value": "http://localhost:8080",
       "type": "default",
-      "enabled": true
+      "enabled": true,
+      "description": "URL base del Backend (Spring Boot)"
     },
     {
       "key": "ml_service_url",
       "value": "http://localhost:8001",
       "type": "default",
-      "enabled": true
+      "enabled": true,
+      "description": "URL del servicio ML (FastAPI)"
+    },
+    {
+      "key": "frontend_url",
+      "value": "http://localhost:8081",
+      "type": "default",
+      "enabled": true,
+      "description": "URL del Frontend (Nginx)"
     },
     {
       "key": "api_version",
       "value": "v1",
       "type": "default",
-      "enabled": true
+      "enabled": true,
+      "description": "Versión de la API"
     },
     {
       "key": "content_type",
       "value": "application/json",
       "type": "default",
-      "enabled": true
+      "enabled": true,
+      "description": "Content-Type para requests JSON"
     },
     {
       "key": "batch_id",
       "value": "",
       "type": "default",
-      "enabled": true
+      "enabled": true,
+      "description": "ID de lote para filtrar predicciones por batch"
     }
   ],
-  "_postman_variable_scope": "environment"
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2026-01-20T15:34:37.000Z",
+  "_postman_exported_using": "Postman"
 }

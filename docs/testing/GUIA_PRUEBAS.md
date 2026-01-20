@@ -40,7 +40,7 @@ chmod +x start.sh
 
 ```bash
 # En el directorio raíz del proyecto
-docker-compose up --build
+docker compose up --build
 ```
 
 **Tiempo de inicio**: 60-90 segundos
@@ -52,7 +52,7 @@ docker-compose up --build
 ### 1. Verificar que todos los contenedores estén corriendo
 
 ```bash
-docker-compose ps
+docker compose ps
 ```
 
 **Salida esperada**:
@@ -374,16 +374,16 @@ docker network ls | grep flightontime
 
 ```bash
 # Todos los servicios
-docker-compose logs
+docker compose logs
 
 # Solo backend
-docker-compose logs backend
+docker compose logs backend
 
 # Solo ML service
-docker-compose logs ml-service
+docker compose logs ml-service
 
 # Seguir logs en tiempo real
-docker-compose logs -f
+docker compose logs -f
 ```
 
 **Validar**:
@@ -475,15 +475,15 @@ docker-compose logs -f
 
 **Solución**:
 ```bash
-docker-compose down
-docker-compose up --build --force-recreate
+docker compose down
+docker compose up --build --force-recreate
 ```
 
 ### Problema: Backend no se conecta a ML Service
 
 **Verificar**:
 ```bash
-docker-compose logs ml-service
+docker compose logs ml-service
 docker exec -it flightontime-backend ping ml-service
 ```
 
@@ -515,7 +515,7 @@ docker exec -it flightontime-backend ping ml-service
 
 **Logs en tiempo real**:
 ```bash
-docker-compose logs -f
+docker compose logs -f
 ```
 
 ---
