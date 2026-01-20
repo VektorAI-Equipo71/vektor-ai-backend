@@ -1,0 +1,457 @@
+{
+  "info": {
+    "name": "FlightOnTime API Collection",
+    "description": "Colección completa de endpoints para FlightOnTime - Sistema de Predicción de Puntualidad de Vuelos",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "flightontime"
+  },
+  "item": [
+    {
+      "name": "Health Checks",
+      "item": [
+        {
+          "name": "Backend Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/health",
+              "host": ["{{base_url}}"],
+              "path": ["api", "health"]
+            },
+            "description": "Verifica el estado del backend"
+          },
+          "response": []
+        },
+        {
+          "name": "ML Service Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{ml_service_url}}/health",
+              "host": ["{{ml_service_url}}"],
+              "path": ["health"]
+            },
+            "description": "Verifica el estado del servicio ML"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Prediction API",
+      "item": [
+        {
+          "name": "Predicción Individual - Vuelo Puntual",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has prediccion field\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('prediccion');",
+                  "    pm.expect(jsonData).to.have.property('probabilidad_retraso');",
+                  "    pm.expect(jsonData).to.have.property('confianza');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "{{content_type}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"aerolinea\": \"DL\",\n  \"origen\": \"ATL\",\n  \"destino\": \"JFK\",\n  \"fecha_partida\": \"2026-01-15T14:30:00\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/predict",
+              "host": ["{{base_url}}"],
+              "path": ["api", "predict"]
+            },
+            "description": "Predicción de vuelo Delta Air Lines de Atlanta a New York JFK"
+          },
+          "response": []
+        },
+        {
+          "name": "Predicción Individual - Vuelo Retrasado",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "{{content_type}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"aerolinea\": \"WN\",\n  \"origen\": \"LAX\",\n  \"destino\": \"ORD\",\n  \"fecha_partida\": \"2026-01-20T08:00:00\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/predict",
+              "host": ["{{base_url}}"],
+              "path": ["api", "predict"]
+            },
+            "description": "Predicción de vuelo Southwest Airlines de Los Angeles a Chicago"
+          },
+          "response": []
+        },
+        {
+          "name": "Predicción - Error Validación",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "{{content_type}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"aerolinea\": \"DL\",\n  \"origen\": \"ATL\",\n  \"destino\": \"ATL\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/predict",
+              "host": ["{{base_url}}"],
+              "path": ["api", "predict"]
+            },
+            "description": "Ejemplo de error: origen y destino son iguales"
+          },
+          "response": []
+        },
+        {
+          "name": "Predicción - Parámetros Faltantes",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "{{content_type}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"aerolinea\": \"DL\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/predict",
+              "host": ["{{base_url}}"],
+              "path": ["api", "predict"]
+            },
+            "description": "Ejemplo de error: faltan parámetros requeridos"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Batch Processing API",
+      "item": [
+        {
+          "name": "Procesamiento por Lote",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "batch_id",
+                  "value": "BATCH-TEST123",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/batch-predict?batch_id={{batch_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "batch-predict"],
+              "query": [
+                {
+                  "key": "batch_id",
+                  "value": "{{batch_id}}",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Procesa un archivo CSV con múltiples vuelos. El batch_id se puede enviar como query parameter o en el form-data."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "History API",
+      "item": [
+        {
+          "name": "Consultar Predicciones - Sin Filtros",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/predictions?page=0&size=20&sortBy=fechaPrediccion&sortDir=desc",
+              "host": ["{{base_url}}"],
+              "path": ["api", "predictions"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "fechaPrediccion"
+                },
+                {
+                  "key": "sortDir",
+                  "value": "desc"
+                }
+              ]
+            },
+            "description": "Consulta todas las predicciones con paginación"
+          },
+          "response": []
+        },
+        {
+          "name": "Consultar Predicciones - Con Filtros",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/predictions?fechaInicio=2026-01-01&fechaFin=2026-01-31&aerolinea=DL&prediccion=1&page=0&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "predictions"],
+              "query": [
+                {
+                  "key": "fechaInicio",
+                  "value": "2026-01-01"
+                },
+                {
+                  "key": "fechaFin",
+                  "value": "2026-01-31"
+                },
+                {
+                  "key": "aerolinea",
+                  "value": "DL"
+                },
+                {
+                  "key": "prediccion",
+                  "value": "1"
+                },
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Consulta predicciones con múltiples filtros"
+          },
+          "response": []
+        },
+        {
+          "name": "Consultar Predicciones - Por Batch ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/predictions?batchId={{batch_id}}&page=0&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "predictions"],
+              "query": [
+                {
+                  "key": "batchId",
+                  "value": "{{batch_id}}"
+                },
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Consulta todas las predicciones de un lote específico"
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Opciones de Filtros",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/predictions/filters",
+              "host": ["{{base_url}}"],
+              "path": ["api", "predictions", "filters"]
+            },
+            "description": "Obtiene listas de valores únicos para los filtros (aerolíneas, aeropuertos)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Statistics API",
+      "item": [
+        {
+          "name": "Estadísticas - Sin Parámetros",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "stats"]
+            },
+            "description": "Estadísticas del día actual"
+          },
+          "response": []
+        },
+        {
+          "name": "Estadísticas - Por Rango de Fechas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/stats?inicio=2026-01-01&fin=2026-01-31",
+              "host": ["{{base_url}}"],
+              "path": ["api", "stats"],
+              "query": [
+                {
+                  "key": "inicio",
+                  "value": "2026-01-01"
+                },
+                {
+                  "key": "fin",
+                  "value": "2026-01-31"
+                }
+              ]
+            },
+            "description": "Estadísticas para un rango de fechas específico"
+          },
+          "response": []
+        },
+        {
+          "name": "Estadísticas - Por Batch ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/stats?batchId={{batch_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "stats"],
+              "query": [
+                {
+                  "key": "batchId",
+                  "value": "{{batch_id}}"
+                }
+              ]
+            },
+            "description": "Estadísticas para un lote específico"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "ML Service API",
+      "item": [
+        {
+          "name": "Listar Aeropuertos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{ml_service_url}}/airports",
+              "host": ["{{ml_service_url}}"],
+              "path": ["airports"]
+            },
+            "description": "Lista todos los aeropuertos disponibles en el sistema"
+          },
+          "response": []
+        },
+        {
+          "name": "Predicción Interna",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "{{content_type}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"aerolinea\": \"DL\",\n  \"origen\": \"ATL\",\n  \"destino\": \"JFK\",\n  \"fecha_partida\": \"2026-01-15T14:30:00\"\n}"
+            },
+            "url": {
+              "raw": "{{ml_service_url}}/predict_internal",
+              "host": ["{{ml_service_url}}"],
+              "path": ["predict_internal"]
+            },
+            "description": "Endpoint interno para predicción (normalmente llamado por el backend)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Documentation",
+      "item": [
+        {
+          "name": "API Documentation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/docs",
+              "host": ["{{base_url}}"],
+              "path": ["api", "docs"]
+            },
+            "description": "Documentación automática de endpoints"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "ml_service_url",
+      "value": "http://localhost:8001",
+      "type": "string"
+    }
+  ]
+}

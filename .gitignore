@@ -1,0 +1,36 @@
+# Docker
+.env
+docker-compose.override.yml
+
+# IDEs
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Documentación no esencial (auditorías y reportes internos)
+AUDITORIA_EJECUTIVA.md
+AUDITORIA_TECNICA_DETALLADA.md
+RESUMEN_EJECUTIVO.md
+ANALISIS_CONSISTENCIA_DATOS.md
+NOTA_SOBRE_PREDICCIONES.md
+CAMBIOS_MODELO_V3.md
+IMPLICACIONES_*.md
+INSTRUCCIONES_NUEVAS_FUNCIONALIDADES.md
+
+# Documentación de auditoría en ml-service
+ml-service/auditoria_*.md
+ml-service/ml-service/auditoria_*.md
+ml-service/auditoria_*.py
+
+# Modelos ML grandes (más de 100MB - usar Git LFS o almacenar externamente)
+ml-service/*.pkl
+ml-service/*.joblib
+ml-service/random_forest_*.pkl
+ml-service/random_forest_*.joblib

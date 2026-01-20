@@ -1,0 +1,122 @@
+# ============================================================================
+# DOCKER COMPOSE - FLIGHTONTIME
+# Orquestación de servicios: Backend, ML Service y Frontend
+# ============================================================================
+
+services:
+  # ==========================================================================
+  # BASE DE DATOS POSTGRESQL
+  # ==========================================================================
+  postgres:
+    image: postgres:15-alpine
+    container_name: flightontime-postgres
+    environment:
+      - POSTGRES_DB=flightontime
+      - POSTGRES_USER=flightontime
+      - POSTGRES_PASSWORD=flightontime123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U flightontime"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - flightontime-network
+    restart: unless-stopped
+
+  # ==========================================================================
+  # SERVICIO ML (Python + FastAPI)
+  # ==========================================================================
+  ml-service:
+    build:
+      context: ./ml-service
+      dockerfile: Dockerfile
+    container_name: flightontime-ml
+    ports:
+      - "8001:8001"
+    environment:
+      - PYTHONUNBUFFERED=1
+      # CR-002: Externalizar API Key desde variable de entorno
+      - OPENWEATHER_API_KEY=${OPENWEATHER_API_KEY:-d4ce4d4589c7a7ac4343085c00c39f9b}
+    healthcheck:
+      test: [ "CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - flightontime-network
+    restart: unless-stopped
+
+  # ==========================================================================
+  # BACKEND (Java 17 + Spring Boot)
+  # ==========================================================================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: flightontime-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - ML_SERVICE_URL=http://ml-service:8001
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/flightontime
+      - SPRING_DATASOURCE_USERNAME=flightontime
+      - SPRING_DATASOURCE_PASSWORD=flightontime123
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ml-service:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/api/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - flightontime-network
+    restart: unless-stopped
+
+  # ==========================================================================
+  # FRONTEND (Nginx)
+  # ==========================================================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: flightontime-frontend
+    ports:
+      - "8081:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "wget", "--no-verbose", "--spider", "http://127.0.0.1/" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - flightontime-network
+    restart: unless-stopped
+
+# ============================================================================
+# VOLÚMENES
+# ============================================================================
+volumes:
+  postgres_data:
+    driver: local
+
+# ============================================================================
+# REDES
+# ============================================================================
+networks:
+  flightontime-network:
+    driver: bridge
+    name: flightontime-network

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Last-Modified" content="0">
+    <title>FlightOnTime - Predicción por Lote v2.0</title>
+    <link rel="stylesheet" href="styles.css?v=2.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- SheetJS para exportación a Excel -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+    <!-- ================================================================ -->
+    <!-- HEADER -->
+    <!-- ================================================================ -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo-section">
+                <img src="/frontend/img/LogoVektorAI.svg" alt="VEKTOR AI Logo" class="logo-icon" />
+                <div class="logo-text">
+                    <span class="brand-name">VEKTOR AI</span>
+                    <h1 class="logo-title">FlightOnTime</h1>
+                </div>
+            </div>
+            <nav style="display: flex; gap: 1rem; align-items: center; margin-right: 1rem;">
+                <a href="index.html" style="color: white; text-decoration: none; font-weight: 600;" data-i18n="nav.home">Inicio</a>
+                <a href="index.html#prediccion-individual" style="color: white; text-decoration: none;" data-i18n="nav.individual">Predicción Individual</a>
+                <a href="batch.html" style="color: white; text-decoration: none; font-weight: 600;" data-i18n="nav.batch">Predicción por Lote</a>
+                <a href="history.html" style="color: white; text-decoration: none;" data-i18n="nav.history">Historial</a>
+                <a href="stats.html" style="color: white; text-decoration: none;" data-i18n="nav.stats">Estadísticas</a>
+                <a href="about.html" style="color: white; text-decoration: none;" data-i18n="nav.about">Acerca de</a>
+            </nav>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <!-- Selectores de Idioma (Banderas) -->
+                <button id="langEsBtn" class="lang-btn active" title="Español" data-lang="es">
+                    <img src="/frontend/img/espana.png" alt="Español" class="lang-flag-icon">
+                </button>
+                <button id="langEnBtn" class="lang-btn" title="English" data-lang="en">
+                    <img src="/frontend/img/estados-unidos.png" alt="English" class="lang-flag-icon">
+                </button>
+                <!-- Botón de Configuración -->
+                <button id="settingsBtn" class="settings-btn" title="Configuración">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22"/>
+                    </svg>
+                </button>
+                <div class="header-status">
+                    <div class="status-indicator" id="statusIndicator">
+                        <span class="status-dot"></span>
+                        <span class="status-text" data-i18n="header.status.operational">Sistema Operativo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================================================================ -->
+    <!-- CONTENIDO PRINCIPAL -->
+    <!-- ================================================================ -->
+    <div class="batch-container">
+        <h1 style="margin-bottom: 2rem; color: #1A2B48;">Predicción de Vuelos por Lote</h1>
+
+        <!-- Sección de carga de archivo -->
+        <div class="upload-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h2 style="margin: 0; color: #1F2937;">Subir Archivo CSV</h2>
+                <button class="btn btn-success" id="downloadTemplateBtn">
+                    <svg style="width: 18px; height: 18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V15M7 10L12 15M12 15L17 10M12 15V3" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Descargar Plantilla CSV</span>
+                </button>
+            </div>
+            
+            <div class="file-upload" id="fileUpload">
+                <p style="margin: 0; font-size: 1.1rem; color: #333;">Arrastra y suelta tu archivo CSV aquí</p>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #666;">o haz clic para seleccionar</p>
+                <input type="file" id="fileInput" class="file-input" accept=".csv">
+                <button class="upload-btn" id="uploadBtn" disabled>Procesar Archivo</button>
+            </div>
+            
+            <div class="file-info" id="fileInfo"></div>
+            <div class="batch-id" id="batchIdInfo">
+                <strong>ID de Lote:</strong> <code id="batchIdValue"></code>
+            </div>
+            <div class="message" id="message"></div>
+        </div>
+
+        <!-- Sección de botones de acción -->
+        <div class="action-buttons">
+            <button class="btn btn-success" id="exportExcelBtn" disabled>
+                <svg style="width: 18px; height: 18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V15M7 10L12 15M12 15L17 10M12 15V3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Exportar a Excel</span>
+            </button>
+        </div>
+
+        <!-- Loading -->
+        <div class="loading" id="loading">
+            <p>Procesando archivo CSV...</p>
+        </div>
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- FOOTER -->
+    <!-- ================================================================ -->
+    <footer class="footer">
+        <p data-i18n="footer.text">&copy; 2026 FlightOnTime | Sistema de Misión Crítica</p>
+    </footer>
+
+    <script>
+        // ====================================================================
+        // VARIABLES GLOBALES
+        // ====================================================================
+        let selectedFile = null;
+        let currentBatchId = null;
+        let allResults = [];
+
+        // ====================================================================
+        // ELEMENTOS DEL DOM
+        // ====================================================================
+        const fileInput = document.getElementById('fileInput');
+        const fileUpload = document.getElementById('fileUpload');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const fileInfo = document.getElementById('fileInfo');
+        const batchIdInfo = document.getElementById('batchIdInfo');
+        const batchIdValue = document.getElementById('batchIdValue');
+        const message = document.getElementById('message');
+        const loading = document.getElementById('loading');
+        const downloadTemplateBtn = document.getElementById('downloadTemplateBtn');
+        const exportExcelBtn = document.getElementById('exportExcelBtn');
+
+        // ====================================================================
+        // FUNCIONES AUXILIARES
+        // ====================================================================
+        
+        /**
+         * Genera un ID de lote corto y memorable
+         * Formato: BATCH-ABC123 (6 caracteres alfanuméricos)
+         */
+        function generateBatchId() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // Sin I, O, 0, 1 para evitar confusión
+            let result = 'BATCH-';
+            for (let i = 0; i < 6; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+
+        /**
+         * Muestra un mensaje al usuario
+         */
+        function showMessage(text, type = 'success') {
+            message.textContent = text;
+            message.className = `message ${type}`;
+            message.style.display = 'block';
+            setTimeout(() => {
+                message.style.display = 'none';
+            }, 5000);
+        }
+
+        /**
+         * Descarga la plantilla CSV
+         */
+        function downloadTemplate() {
+            const template = `aerolinea,origen,destino,fecha_partida
+AA,ATL,JFK,2026-01-15T14:30:00
+DL,LAX,ORD,2026-01-16T10:00:00
+UA,DFW,MIA,2026-01-17T08:00:00`;
+
+            const blob = new Blob([template], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'plantilla_vuelos.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        /**
+         * Exporta los resultados a Excel
+         */
+        function exportToExcel() {
+            if (!allResults || allResults.length === 0) {
+                showMessage('No hay resultados para exportar', 'error');
+                return;
+            }
+
+            try {
+                // Preparar datos para Excel
+                const data = allResults.map(result => ({
+                    'Aerolínea': result.aerolinea || '-',
+                    'Origen': result.origen || '-',
+                    'Destino': result.destino || '-',
+                    'Fecha Partida': result.fecha_partida || '-',
+                    'Distancia (km)': result.distancia_km || '-',
+                    'Predicción': result.prediccion === 1 ? 'Retrasado' : 'Puntual',
+                    'Probabilidad Retraso (%)': result.probabilidad_retraso 
+                        ? (result.probabilidad_retraso * 100).toFixed(2) 
+                        : '-',
+                    'Confianza (%)': result.confianza 
+                        ? (result.confianza * 100).toFixed(2) 
+                        : '-'
+                }));
+
+                // Crear workbook
+                const wb = XLSX.utils.book_new();
+                const ws = XLSX.utils.json_to_sheet(data);
+                
+                // Ajustar ancho de columnas
+                ws['!cols'] = [
+                    { wch: 12 },
+                    { wch: 8 },
+                    { wch: 8 },
+                    { wch: 20 },
+                    { wch: 12 },
+                    { wch: 12 },
+                    { wch: 18 },
+                    { wch: 12 }
+                ];
+
+                XLSX.utils.book_append_sheet(wb, ws, 'Predicciones');
+
+                // Generar nombre de archivo
+                const fecha = new Date().toISOString().split('T')[0];
+                const filename = `predicciones_lote_${currentBatchId || fecha}.xlsx`;
+                
+                // Descargar
+                XLSX.writeFile(wb, filename);
+                showMessage(`Archivo Excel exportado exitosamente: ${filename}`, 'success');
+            } catch (error) {
+                console.error('Error al exportar a Excel:', error);
+                showMessage('Error al exportar a Excel: ' + error.message, 'error');
+            }
+        }
+
+        // ====================================================================
+        // MANEJO DE ARCHIVOS
+        // ====================================================================
+        
+        /**
+         * Maneja la selección de archivo
+         */
+        function handleFileSelect() {
+            const file = fileInput.files[0];
+            if (file) {
+                selectedFile = file;
+                fileInfo.textContent = `Archivo seleccionado: ${file.name} (${(file.size / 1024).toFixed(2)} KB)`;
+                uploadBtn.disabled = false;
+                
+                // Ocultar batch ID anterior si existe
+                batchIdInfo.style.display = 'none';
+                currentBatchId = null;
+                
+                // Deshabilitar botón de exportar
+                exportExcelBtn.disabled = true;
+                allResults = [];
+            } else {
+                selectedFile = null;
+                fileInfo.textContent = '';
+                uploadBtn.disabled = true;
+            }
+        }
+
+        /**
+         * Procesa el archivo CSV
+         */
+        async function handleUpload() {
+            if (!selectedFile) {
+                showMessage('Por favor, selecciona un archivo CSV primero', 'error');
+                return;
+            }
+
+            // Generar ID de lote corto
+            currentBatchId = generateBatchId();
+            batchIdValue.textContent = currentBatchId;
+            batchIdInfo.style.display = 'block';
+
+            // Deshabilitar botón de procesar
+            uploadBtn.disabled = true;
+            loading.classList.add('active');
+            message.style.display = 'none';
+
+            // Deshabilitar botón de exportar durante el procesamiento
+            exportExcelBtn.disabled = true;
+
+            try {
+                // Crear FormData
+                const formData = new FormData();
+                formData.append('file', selectedFile);
+                if (currentBatchId) {
+                    formData.append('batch_id', currentBatchId);
+                }
+
+                // Enviar al backend
+                const response = await fetch('http://localhost:8080/api/batch-predict', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({ error: 'Error desconocido' }));
+                    throw new Error(errorData.mensaje || errorData.error || `Error HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('✅ Datos recibidos del backend:', data);
+
+                // Procesar resultados
+                let resultados = [];
+                if (data.resultados && Array.isArray(data.resultados)) {
+                    resultados = data.resultados;
+                } else if (Array.isArray(data)) {
+                    resultados = data;
+                } else {
+                    throw new Error('La respuesta del servidor no tiene el formato esperado');
+                }
+
+                if (resultados.length === 0) {
+                    showMessage('No se procesaron predicciones. Verifica el formato del archivo CSV.', 'error');
+                    uploadBtn.disabled = false;
+                    loading.classList.remove('active');
+                    return;
+                }
+
+                console.log(`✅ ${resultados.length} predicciones procesadas`);
+
+                // Guardar resultados
+                allResults = resultados;
+
+                // Habilitar botón de exportar
+                exportExcelBtn.disabled = false;
+
+                // Mostrar mensaje de éxito
+                showMessage(`Proceso completado: ${resultados.length} predicciones procesadas exitosamente`, 'success');
+
+                // El botón "Procesar Archivo" permanece deshabilitado
+                // (no se habilita para evitar reprocesar el mismo archivo)
+
+            } catch (error) {
+                console.error('❌ Error al procesar batch:', error);
+                showMessage(`Error: ${error.message}`, 'error');
+                
+                // En caso de error, habilitar el botón para que pueda intentar de nuevo
+                uploadBtn.disabled = false;
+            } finally {
+                loading.classList.remove('active');
+            }
+        }
+
+        // ====================================================================
+        // EVENT LISTENERS
+        // ====================================================================
+        
+        // Descargar plantilla
+        if (downloadTemplateBtn) {
+            downloadTemplateBtn.addEventListener('click', downloadTemplate);
+        }
+
+        // Selección de archivo
+        if (fileInput) {
+            fileInput.addEventListener('change', handleFileSelect);
+        }
+
+        // Click en área de carga
+        if (fileUpload) {
+            fileUpload.addEventListener('click', (e) => {
+                if (e.target === fileUpload || e.target.tagName === 'P') {
+                    fileInput.click();
+                }
+            });
+        }
+
+        // Drag and drop
+        if (fileUpload) {
+            fileUpload.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                fileUpload.classList.add('dragover');
+            });
+
+            fileUpload.addEventListener('dragleave', () => {
+                fileUpload.classList.remove('dragover');
+            });
+
+            fileUpload.addEventListener('drop', (e) => {
+                e.preventDefault();
+                fileUpload.classList.remove('dragover');
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    const file = files[0];
+                    if (file.name.endsWith('.csv')) {
+                        selectedFile = file;
+                        try {
+                            const dataTransfer = new DataTransfer();
+                            dataTransfer.items.add(file);
+                            fileInput.files = dataTransfer.files;
+                        } catch (err) {
+                            console.warn('No se pudo asignar al input, usando variable selectedFile');
+                        }
+                        handleFileSelect();
+                    } else {
+                        showMessage('Por favor, selecciona un archivo CSV válido (.csv)', 'error');
+                    }
+                }
+            });
+        }
+
+        // Procesar archivo
+        if (uploadBtn) {
+            uploadBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                handleUpload();
+            });
+        }
+
+        // Exportar a Excel
+        if (exportExcelBtn) {
+            exportExcelBtn.addEventListener('click', exportToExcel);
+        }
+
+        // Inicialización
+        console.log('✅ batch.html v2.0 cargado correctamente');
+        console.log('🔍 Verificando elementos del DOM...');
+        console.log('- exportExcelBtn:', exportExcelBtn ? 'ENCONTRADO' : 'NO ENCONTRADO');
+        console.log('- uploadBtn:', uploadBtn ? 'ENCONTRADO' : 'NO ENCONTRADO');
+        console.log('- downloadTemplateBtn:', downloadTemplateBtn ? 'ENCONTRADO' : 'NO ENCONTRADO');
+        
+        // Verificar que el botón de exportar esté visible
+        if (exportExcelBtn) {
+            const computedStyle = window.getComputedStyle(exportExcelBtn);
+            console.log('- exportExcelBtn display:', computedStyle.display);
+            console.log('- exportExcelBtn visibility:', computedStyle.visibility);
+            console.log('- exportExcelBtn disabled:', exportExcelBtn.disabled);
+        }
+    </script>
+    
+    <!-- Scripts para i18n y funcionalidad del header -->
+    <script src="i18n.js?v=3.0"></script>
+    <script>
+        // Inicializar i18n si está disponible
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof window.i18n !== 'undefined') {
+                console.log('✅ i18n disponible');
+                
+                // Selectores de idioma
+                const langEsBtn = document.getElementById('langEsBtn');
+                const langEnBtn = document.getElementById('langEnBtn');
+                
+                if (langEsBtn && langEnBtn) {
+                    langEsBtn.addEventListener('click', () => {
+                        if (window.i18n) window.i18n.setLanguage('es');
+                        langEsBtn.classList.add('active');
+                        langEnBtn.classList.remove('active');
+                    });
+                    
+                    langEnBtn.addEventListener('click', () => {
+                        if (window.i18n) window.i18n.setLanguage('en');
+                        langEnBtn.classList.add('active');
+                        langEsBtn.classList.remove('active');
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

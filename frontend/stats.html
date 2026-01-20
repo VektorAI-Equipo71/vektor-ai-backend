@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Estadísticas detalladas de predicciones de puntualidad de vuelos con gráficas y análisis">
+    <title>FlightOnTime - Estadísticas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+    <!-- ================================================================ -->
+    <!-- HEADER -->
+    <!-- ================================================================ -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo-section">
+                <img src="/frontend/img/LogoVektorAI.svg" alt="VEKTOR AI Logo" class="logo-icon" />
+                <div class="logo-text">
+                    <span class="brand-name">VEKTOR AI</span>
+                    <h1 class="logo-title">FlightOnTime</h1>
+                </div>
+            </div>
+            <nav style="display: flex; gap: 1rem; align-items: center; margin-right: 1rem;">
+                <a href="index.html" style="color: white; text-decoration: none; font-weight: 600;" data-i18n="nav.home">Inicio</a>
+                <a href="index.html#prediccion-individual" style="color: white; text-decoration: none;" data-i18n="nav.individual">Predicción Individual</a>
+                <a href="batch.html" style="color: white; text-decoration: none;" data-i18n="nav.batch">Predicción por Lote</a>
+                <a href="history.html" style="color: white; text-decoration: none;" data-i18n="nav.history">Historial</a>
+                <a href="stats.html" style="color: white; text-decoration: none; font-weight: 600;" data-i18n="nav.stats">Estadísticas</a>
+                <a href="about.html" style="color: white; text-decoration: none;" data-i18n="nav.about">Acerca de</a>
+            </nav>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <button id="langEsBtn" class="lang-btn active" title="Español" data-lang="es">
+                    <img src="/frontend/img/espana.png" alt="Español" class="lang-flag-icon">
+                </button>
+                <button id="langEnBtn" class="lang-btn" title="English" data-lang="en">
+                    <img src="/frontend/img/estados-unidos.png" alt="English" class="lang-flag-icon">
+                </button>
+                <button id="settingsBtn" class="settings-btn" title="Configuración">⚙️</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Panel de Configuración -->
+    <div id="settingsPanel" class="settings-panel" style="display: none;">
+        <div class="settings-content">
+            <div class="settings-header">
+                <h2 data-i18n="settings.title">Configuración</h2>
+                <button onclick="window.closeSettings()" class="settings-close">×</button>
+            </div>
+            <div class="settings-body">
+                <div class="settings-section">
+                    <h3 data-i18n="settings.language">Idioma</h3>
+                    <div class="settings-options">
+                        <button class="lang-option active" data-lang="es">
+                            <img src="/espana.png" alt="Español" class="lang-flag-icon">
+                            <span data-i18n="settings.spanish">Español</span>
+                        </button>
+                        <button class="lang-option" data-lang="en">
+                            <img src="/estados-unidos.png" alt="English" class="lang-flag-icon">
+                            <span data-i18n="settings.english">Inglés</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <h3 data-i18n="settings.units">Unidades de Medida</h3>
+                    <div class="settings-options">
+                        <button class="unit-option active" data-unit="si">
+                            <span data-i18n="settings.si">Sistema Internacional (SI)</span>
+                        </button>
+                        <button class="unit-option" data-unit="imperial">
+                            <span data-i18n="settings.imperial">Imperial</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- MAIN CONTENT -->
+    <!-- ================================================================ -->
+    <main class="stats-container">
+        <div class="stats-header">
+            <h1 data-i18n="stats.title">Estadísticas de Predicciones</h1>
+            <p data-i18n="stats.subtitle">Visualice estadísticas detalladas con gráficas y análisis de todas las predicciones realizadas</p>
+            <div id="batchIdDisplay" style="display: none; margin-top: 1rem; padding: 1rem; background: #E3F2FD; border-radius: 8px; border-left: 4px solid #2196F3;">
+                <strong style="color: #1976D2;">ID de Lote:</strong> <span id="batchIdValue" style="color: #0D47A1; font-family: monospace;"></span>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filters-section">
+            <h2 data-i18n="stats.filters.title" style="margin-top: 0;">Filtros</h2>
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label data-i18n="stats.filters.startDate">Fecha Inicio</label>
+                    <input type="date" id="filterStartDate">
+                </div>
+                <div class="filter-group">
+                    <label data-i18n="stats.filters.endDate">Fecha Fin</label>
+                    <input type="date" id="filterEndDate">
+                </div>
+                <div class="filter-group">
+                    <label data-i18n="stats.filters.airline">Aerolínea</label>
+                    <select id="filterAerolinea">
+                        <option value="" data-i18n="stats.filters.all">Todas</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label data-i18n="stats.filters.airport">Aeropuerto</label>
+                    <input type="text" id="filterAirport" list="airportList" placeholder="Código IATA" autocomplete="off">
+                    <datalist id="airportList"></datalist>
+                </div>
+                <div class="filter-group">
+                    <label>ID de Lote</label>
+                    <input type="text" id="filterBatchId" placeholder="Ej: BATCH-ABC123" style="text-transform: uppercase;">
+                </div>
+            </div>
+            <div class="filter-actions">
+                <button class="btn btn-primary" onclick="applyFilters()" data-i18n="stats.filters.apply">Aplicar Filtros</button>
+                <button class="btn btn-secondary" onclick="clearFilters()" data-i18n="stats.filters.clear">Limpiar Filtros</button>
+            </div>
+        </div>
+
+        <!-- Gráficas -->
+        <div class="charts-section">
+            <div class="chart-card">
+                <h3 data-i18n="stats.chart1.title">Distribución Puntuales vs Retrasados</h3>
+                <div class="chart-container">
+                    <canvas id="chartDistribution"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <h3 data-i18n="stats.chart2.title">% Retrasados por Aerolínea</h3>
+                <div class="chart-container">
+                    <canvas id="chartAirlines"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <h3 data-i18n="stats.chart3.title">Top 10 Aeropuertos (Predicciones)</h3>
+                <div class="chart-container">
+                    <canvas id="chartAirports"></canvas>
+                </div>
+            </div>
+            <div class="chart-card" style="grid-column: 1 / -1;">
+                <h3>Predictivo Salidas Atrasadas</h3>
+                <div class="chart-container">
+                    <canvas id="chartDelayedDepartures"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de Datos -->
+        <div class="table-section">
+            <h3 data-i18n="stats.table.title">Predicciones Individuales</h3>
+            <div class="table-container">
+                <table id="statsTable">
+                    <thead>
+                        <tr>
+                            <th data-i18n="stats.table.date">Fecha Predicción</th>
+                            <th data-i18n="stats.table.airline">Aerolínea</th>
+                            <th data-i18n="stats.table.origin">Origen</th>
+                            <th data-i18n="stats.table.destination">Destino</th>
+                            <th data-i18n="stats.table.departure">Fecha Partida</th>
+                            <th data-i18n="stats.table.distance">Distancia</th>
+                            <th data-i18n="stats.table.prediction">Predicción</th>
+                            <th data-i18n="stats.table.probability">Probabilidad</th>
+                            <th data-i18n="stats.table.confidence">Confianza</th>
+                        </tr>
+                    </thead>
+                    <tbody id="statsTableBody">
+                        <tr>
+                            <td colspan="9" class="loading" data-i18n="stats.loading">Cargando predicciones...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination" id="pagination" style="display: none; margin-top: 1rem; text-align: center;">
+                <button class="btn btn-secondary" onclick="changePage(currentPage - 1)" id="prevBtn" style="margin-right: 1rem;">Anterior</button>
+                <span class="page-info" id="pageInfo" style="margin: 0 1rem;"></span>
+                <button class="btn btn-secondary" onclick="changePage(currentPage + 1)" id="nextBtn" style="margin-left: 1rem;">Siguiente</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p data-i18n="footer.text">&copy; 2026 FlightOnTime | Sistema de Misión Crítica</p>
+    </footer>
+
+    <script src="i18n.js"></script>
+    <script src="airline_data.js"></script>
+    <script>
+        const API_BASE_URL = (function() {
+            const hostname = window.location.hostname;
+            const port = window.location.port;
+            const isLocalDev = hostname === 'localhost' || hostname === '127.0.0.1' || hostname.endsWith('.local');
+            if (isLocalDev && port !== '80' && port !== '') {
+                return 'http://localhost:8080/api';
+            }
+            return '/api';
+        })();
+
+        let chartDistribution = null;
+        let chartAirlines = null;
+        let chartAirports = null;
+        let chartDelayedDepartures = null;
+        
+        // Variables de paginación
+        let currentPage = 0;
+        let pageSize = 20;
+        let totalPages = 0;
+        let totalElements = 0;
+        
+        // Obtener batchId de la URL si existe
+        const urlParams = new URLSearchParams(window.location.search);
+        let currentBatchId = urlParams.get('batchId');
+        
+        // Si hay batchId en la URL, mostrarlo y establecerlo en el filtro
+        if (currentBatchId) {
+            const batchIdDisplay = document.getElementById('batchIdDisplay');
+            const batchIdValue = document.getElementById('batchIdValue');
+            const filterBatchId = document.getElementById('filterBatchId');
+            
+            if (batchIdDisplay) batchIdDisplay.style.display = 'block';
+            if (batchIdValue) batchIdValue.textContent = currentBatchId;
+            if (filterBatchId) filterBatchId.value = currentBatchId;
+        }
+
+        function initializeI18n() {
+            if (window.i18n) {
+                // Aplicar traducciones iniciales usando la función global updateAllTranslations si existe
+                if (typeof updateAllTranslations === 'function') {
+                    updateAllTranslations();
+                } else {
+                    // Fallback: actualizar manualmente elementos con data-i18n
+                    const elementsWithI18n = document.querySelectorAll('[data-i18n]');
+                    elementsWithI18n.forEach(element => {
+                        const key = element.getAttribute('data-i18n');
+                        if (key && window.i18n) {
+                            const translation = window.i18n.t(key);
+                            if (element.tagName === 'OPTION' || element.tagName === 'OPTGROUP') {
+                                element.textContent = translation;
+                            } else {
+                                element.textContent = translation;
+                            }
+                        }
+                    });
+                }
+                
+                // Escuchar cambios de idioma
+                window.addEventListener('languageChanged', () => {
+                    console.log('🌐 Idioma cambiado, actualizando traducciones...');
+                    if (typeof updateAllTranslations === 'function') {
+                        updateAllTranslations();
+                    } else {
+                        // Fallback: actualizar manualmente
+                        const elementsWithI18n = document.querySelectorAll('[data-i18n]');
+                        elementsWithI18n.forEach(element => {
+                            const key = element.getAttribute('data-i18n');
+                            if (key && window.i18n) {
+                                const translation = window.i18n.t(key);
+                                if (element.tagName === 'OPTION' || element.tagName === 'OPTGROUP') {
+                                    element.textContent = translation;
+                                } else {
+                                    element.textContent = translation;
+                                }
+                            }
+                        });
+                    }
+                    // Re-renderizar gráficas si están visibles
+                    if (typeof loadStats === 'function') {
+                        loadStats();
+                    }
+                });
+            }
+        }
+
+        function populateAirlineFilter() {
+            const select = document.getElementById('filterAerolinea');
+            if (!select) {
+                console.error('❌ No se encontró el elemento filterAerolinea');
+                return;
+            }
+            
+            console.log('🔍 Poblando filtro de aerolíneas...');
+            console.log('🔍 AIRLINE_DATA disponible?', typeof window.AIRLINE_DATA !== 'undefined');
+            console.log('🔍 AIRLINE_DATA tipo:', typeof window.AIRLINE_DATA);
+            console.log('🔍 AIRLINE_DATA:', window.AIRLINE_DATA);
+            
+            // Mantener la opción "Todas" si existe
+            const todasOption = select.querySelector('option[value=""]');
+            select.innerHTML = '';
+            if (todasOption) {
+                select.appendChild(todasOption);
+            } else {
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = window.i18n ? window.i18n.t('stats.filters.all') : 'Todas';
+                select.appendChild(defaultOption);
+            }
+            
+            if (window.AIRLINE_DATA && typeof window.AIRLINE_DATA === 'object' && !Array.isArray(window.AIRLINE_DATA)) {
+                // AIRLINE_DATA es un objeto, no un array
+                const airlineCodes = Object.keys(window.AIRLINE_DATA).sort();
+                console.log('🔍 Códigos de aerolíneas encontrados:', airlineCodes);
+                airlineCodes.forEach(code => {
+                    const airline = window.AIRLINE_DATA[code];
+                    if (airline && airline.name) {
+                        const option = document.createElement('option');
+                        option.value = code;
+                        option.textContent = airline.name;
+                        select.appendChild(option);
+                    }
+                });
+                console.log('✅ Aerolíneas agregadas al filtro');
+            } else {
+                console.warn('⚠️ AIRLINE_DATA no está disponible o no es un objeto');
+                console.warn('⚠️ Tipo de AIRLINE_DATA:', typeof window.AIRLINE_DATA);
+                console.warn('⚠️ Es array?', Array.isArray(window.AIRLINE_DATA));
+            }
+        }
+
+        // Función para poblar la lista de aeropuertos
+        function populateAirportList() {
+            const datalist = document.getElementById('airportList');
+            if (!datalist) {
+                console.error('❌ No se encontró el elemento airportList');
+                return;
+            }
+            
+            console.log('🔍 Poblando lista de aeropuertos...');
+            console.log('🔍 AIRPORT_INFO disponible?', typeof window.AIRPORT_INFO !== 'undefined');
+            
+            datalist.innerHTML = '';
+            
+            if (window.AIRPORT_INFO && typeof window.AIRPORT_INFO === 'object') {
+                const airportCodes = Object.keys(window.AIRPORT_INFO).sort();
+                console.log('🔍 Códigos de aeropuertos encontrados:', airportCodes.length);
+                airportCodes.forEach(code => {
+                    const info = window.AIRPORT_INFO[code];
+                    if (info && info.name) {
+                        const option = document.createElement('option');
+                        option.value = code;
+                        option.label = `${code} - ${info.name}${info.city ? ` (${info.city})` : ''}`;
+                        datalist.appendChild(option);
+                    }
+                });
+                console.log('✅ Aeropuertos agregados a la lista');
+            } else {
+                console.warn('⚠️ AIRPORT_INFO no está disponible');
+            }
+        }
+
+        function setDefaultDates() {
+            const today = new Date();
+            const lastWeek = new Date();
+            lastWeek.setDate(lastWeek.getDate() - 7);
+            
+            // Solo establecer fechas por defecto si no hay batchId en la URL
+            if (!currentBatchId) {
+                document.getElementById('filterStartDate').value = lastWeek.toISOString().split('T')[0];
+                document.getElementById('filterEndDate').value = today.toISOString().split('T')[0];
+            }
+        }
+
+        function applyFilters() {
+            console.log('🔍 Aplicando filtros...');
+            
+            // Obtener batchId del campo de filtro
+            const filterBatchIdInput = document.getElementById('filterBatchId');
+            const filterBatchId = filterBatchIdInput ? filterBatchIdInput.value.trim().toUpperCase() : '';
+            
+            // Si hay batchId en el filtro, actualizar currentBatchId
+            if (filterBatchId) {
+                currentBatchId = filterBatchId;
+                // Mostrar el display del batchId
+                const batchIdDisplay = document.getElementById('batchIdDisplay');
+                const batchIdValue = document.getElementById('batchIdValue');
+                if (batchIdDisplay) batchIdDisplay.style.display = 'block';
+                if (batchIdValue) batchIdValue.textContent = currentBatchId;
+            } else {
+                // Si no hay batchId en el filtro, limpiar currentBatchId
+                currentBatchId = null;
+                const batchIdDisplay = document.getElementById('batchIdDisplay');
+                if (batchIdDisplay) batchIdDisplay.style.display = 'none';
+            }
+            
+            currentPage = 0; // Resetear a la primera página
+            loadStats();
+        }
+        
+        function clearFilters() {
+            console.log('🧹 Limpiando filtros...');
+            
+            try {
+                // Si hay batchId en la URL, redirigir a stats.html sin parámetros
+                if (currentBatchId) {
+                    window.location.href = 'stats.html';
+                    return;
+                }
+                
+                // Limpiar todos los campos de filtro
+                const startDateInput = document.getElementById('filterStartDate');
+                const endDateInput = document.getElementById('filterEndDate');
+                const airlineSelect = document.getElementById('filterAerolinea');
+                const airportInput = document.getElementById('filterAirport');
+                const batchIdInput = document.getElementById('filterBatchId');
+                
+                if (startDateInput) startDateInput.value = '';
+                if (endDateInput) endDateInput.value = '';
+                if (airlineSelect) airlineSelect.value = '';
+                if (airportInput) airportInput.value = '';
+                if (batchIdInput) batchIdInput.value = '';
+                
+                // Limpiar currentBatchId
+                currentBatchId = null;
+                const batchIdDisplay = document.getElementById('batchIdDisplay');
+                if (batchIdDisplay) batchIdDisplay.style.display = 'none';
+                
+                // Resetear a la primera página
+                currentPage = 0;
+                
+                // Restaurar fechas por defecto
+                setDefaultDates();
+                
+                // Destruir gráficas existentes
+                try {
+                    if (typeof chartDistribution !== 'undefined' && chartDistribution) {
+                        chartDistribution.destroy();
+                        chartDistribution = null;
+                    }
+                    if (typeof chartAirlines !== 'undefined' && chartAirlines) {
+                        chartAirlines.destroy();
+                        chartAirlines = null;
+                    }
+                    if (typeof chartAirports !== 'undefined' && chartAirports) {
+                        chartAirports.destroy();
+                        chartAirports = null;
+                    }
+                    if (typeof chartDelayedDepartures !== 'undefined' && chartDelayedDepartures) {
+                        chartDelayedDepartures.destroy();
+                        chartDelayedDepartures = null;
+                    }
+                } catch (e) {
+                    console.warn('⚠️ Error al destruir gráficas:', e);
+                }
+                
+                // Ocultar todas las secciones de resultados
+                const chartsSection = document.querySelector('.charts-section');
+                const tableSection = document.querySelector('.table-section');
+                const pagination = document.getElementById('pagination');
+                const statsSummary = document.getElementById('statsSummary');
+                
+                if (chartsSection) chartsSection.style.display = 'none';
+                if (tableSection) tableSection.style.display = 'none';
+                if (pagination) pagination.style.display = 'none';
+                if (statsSummary) statsSummary.style.display = 'none';
+                
+                // Limpiar el cuerpo de la tabla
+                const tbody = document.getElementById('statsTableBody');
+                if (tbody) {
+                    tbody.innerHTML = '<tr><td colspan="9" class="loading" data-i18n="stats.loading">Cargando predicciones...</td></tr>';
+                }
+                
+                console.log('✅ Filtros limpiados y resultados ocultos');
+            } catch (error) {
+                console.error('❌ Error al limpiar filtros:', error);
+                alert('Error al limpiar filtros: ' + error.message);
+            }
+        }
+        
+        async function loadStats() {
+            const startDate = document.getElementById('filterStartDate').value;
+            const endDate = document.getElementById('filterEndDate').value;
+            const filterBatchIdInput = document.getElementById('filterBatchId');
+            const filterBatchId = filterBatchIdInput ? filterBatchIdInput.value.trim().toUpperCase() : '';
+            
+            try {
+                let url = `${API_BASE_URL}/stats`;
+                const params = new URLSearchParams();
+                
+                // Prioridad: batchId del filtro manual > batchId de la URL
+                const batchIdToUse = filterBatchId || currentBatchId;
+                
+                if (batchIdToUse) {
+                    params.append('batchId', batchIdToUse);
+                } else {
+                    // Solo agregar fechas si no hay batchId
+                    if (startDate) params.append('inicio', startDate);
+                    if (endDate) params.append('fin', endDate);
+                }
+                
+                if (params.toString()) {
+                    url += '?' + params.toString();
+                }
+
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
+                const data = await response.json();
+                
+                // Renderizar gráficas con las estadísticas agregadas
+                renderCharts(data);
+                
+            } catch (error) {
+                console.error('Error cargando estadísticas:', error);
+            }
+            
+            // Cargar tabla de predicciones individuales desde PostgreSQL
+            await loadPredictionsTable();
+            
+            // Cargar y renderizar gráfica de salidas atrasadas por franja horaria
+            await loadAndRenderDelayedDeparturesChart();
+        }
+
+        function renderCharts(data) {
+            // Gráfica 1: Distribución Puntuales vs Retrasados (Pie Chart)
+            const ctxDistribution = document.getElementById('chartDistribution');
+            if (chartDistribution) chartDistribution.destroy();
+            
+            const ontimeLabel = window.i18n ? window.i18n.t('stats.ontime') : 'Puntuales';
+            const delayedLabel = window.i18n ? window.i18n.t('stats.delayed') : 'Retrasados';
+            
+            chartDistribution = new Chart(ctxDistribution, {
+                type: 'pie',
+                data: {
+                    labels: [ontimeLabel, delayedLabel],
+                    datasets: [{
+                        data: [
+                            data.total_puntuales || 0,
+                            data.total_retrasados || 0
+                        ],
+                        backgroundColor: [
+                            '#10b981', // Verde para puntuales
+                            '#ef4444'  // Rojo para retrasados
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = total > 0 ? ((context.parsed / total) * 100).toFixed(1) : 0;
+                                    return `${context.label}: ${context.parsed} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Gráfica 2: % Retrasados por Aerolínea (Bar Chart)
+            const ctxAirlines = document.getElementById('chartAirlines');
+            if (chartAirlines) chartAirlines.destroy();
+            
+            const airlines = data.estadisticas_por_aerolinea || [];
+            // Ordenar por porcentaje de retrasados descendente
+            const sortedAirlines = [...airlines].sort((a, b) => (b.porcentaje_retrasados || 0) - (a.porcentaje_retrasados || 0));
+            const airlineLabels = sortedAirlines.map(a => a.aerolinea_nombre || a.aerolinea).slice(0, 10);
+            const airlineData = sortedAirlines.map(a => a.porcentaje_retrasados || 0).slice(0, 10);
+            
+            const chartLabel = window.i18n ? window.i18n.t('stats.percentage.delayed') : '% Retrasados';
+            
+            chartAirlines = new Chart(ctxAirlines, {
+                type: 'bar',
+                data: {
+                    labels: airlineLabels,
+                    datasets: [{
+                        label: chartLabel,
+                        data: airlineData,
+                        backgroundColor: 'rgba(239, 68, 68, 0.8)',
+                        borderColor: '#dc2626',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            // Gráfica 3: Top 10 Aeropuertos (Bar Chart)
+            const ctxAirports = document.getElementById('chartAirports');
+            if (chartAirports) chartAirports.destroy();
+            
+            const airports = data.estadisticas_por_aeropuerto_origen || [];
+            const sortedAirports = [...airports].sort((a, b) => (b.total || 0) - (a.total || 0)).slice(0, 10);
+            const airportLabels = sortedAirports.map(a => `${a.aeropuerto}${a.aeropuerto_nombre ? ' - ' + a.aeropuerto_nombre : ''}`);
+            const airportData = sortedAirports.map(a => a.total || 0);
+            const predictionsLabel = window.i18n ? window.i18n.t('stats.predictions') : 'Predicciones';
+            
+            chartAirports = new Chart(ctxAirports, {
+                type: 'bar',
+                data: {
+                    labels: airportLabels,
+                    datasets: [{
+                        label: predictionsLabel,
+                        data: airportData,
+                        backgroundColor: 'rgba(26, 43, 72, 0.8)',
+                        borderColor: '#00F2FF',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        /**
+         * Carga y renderiza la gráfica de salidas atrasadas por franja horaria
+         */
+        async function loadAndRenderDelayedDeparturesChart() {
+            try {
+                const startDate = document.getElementById('filterStartDate').value;
+                const endDate = document.getElementById('filterEndDate').value;
+                const filterBatchIdInput = document.getElementById('filterBatchId');
+                const filterBatchId = filterBatchIdInput ? filterBatchIdInput.value.trim().toUpperCase() : '';
+                
+                // Construir URL para obtener todas las predicciones retrasadas
+                let url = `${API_BASE_URL}/predictions?page=0&size=1000&prediccion=1&sortBy=fechaPartida&sortDir=asc`;
+                
+                // Prioridad: batchId del filtro manual > batchId de la URL
+                const batchIdToUse = filterBatchId || currentBatchId;
+                
+                if (batchIdToUse) {
+                    url += `&batchId=${encodeURIComponent(batchIdToUse)}`;
+                } else {
+                    // Solo agregar fechas si no hay batchId
+                    if (startDate) url += `&fechaInicio=${startDate}`;
+                    if (endDate) url += `&fechaFin=${endDate}`;
+                }
+                
+                console.log('📊 Cargando predicciones retrasadas desde:', url);
+                
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
+                const data = await response.json();
+                const predictions = data.content || [];
+                
+                console.log(`📊 ${predictions.length} predicciones retrasadas encontradas`);
+                
+                // Agrupar por fecha y franja horaria
+                const groupedData = groupDelayedByTimeSlot(predictions);
+                
+                // Renderizar gráfica
+                renderDelayedDeparturesChart(groupedData);
+                
+            } catch (error) {
+                console.error('❌ Error cargando datos para gráfica de salidas atrasadas:', error);
+            }
+        }
+
+        /**
+         * Agrupa las predicciones retrasadas por fecha y franja horaria
+         */
+        function groupDelayedByTimeSlot(predictions) {
+            const grouped = {};
+            
+            predictions.forEach(pred => {
+                if (!pred.fechaPartida) return;
+                
+                try {
+                    // Parsear fecha de partida
+                    const fechaPartida = new Date(pred.fechaPartida);
+                    if (isNaN(fechaPartida.getTime())) return;
+                    
+                    // Extraer fecha (DD/MM/YYYY)
+                    const fecha = fechaPartida.toLocaleDateString('es-ES', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    });
+                    
+                    // Extraer hora y crear franja horaria
+                    const hora = fechaPartida.getHours();
+                    const franjaInicio = `${hora.toString().padStart(2, '0')}:00`;
+                    const franjaFin = `${(hora + 1).toString().padStart(2, '0')}:00`;
+                    const franjaHoraria = `${franjaInicio} a ${franjaFin}`;
+                    
+                    // Clave única: fecha + franja horaria
+                    const key = `${fecha}|${franjaHoraria}`;
+                    
+                    if (!grouped[key]) {
+                        grouped[key] = {
+                            fecha: fecha,
+                            franjaHoraria: franjaHoraria,
+                            cantidad: 0
+                        };
+                    }
+                    
+                    grouped[key].cantidad++;
+                    
+                } catch (e) {
+                    console.warn('⚠️ Error procesando fecha:', pred.fechaPartida, e);
+                }
+            });
+            
+            // Convertir a array y ordenar por fecha y franja horaria
+            return Object.values(grouped).sort((a, b) => {
+                // Primero por fecha
+                const fechaA = a.fecha.split('/').reverse().join('-');
+                const fechaB = b.fecha.split('/').reverse().join('-');
+                if (fechaA !== fechaB) {
+                    return fechaA.localeCompare(fechaB);
+                }
+                // Luego por franja horaria
+                return a.franjaHoraria.localeCompare(b.franjaHoraria);
+            });
+        }
+
+        /**
+         * Renderiza la gráfica de salidas atrasadas por franja horaria
+         */
+        function renderDelayedDeparturesChart(groupedData) {
+            const ctx = document.getElementById('chartDelayedDepartures');
+            if (!ctx) {
+                console.error('❌ No se encontró el canvas chartDelayedDepartures');
+                return;
+            }
+            
+            if (chartDelayedDepartures) {
+                chartDelayedDepartures.destroy();
+            }
+            
+            if (groupedData.length === 0) {
+                console.warn('⚠️ No hay datos para mostrar en la gráfica de salidas atrasadas');
+                return;
+            }
+            
+            // Obtener todas las fechas y franjas horarias únicas, ordenadas
+            const fechas = [...new Set(groupedData.map(d => d.fecha))].sort();
+            const franjasHorarias = [...new Set(groupedData.map(d => d.franjaHoraria))].sort();
+            
+            // Crear estructura: cada combinación de fecha y franja horaria será una barra
+            // Las barras se agrupan por franja horaria (cada grupo tiene barras para cada fecha)
+            const labels = [];
+            const datasets = [];
+            
+            // Para cada fecha, crear un dataset (serie de datos)
+            fechas.forEach((fecha, fechaIndex) => {
+                const data = [];
+                
+                // Para cada franja horaria, buscar el dato correspondiente
+                franjasHorarias.forEach(franja => {
+                    const item = groupedData.find(d => d.fecha === fecha && d.franjaHoraria === franja);
+                    data.push(item ? item.cantidad : 0);
+                });
+                
+                // Solo agregar el dataset si tiene al menos un dato mayor a 0
+                if (data.some(val => val > 0)) {
+                    // Colores diferentes para cada fecha
+                    const colors = [
+                        'rgba(239, 68, 68, 0.8)',   // Rojo
+                        'rgba(59, 130, 246, 0.8)',  // Azul
+                        'rgba(16, 185, 129, 0.8)', // Verde
+                        'rgba(245, 158, 11, 0.8)',  // Amarillo
+                        'rgba(139, 92, 246, 0.8)', // Púrpura
+                    ];
+                    
+                    datasets.push({
+                        label: fecha,
+                        data: data,
+                        backgroundColor: colors[fechaIndex % colors.length],
+                        borderColor: colors[fechaIndex % colors.length].replace('0.8', '1'),
+                        borderWidth: 1
+                    });
+                }
+            });
+            
+            // Crear labels: franja horaria (cada label representa un grupo de barras)
+            const chartLabels = franjasHorarias.map(franja => franja);
+            
+            chartDelayedDepartures = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartLabels,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            stacked: false,
+                            title: {
+                                display: true,
+                                text: 'Franja Horaria'
+                            },
+                            ticks: {
+                                maxRotation: 0,
+                                minRotation: 0
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1,
+                                precision: 0
+                            },
+                            title: {
+                                display: true,
+                                text: 'Cantidad de Salidas Atrasadas'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    return `Franja: ${context[0].label}`;
+                                },
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.parsed.y} salidas atrasadas`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            console.log('✅ Gráfica de salidas atrasadas renderizada');
+        }
+
+        async function loadPredictionsTable() {
+            const tbody = document.getElementById('statsTableBody');
+            const pagination = document.getElementById('pagination');
+            
+            const startDate = document.getElementById('filterStartDate').value;
+            const endDate = document.getElementById('filterEndDate').value;
+            const filterAirline = document.getElementById('filterAerolinea').value;
+            const filterAirport = document.getElementById('filterAirport').value.toUpperCase();
+            const filterBatchIdInput = document.getElementById('filterBatchId');
+            const filterBatchId = filterBatchIdInput ? filterBatchIdInput.value.trim().toUpperCase() : '';
+            
+            const loadingText = window.i18n ? window.i18n.t('stats.loading') : 'Cargando predicciones...';
+            tbody.innerHTML = `<tr><td colspan="9" class="loading">${loadingText}</td></tr>`;
+            pagination.style.display = 'none';
+            
+            try {
+                let url = `${API_BASE_URL}/predictions?page=${currentPage}&size=${pageSize}&sortBy=fechaPrediccion&sortDir=desc`;
+                
+                // Prioridad: batchId del filtro manual > batchId de la URL
+                const batchIdToUse = filterBatchId || currentBatchId;
+                
+                if (batchIdToUse) {
+                    url += `&batchId=${encodeURIComponent(batchIdToUse)}`;
+                } else {
+                    // Solo agregar otros filtros si no hay batchId
+                    if (startDate) url += `&fechaInicio=${startDate}`;
+                    if (endDate) url += `&fechaFin=${endDate}`;
+                }
+                
+                if (filterAirline) url += `&aerolinea=${filterAirline}`;
+                if (filterAirport) url += `&origen=${filterAirport}`;
+                
+                console.log('📋 Cargando predicciones desde:', url);
+                
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
+                const data = await response.json();
+                console.log('📥 Predicciones recibidas:', data);
+                
+                const predictions = data.content || [];
+                totalPages = data.totalPages || 0;
+                totalElements = data.totalElements || 0;
+                
+                if (predictions.length === 0) {
+                    const noDataText = window.i18n ? window.i18n.t('stats.no.data') : 'No hay predicciones disponibles para los filtros seleccionados';
+                    tbody.innerHTML = `<tr><td colspan="9" class="no-data">${noDataText}</td></tr>`;
+                    pagination.style.display = 'none';
+                    return;
+                }
+                
+                // Formatear fecha
+                const formatDate = (dateString) => {
+                    if (!dateString) return '-';
+                    try {
+                        const date = new Date(dateString);
+                        const lang = window.i18n ? window.i18n.getLanguage() : 'es';
+                        const locale = lang === 'es' ? 'es-ES' : 'en-US';
+                        return date.toLocaleDateString(locale, { 
+                            year: 'numeric', 
+                            month: '2-digit', 
+                            day: '2-digit',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        });
+                    } catch (e) {
+                        return dateString;
+                    }
+                };
+                
+                // Formatear nombre de aerolínea
+                const formatAirline = (code) => {
+                    if (!code) return '-';
+                    if (window.AIRLINE_DATA && Array.isArray(window.AIRLINE_DATA)) {
+                        const airline = window.AIRLINE_DATA.find(a => a.code === code);
+                        if (airline && airline.name) return `${airline.name} (${code})`;
+                    }
+                    return code;
+                };
+                
+                // Formatear aeropuerto usando la función global
+                const formatAirport = (code) => {
+                    if (!code) return '-';
+                    if (window.formatAirportDisplay) {
+                        return window.formatAirportDisplay(code);
+                    }
+                    if (window.AIRPORT_INFO && window.AIRPORT_INFO[code]) {
+                        const info = window.AIRPORT_INFO[code];
+                        return `${code} - ${info.name}${info.city ? ` (${info.city})` : ''}`;
+                    }
+                    return code;
+                };
+                
+                // Formatear distancia
+                const formatDistance = (distanceKm) => {
+                    if (!distanceKm) return '-';
+                    if (window.unitConverter) {
+                        return window.unitConverter.convertDistance(distanceKm, true);
+                    }
+                    return `${distanceKm.toFixed(1)} km`;
+                };
+                
+                tbody.innerHTML = predictions.map(pred => {
+                    const isOnTime = pred.prediccion === 0;
+                    const predictionText = isOnTime 
+                        ? (window.i18n ? window.i18n.t('results.ontime') : 'Puntual')
+                        : (window.i18n ? window.i18n.t('results.delayed') : 'Retrasado');
+                    const badgeClass = isOnTime ? 'badge-success' : 'badge-danger';
+                    const probability = (pred.probabilidad || 0) * 100;
+                    const confidence = (pred.confianza || 0) * 100;
+                    
+                    return `
+                        <tr>
+                            <td>${formatDate(pred.fechaPrediccion)}</td>
+                            <td>${formatAirline(pred.aerolinea)}</td>
+                            <td>${formatAirport(pred.origen)}</td>
+                            <td>${formatAirport(pred.destino)}</td>
+                            <td>${formatDate(pred.fechaPartida)}</td>
+                            <td>${formatDistance(pred.distanciaKm)}</td>
+                            <td><span class="badge ${badgeClass}">${predictionText}</span></td>
+                            <td>${probability.toFixed(1)}%</td>
+                            <td>${confidence.toFixed(1)}%</td>
+                        </tr>
+                    `;
+                }).join('');
+                
+                // Actualizar paginación
+                updatePagination();
+                
+            } catch (error) {
+                console.error('Error cargando predicciones:', error);
+                const errorText = window.i18n ? window.i18n.t('stats.error.loading') : 'Error al cargar predicciones';
+                tbody.innerHTML = `<tr><td colspan="9" class="no-data">${errorText}: ${error.message}</td></tr>`;
+                pagination.style.display = 'none';
+            }
+        }
+        
+        function changePage(page) {
+            console.log('📄 Cambiando página:', page);
+            if (page < 0 || page >= totalPages) {
+                console.warn('⚠️ Página fuera de rango:', page, 'Total páginas:', totalPages);
+                return;
+            }
+            currentPage = page;
+            loadPredictionsTable();
+        }
+        
+        function updatePagination() {
+            const pagination = document.getElementById('pagination');
+            const pageInfo = document.getElementById('pageInfo');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            if (totalPages <= 1) {
+                pagination.style.display = 'none';
+                return;
+            }
+            
+            pagination.style.display = 'flex';
+            prevBtn.disabled = currentPage === 0;
+            nextBtn.disabled = currentPage >= totalPages - 1;
+            
+            const showing = window.i18n ? window.i18n.t('stats.table.showing') : 'Mostrando';
+            const of = window.i18n ? window.i18n.t('stats.table.of') : 'de';
+            const predictions = window.i18n ? window.i18n.t('stats.table.predictions') : 'predicciones';
+            
+            const start = currentPage * pageSize + 1;
+            const end = Math.min((currentPage + 1) * pageSize, totalElements);
+            
+            pageInfo.textContent = `${showing} ${start}-${end} ${of} ${totalElements} ${predictions} (${window.i18n ? window.i18n.t('stats.table.page') : 'Página'} ${currentPage + 1} ${of} ${totalPages})`;
+        }
+
+        // Settings panel
+        function closeSettings() {
+            const panel = document.getElementById('settingsPanel');
+            if (panel) {
+                panel.style.display = 'none';
+            }
+        }
+        
+        // Hacer funciones disponibles globalmente DESPUÉS de que estén definidas
+        // para que los botones onclick puedan acceder a ellas
+        window.clearFilters = clearFilters;
+        window.applyFilters = applyFilters;
+        window.changePage = changePage;
+        window.closeSettings = closeSettings;
+        
+        // Función auxiliar para inicializar settings panel si existe
+        function initializeSettingsPanelLocal() {
+            if (typeof initializeSettingsPanel === 'function') {
+                initializeSettingsPanel();
+            }
+        }
+        
+        // Función auxiliar para inicializar language buttons si existe
+        function initializeLanguageButtonsLocal() {
+            if (typeof initializeLanguageButtons === 'function') {
+                initializeLanguageButtons();
+            } else {
+                // Implementación básica si no está disponible desde app.js
+                const langEsBtn = document.getElementById('langEsBtn');
+                const langEnBtn = document.getElementById('langEnBtn');
+                if (langEsBtn && langEnBtn) {
+                    langEsBtn.addEventListener('click', () => {
+                        if (window.i18n) {
+                            window.i18n.setLanguage('es');
+                            window.dispatchEvent(new Event('languageChanged'));
+                        }
+                    });
+                    langEnBtn.addEventListener('click', () => {
+                        if (window.i18n) {
+                            window.i18n.setLanguage('en');
+                            window.dispatchEvent(new Event('languageChanged'));
+                        }
+                    });
+                }
+            }
+        }
+        
+        // Función para inicializar los filtros cuando los datos estén disponibles
+        function initializeFilters() {
+            console.log('🔧 Inicializando filtros...');
+            console.log('🔧 AIRLINE_DATA:', typeof window.AIRLINE_DATA, window.AIRLINE_DATA ? Object.keys(window.AIRLINE_DATA).length + ' aerolíneas' : 'no disponible');
+            console.log('🔧 AIRPORT_INFO:', typeof window.AIRPORT_INFO, window.AIRPORT_INFO ? Object.keys(window.AIRPORT_INFO).length + ' aeropuertos' : 'no disponible');
+            
+            // Intentar poblar los filtros
+            populateAirlineFilter();
+            populateAirportList();
+            
+            // Si los datos no están disponibles, intentar de nuevo después de un delay
+            if (!window.AIRLINE_DATA || !window.AIRPORT_INFO) {
+                console.log('⏳ Datos no disponibles, reintentando en 500ms...');
+                setTimeout(() => {
+                    console.log('🔄 Reintentando poblar filtros...');
+                    populateAirlineFilter();
+                    populateAirportList();
+                }, 500);
+            }
+        }
+        
+        // Función para inicializar los filtros cuando los datos estén disponibles
+        function initializeFilters() {
+            console.log('🔧 Inicializando filtros...');
+            console.log('🔧 AIRLINE_DATA:', typeof window.AIRLINE_DATA, window.AIRLINE_DATA ? Object.keys(window.AIRLINE_DATA).length + ' aerolíneas' : 'no disponible');
+            console.log('🔧 AIRPORT_INFO:', typeof window.AIRPORT_INFO, window.AIRPORT_INFO ? Object.keys(window.AIRPORT_INFO).length + ' aeropuertos' : 'no disponible');
+            
+            // Intentar poblar los filtros
+            populateAirlineFilter();
+            populateAirportList();
+            
+            // Si los datos no están disponibles, intentar de nuevo después de un delay
+            if (!window.AIRLINE_DATA || !window.AIRPORT_INFO) {
+                console.log('⏳ Datos no disponibles, reintentando en 500ms...');
+                setTimeout(() => {
+                    console.log('🔄 Reintentando poblar filtros...');
+                    populateAirlineFilter();
+                    populateAirportList();
+                }, 500);
+            }
+        }
+
+        // Inicialización cuando el DOM esté listo
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                console.log('📄 DOM cargado, inicializando...');
+                initializeI18n();
+                initializeSettingsPanelLocal();
+                initializeLanguageButtonsLocal();
+                
+                // Esperar a que los scripts se carguen
+                setTimeout(() => {
+                    initializeFilters();
+                }, 300);
+                
+                setDefaultDates();
+                loadStats();
+                
+                // Configurar event listeners para settings después de que el DOM esté listo
+                const settingsBtn = document.getElementById('settingsBtn');
+                if (settingsBtn) {
+                    settingsBtn.addEventListener('click', () => {
+                        const panel = document.getElementById('settingsPanel');
+                        if (panel) {
+                            panel.style.display = 'flex';
+                        }
+                    });
+                }
+                
+                const settingsPanel = document.getElementById('settingsPanel');
+                if (settingsPanel) {
+                    settingsPanel.addEventListener('click', (e) => {
+                        if (e.target.id === 'settingsPanel') {
+                            closeSettings();
+                        }
+                    });
+                }
+            });
+        } else {
+            // DOM ya está listo, ejecutar directamente
+            console.log('📄 DOM ya está listo, inicializando...');
+            initializeI18n();
+            initializeSettingsPanelLocal();
+            initializeLanguageButtonsLocal();
+            
+            // Esperar a que los scripts se carguen
+            setTimeout(() => {
+                initializeFilters();
+            }, 300);
+            
+            setDefaultDates();
+            loadStats();
+            
+            // Configurar event listeners para settings
+            const settingsBtn = document.getElementById('settingsBtn');
+            if (settingsBtn) {
+                settingsBtn.addEventListener('click', () => {
+                    const panel = document.getElementById('settingsPanel');
+                    if (panel) {
+                        panel.style.display = 'flex';
+                    }
+                });
+            }
+            
+            const settingsPanel = document.getElementById('settingsPanel');
+            if (settingsPanel) {
+                settingsPanel.addEventListener('click', (e) => {
+                    if (e.target.id === 'settingsPanel') {
+                        closeSettings();
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>
