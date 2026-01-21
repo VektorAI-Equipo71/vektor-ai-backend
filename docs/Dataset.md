@@ -1,6 +1,6 @@
 # Pasos en la creación del Set de Datos final
 
-Para formar el set de datos propio se recurrió a datos de aerolíneas del [Bureau of Transportation Statistics](https://www.transtats.bts.gov/DL_SelectFields.aspx?gnoyr_VQ=FGJ&QO_fu146_anzr=) del Departamento de transporte de Estados Unidos (United States Department of Transportation) (Consultado el 17 de diciembre de 2025). [Código utilizado](https://github.com/VektorAI-Equipo71/vektor-ai-ml/blob/main/notebooks/FlightonTime_0_Armado_y_Eleccion_del_Set_de_Dataset.ipynb)
+Para formar el set de datos propio se recurrió a datos de aerolíneas del [Bureau of Transportation Statistics](https://www.transtats.bts.gov/DL_SelectFields.aspx?gnoyr_VQ=FGJ&QO_fu146_anzr=) del Departamento de transporte de Estados Unidos (United States Department of Transportation) (Consultado el 17 de diciembre de 2025). 
 
 1) Se decidió tomar un año de datos, desde octubre de 2024 a septiembre de 2025 e inicialmente trabajar con las 109 variables de la base de datos.
   https://www.kaggle.com/datasets/spmv1980/hackaton-2025-equipo-71?select=flight_delays_one_year.csv
