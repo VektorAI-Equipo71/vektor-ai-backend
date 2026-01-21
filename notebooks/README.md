@@ -10,7 +10,7 @@ Análisis y desarrollo del modelo RandomForest para predicción de retrasos.
 - Evaluación métricas
 
 ## Resultados
-- **Accuracy:** 85.23%
+- **Accuracy:** 79%
 - **Modelo:** RandomForest (98 árboles)
 - **Dataset:** 6M registros USA
 
