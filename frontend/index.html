@@ -10,7 +10,9 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
@@ -20,33 +22,38 @@
     <header class="header">
         <div class="header-container">
             <div class="logo-section">
-                <img src="/img/LogoVektorAI.svg" alt="VEKTOR AI Logo" class="logo-icon" />
+                <img src="img/LogoVektorAI.svg" alt="VEKTOR AI Logo" class="logo-icon" />
                 <div class="logo-text">
                     <span class="brand-name">VEKTOR AI</span>
                     <h1 class="logo-title">FlightOnTime</h1>
                 </div>
             </div>
             <nav style="display: flex; gap: 1rem; align-items: center; margin-right: 1rem;">
-                <a href="index.html" style="color: white; text-decoration: none; font-weight: 600;" data-i18n="nav.home">Inicio</a>
-                <a href="index.html#prediccion-individual" style="color: white; text-decoration: none;" data-i18n="nav.individual">Predicción Individual</a>
-                <a href="batch.html" style="color: white; text-decoration: none;" data-i18n="nav.batch">Predicción por Lote</a>
-                <a href="history.html" style="color: white; text-decoration: none;" data-i18n="nav.history">Historial</a>
+                <a href="index.html" style="color: white; text-decoration: none; font-weight: 600;"
+                    data-i18n="nav.home">Inicio</a>
+                <a href="index.html#prediccion-individual" style="color: white; text-decoration: none;"
+                    data-i18n="nav.individual">Predicción Individual</a>
+                <a href="batch.html" style="color: white; text-decoration: none;" data-i18n="nav.batch">Predicción por
+                    Lote</a>
+                <a href="history.html" style="color: white; text-decoration: none;"
+                    data-i18n="nav.history">Historial</a>
                 <a href="stats.html" style="color: white; text-decoration: none;" data-i18n="nav.stats">Estadísticas</a>
                 <a href="about.html" style="color: white; text-decoration: none;" data-i18n="nav.about">Acerca de</a>
             </nav>
             <div style="display: flex; gap: 0.5rem; align-items: center;">
                 <!-- Selectores de Idioma (Banderas) -->
                 <button id="langEsBtn" class="lang-btn active" title="Español" data-lang="es">
-                    <img src="/img/espana.png" alt="Español" class="lang-flag-icon">
+                    <img src="img/espana.png" alt="Español" class="lang-flag-icon">
                 </button>
                 <button id="langEnBtn" class="lang-btn" title="English" data-lang="en">
-                    <img src="/img/estados-unidos.png" alt="English" class="lang-flag-icon">
+                    <img src="img/estados-unidos.png" alt="English" class="lang-flag-icon">
                 </button>
                 <!-- Botón de Configuración -->
                 <button id="settingsBtn" class="settings-btn" title="Configuración">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="3"/>
-                        <path d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22"/>
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                            d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22" />
                     </svg>
                 </button>
                 <div class="header-status">
@@ -71,19 +78,19 @@
         <!-- Estadísticas Rápidas -->
         <div class="stats-cards" id="statsCards">
             <div class="stat-card">
-                <div class="stat-card-value" id="totalPredictions">-</div>
+                <div class="stat-card-value" id="totalPredictions">0</div>
                 <div class="stat-card-label" data-i18n="dashboard.total.predictions">Total Predicciones</div>
             </div>
             <div class="stat-card">
-                <div class="stat-card-value" id="todayPredictions" style="color: #00F2FF;">-</div>
+                <div class="stat-card-value" id="todayPredictions" style="color: #00F2FF;">0</div>
                 <div class="stat-card-label" data-i18n="dashboard.today.predictions">Predicciones Hoy</div>
             </div>
             <div class="stat-card">
-                <div class="stat-card-value" id="delayedPercentage" style="color: var(--color-danger);">-</div>
+                <div class="stat-card-value" id="delayedPercentage" style="color: var(--color-danger);">0%</div>
                 <div class="stat-card-label" data-i18n="dashboard.delayed.percentage">% Retrasados Hoy</div>
             </div>
             <div class="stat-card">
-                <div class="stat-card-value" id="onTimePercentage" style="color: var(--color-success);">-</div>
+                <div class="stat-card-value" id="onTimePercentage" style="color: var(--color-success);">0%</div>
                 <div class="stat-card-label" data-i18n="dashboard.ontime.percentage">% Puntuales Hoy</div>
             </div>
         </div>
@@ -100,11 +107,15 @@
                     </svg>
                 </div>
                 <h3 data-i18n="dashboard.card.individual.title">Predicción Individual</h3>
-                <p data-i18n="dashboard.card.individual.description">Realice una predicción para un vuelo específico ingresando los datos del vuelo. Obtenga resultados instantáneos con análisis de clima y probabilidades.</p>
-                <a href="#prediccion-individual" class="dashboard-card-action" onclick="event.preventDefault(); scrollToPrediction();">
+                <p data-i18n="dashboard.card.individual.description">Realice una predicción para un vuelo específico
+                    ingresando los datos del vuelo. Obtenga resultados instantáneos con análisis de clima y
+                    probabilidades.</p>
+                <a href="#prediccion-individual" class="dashboard-card-action"
+                    onclick="event.preventDefault(); scrollToPrediction();">
                     <span data-i18n="dashboard.card.individual.action">Ir a Predicción Individual</span>
                     <svg viewBox="0 0 24 24" fill="none" style="width: 16px; height: 16px;">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" />
                     </svg>
                 </a>
             </div>
@@ -113,17 +124,20 @@
             <div class="dashboard-card" onclick="window.location.href='batch.html'">
                 <div class="dashboard-card-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="#00F2FF" stroke-width="2">
-                        <path d="M9 12L11 14L15 10" stroke-linecap="round"/>
-                        <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"/>
-                        <path d="M9 3V7M15 3V7M3 9H7M17 9H21" stroke-linecap="round"/>
+                        <path d="M9 12L11 14L15 10" stroke-linecap="round" />
+                        <path
+                            d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" />
+                        <path d="M9 3V7M15 3V7M3 9H7M17 9H21" stroke-linecap="round" />
                     </svg>
                 </div>
                 <h3 data-i18n="dashboard.card.batch.title">Predicción por Lote</h3>
-                <p data-i18n="dashboard.card.batch.description">Procese múltiples vuelos a la vez subiendo un archivo CSV. Visualice todos los resultados en una tabla con filtros avanzados.</p>
+                <p data-i18n="dashboard.card.batch.description">Procese múltiples vuelos a la vez subiendo un archivo
+                    CSV. Visualice todos los resultados en una tabla con filtros avanzados.</p>
                 <a href="batch.html" class="dashboard-card-action">
                     <span data-i18n="dashboard.card.batch.action">Ir a Predicción por Lote</span>
                     <svg viewBox="0 0 24 24" fill="none" style="width: 16px; height: 16px;">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" />
                     </svg>
                 </a>
             </div>
@@ -132,16 +146,20 @@
             <div class="dashboard-card" onclick="window.location.href='history.html'">
                 <div class="dashboard-card-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="#00F2FF" stroke-width="2">
-                        <path d="M9 12H15M9 16H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L18.7071 8.70711C18.8946 8.89464 19 9.149 19 9.41421V19C19 20.1046 18.1046 21 17 21Z"/>
-                        <path d="M19 9H14V4" stroke-linecap="round"/>
+                        <path
+                            d="M9 12H15M9 16H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L18.7071 8.70711C18.8946 8.89464 19 9.149 19 9.41421V19C19 20.1046 18.1046 21 17 21Z" />
+                        <path d="M19 9H14V4" stroke-linecap="round" />
                     </svg>
                 </div>
                 <h3 data-i18n="dashboard.card.history.title">Historial de Predicciones</h3>
-                <p data-i18n="dashboard.card.history.description">Consulte todas las predicciones realizadas con filtros avanzados por fecha, aerolínea, aeropuertos y tipo de predicción. Tabla paginada para fácil navegación.</p>
+                <p data-i18n="dashboard.card.history.description">Consulte todas las predicciones realizadas con filtros
+                    avanzados por fecha, aerolínea, aeropuertos y tipo de predicción. Tabla paginada para fácil
+                    navegación.</p>
                 <a href="history.html" class="dashboard-card-action">
                     <span data-i18n="dashboard.card.history.action">Ver Historial Completo</span>
                     <svg viewBox="0 0 24 24" fill="none" style="width: 16px; height: 16px;">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" />
                     </svg>
                 </a>
             </div>
@@ -150,17 +168,20 @@
             <div class="dashboard-card" onclick="window.location.href='stats.html'">
                 <div class="dashboard-card-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="#00F2FF" stroke-width="2">
-                        <path d="M3 3V21H21" stroke-linecap="round"/>
-                        <path d="M7 16L12 11L16 15L21 10" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M21 10V3H14" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M3 3V21H21" stroke-linecap="round" />
+                        <path d="M7 16L12 11L16 15L21 10" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M21 10V3H14" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </div>
                 <h3 data-i18n="dashboard.card.stats.title">Estadísticas</h3>
-                <p data-i18n="dashboard.card.stats.description">Visualice estadísticas detalladas de todas las predicciones realizadas, incluyendo análisis por aerolínea, aeropuertos y tendencias temporales.</p>
-                <a href="stats.html" class="dashboard-card-action" onclick="event.preventDefault(); window.location.href='stats.html';">
+                <p data-i18n="dashboard.card.stats.description">Visualice estadísticas detalladas de todas las
+                    predicciones realizadas, incluyendo análisis por aerolínea, aeropuertos y tendencias temporales.</p>
+                <a href="stats.html" class="dashboard-card-action"
+                    onclick="event.preventDefault(); window.location.href='stats.html';">
                     <span data-i18n="dashboard.card.stats.action">Ver Estadísticas</span>
                     <svg viewBox="0 0 24 24" fill="none" style="width: 16px; height: 16px;">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" />
                     </svg>
                 </a>
             </div>
@@ -172,7 +193,8 @@
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title" data-i18n="form.title">Predicción de Puntualidad</h2>
-                    <p class="card-description" data-i18n="form.description">Ingrese los datos del vuelo para obtener una predicción basada en ML y datos meteorológicos</p>
+                    <p class="card-description" data-i18n="form.description">Ingrese los datos del vuelo para obtener
+                        una predicción basada en ML y datos meteorológicos</p>
                 </div>
 
                 <form id="predictionForm" class="prediction-form">
@@ -194,7 +216,8 @@
                     <div class="form-group">
                         <label for="origen" class="form-label">
                             <svg class="label-icon" viewBox="0 0 24 24" fill="none">
-                                <path d="M12 2L3 7V11C3 16.55 7.84 21.74 12 23C16.16 21.74 21 16.55 21 11V7L12 2Z" stroke="currentColor" stroke-width="2" />
+                                <path d="M12 2L3 7V11C3 16.55 7.84 21.74 12 23C16.16 21.74 21 16.55 21 11V7L12 2Z"
+                                    stroke="currentColor" stroke-width="2" />
                             </svg>
                             <span data-i18n="form.origin">Aeropuerto de Origen</span>
                         </label>
@@ -206,7 +229,8 @@
                     <div class="form-group">
                         <label for="destino" class="form-label">
                             <svg class="label-icon" viewBox="0 0 24 24" fill="none">
-                                <path d="M12 2L3 7V11C3 16.55 7.84 21.74 12 23C16.16 21.74 21 16.55 21 11V7L12 2Z" stroke="currentColor" stroke-width="2" />
+                                <path d="M12 2L3 7V11C3 16.55 7.84 21.74 12 23C16.16 21.74 21 16.55 21 11V7L12 2Z"
+                                    stroke="currentColor" stroke-width="2" />
                                 <circle cx="12" cy="11" r="3" stroke="currentColor" stroke-width="2" />
                             </svg>
                             <span data-i18n="form.destination">Aeropuerto de Destino</span>
@@ -219,7 +243,8 @@
                     <div class="form-group">
                         <label for="fechaVuelo" class="form-label">
                             <svg class="label-icon" viewBox="0 0 24 24" fill="none">
-                                <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2" />
+                                <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor"
+                                    stroke-width="2" />
                                 <path d="M16 2V6M8 2V6M3 10H21" stroke="currentColor" stroke-width="2" />
                             </svg>
                             <span data-i18n="form.flight.date">Fecha de Vuelo</span>
@@ -231,7 +256,8 @@
                         <label for="horaVuelo" class="form-label">
                             <svg class="label-icon" viewBox="0 0 24 24" fill="none">
                                 <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
-                                <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
                             </svg>
                             <span data-i18n="form.flight.time">Hora de Vuelo</span>
                         </label>
@@ -241,14 +267,21 @@
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary" id="submitBtn">
                             <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
-                                <path d="M9 11L12 14L22 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                                <path d="M21 12V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H16" stroke="currentColor" stroke-width="2" />
+                                <path d="M9 11L12 14L22 4" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                                <path
+                                    d="M21 12V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H16"
+                                    stroke="currentColor" stroke-width="2" />
                             </svg>
                             <span id="btnText" data-i18n="form.submit">Obtener Predicción</span>
                         </button>
-                        <button type="button" class="btn btn-secondary" id="clearFormBtnTop" onclick="clearForm()" style="display: none;">
+                        <button type="button" class="btn btn-secondary" id="clearFormBtnTop" onclick="clearForm()"
+                            style="display: none;">
                             <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
-                                <path d="M19 7L18.1327 19.1425C18.0579 20.1891 17.187 21 16.1378 21H7.86224C6.81296 21 5.94208 20.1891 5.86732 19.1425L5 7M10 11V17M14 11V17M15 7V4C15 3.44772 14.5523 3 14 3H10C9.44772 3 9 3.44772 9 4V7M4 7H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path
+                                    d="M19 7L18.1327 19.1425C18.0579 20.1891 17.187 21 16.1378 21H7.86224C6.81296 21 5.94208 20.1891 5.86732 19.1425L5 7M10 11V17M14 11V17M15 7V4C15 3.44772 14.5523 3 14 3H10C9.44772 3 9 3.44772 9 4V7M4 7H20"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
                             </svg>
                             <span data-i18n="button.clear.form">Limpiar Formulario</span>
                         </button>
@@ -267,7 +300,8 @@
                         <div class="prediction-icon" id="predictionIcon"></div>
                         <div class="prediction-content">
                             <h3 class="prediction-status" id="predictionStatus">Puntual</h3>
-                            <p class="prediction-subtitle" id="predictionSubtitle">El vuelo tiene alta probabilidad de despegar a tiempo</p>
+                            <p class="prediction-subtitle" id="predictionSubtitle">El vuelo tiene alta probabilidad de
+                                despegar a tiempo</p>
                         </div>
                     </div>
 
@@ -292,7 +326,8 @@
                         </div>
                     </div>
 
-                    <div class="weather-container-split" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 2rem;">
+                    <div class="weather-container-split"
+                        style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 2rem;">
                         <div class="weather-section" id="weatherSectionOrigin">
                             <h4 class="section-subtitle" data-i18n="weather.title.origin">Clima en Origen</h4>
                             <div class="weather-grid">
@@ -352,10 +387,15 @@
                     </div>
 
                     <!-- Botón para limpiar formulario y realizar nueva consulta -->
-                    <div class="form-actions" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #e2e8f0; justify-content: center;">
-                        <button type="button" class="btn btn-secondary" id="clearFormBtn" onclick="clearForm()" style="max-width: 300px;">
+                    <div class="form-actions"
+                        style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #e2e8f0; justify-content: center;">
+                        <button type="button" class="btn btn-secondary" id="clearFormBtn" onclick="clearForm()"
+                            style="max-width: 300px;">
                             <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
-                                <path d="M19 7L18.1327 19.1425C18.0579 20.1891 17.187 21 16.1378 21H7.86224C6.81296 21 5.94208 20.1891 5.86732 19.1425L5 7M10 11V17M14 11V17M15 7V4C15 3.44772 14.5523 3 14 3H10C9.44772 3 9 3.44772 9 4V7M4 7H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path
+                                    d="M19 7L18.1327 19.1425C18.0579 20.1891 17.187 21 16.1378 21H7.86224C6.81296 21 5.94208 20.1891 5.86732 19.1425L5 7M10 11V17M14 11V17M15 7V4C15 3.44772 14.5523 3 14 3H10C9.44772 3 9 3.44772 9 4V7M4 7H20"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
                             </svg>
                             <span data-i18n="button.new.query">Nueva Consulta</span>
                         </button>
@@ -371,23 +411,25 @@
                     <h2 data-i18n="settings.title">Configuración</h2>
                     <button id="settingsClose" class="settings-close-btn" aria-label="Cerrar">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M18 6L6 18M6 6L18 18"/>
+                            <path d="M18 6L6 18M6 6L18 18" />
                         </svg>
                     </button>
                 </div>
-                
+
                 <div class="settings-section">
                     <h3 data-i18n="settings.language">Idioma</h3>
                     <div class="settings-options">
                         <button id="langEs" class="settings-option active" data-lang="es">
                             <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <img src="/img/espana.png" alt="Español" style="width: 24px; height: 24px; border-radius: 50%; object-fit: contain;">
+                                <img src="img/espana.png" alt="Español"
+                                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: contain;">
                                 <span>Español</span>
                             </div>
                         </button>
                         <button id="langEn" class="settings-option" data-lang="en">
                             <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <img src="/img/estados-unidos.png" alt="English" style="width: 24px; height: 24px; border-radius: 50%; object-fit: contain;">
+                                <img src="img/estados-unidos.png" alt="English"
+                                    style="width: 24px; height: 24px; border-radius: 50%; object-fit: contain;">
                                 <span>English</span>
                             </div>
                         </button>
@@ -413,7 +455,8 @@
                 </div>
 
                 <div class="settings-info">
-                    <p data-i18n="settings.save.info" style="font-size: 0.85rem; color: var(--color-gray-600); margin: 0; padding: 1rem; background: var(--color-gray-50); border-radius: 8px;">
+                    <p data-i18n="settings.save.info"
+                        style="font-size: 0.85rem; color: var(--color-gray-600); margin: 0; padding: 1rem; background: var(--color-gray-50); border-radius: 8px;">
                         💡 Las preferencias se guardan automáticamente y se aplicarán en toda la aplicación.
                     </p>
                 </div>
@@ -421,11 +464,14 @@
         </div>
 
         <!-- Modal de Estadísticas -->
-        <div id="statsModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
-            <div style="background: white; border-radius: 12px; padding: 2rem; max-width: 800px; max-height: 90vh; overflow-y: auto; margin: 2rem;">
+        <div id="statsModal"
+            style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+            <div
+                style="background: white; border-radius: 12px; padding: 2rem; max-width: 800px; max-height: 90vh; overflow-y: auto; margin: 2rem;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
                     <h2 style="margin: 0;">Estadísticas de Predicciones</h2>
-                    <button onclick="closeStats()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;">×</button>
+                    <button onclick="closeStats()"
+                        style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;">×</button>
                 </div>
                 <div id="statsContent"></div>
             </div>
@@ -459,7 +505,7 @@
             try {
                 const response = await fetch(`${API_BASE_URL}/stats`);
                 const data = await response.json();
-                
+
                 document.getElementById('totalPredictions').textContent = data.total_predicciones || 0;
                 document.getElementById('todayPredictions').textContent = data.total_predicciones || 0;
                 document.getElementById('delayedPercentage').textContent = (data.porcentaje_retrasados || 0) + '%';
@@ -473,14 +519,14 @@
         async function showStats() {
             const modal = document.getElementById('statsModal');
             const content = document.getElementById('statsContent');
-            
+
             try {
                 content.innerHTML = '<p>Cargando estadísticas...</p>';
                 modal.style.display = 'flex';
-                
+
                 const response = await fetch(`${API_BASE_URL}/stats`);
                 const data = await response.json();
-                
+
                 let html = `
                     <div style="margin-bottom: 2rem;">
                         <h3 style="margin-bottom: 1rem;">Resumen del Día</h3>
@@ -567,7 +613,7 @@
 
         // Scroll suave a la sección de predicción individual
         function scrollToPrediction() {
-            document.getElementById('prediccion-individual').scrollIntoView({ 
+            document.getElementById('prediccion-individual').scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
             });

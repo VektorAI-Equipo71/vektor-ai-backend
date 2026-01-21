@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,37 +10,43 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <header class="header">
         <div class="header-container">
             <div class="logo-section">
-                <img src="/img/LogoVektorAI.svg" alt="VEKTOR AI Logo" class="logo-icon" />
+                <img src="img/LogoVektorAI.svg" alt="VEKTOR AI Logo" class="logo-icon" />
                 <div class="logo-text">
                     <span class="brand-name">VEKTOR AI</span>
                     <h1 class="logo-title">FlightOnTime</h1>
                 </div>
             </div>
             <nav style="display: flex; gap: 1rem; align-items: center; margin-right: 1rem;">
-                <a href="index.html" style="color: white; text-decoration: none; font-weight: 600;" data-i18n="nav.home">Inicio</a>
-                <a href="index.html#prediccion-individual" style="color: white; text-decoration: none;" data-i18n="nav.individual">Predicción Individual</a>
-                <a href="batch.html" style="color: white; text-decoration: none;" data-i18n="nav.batch">Predicción por Lote</a>
-                <a href="history.html" style="color: white; text-decoration: none; font-weight: 600;" data-i18n="nav.history">Historial</a>
+                <a href="index.html" style="color: white; text-decoration: none; font-weight: 600;"
+                    data-i18n="nav.home">Inicio</a>
+                <a href="index.html#prediccion-individual" style="color: white; text-decoration: none;"
+                    data-i18n="nav.individual">Predicción Individual</a>
+                <a href="batch.html" style="color: white; text-decoration: none;" data-i18n="nav.batch">Predicción por
+                    Lote</a>
+                <a href="history.html" style="color: white; text-decoration: none; font-weight: 600;"
+                    data-i18n="nav.history">Historial</a>
                 <a href="stats.html" style="color: white; text-decoration: none;" data-i18n="nav.stats">Estadísticas</a>
                 <a href="about.html" style="color: white; text-decoration: none;" data-i18n="nav.about">Acerca de</a>
             </nav>
             <div style="display: flex; gap: 0.5rem; align-items: center;">
                 <!-- Selectores de Idioma (Banderas) -->
                 <button id="langEsBtn" class="lang-btn active" title="Español" data-lang="es">
-                    <img src="/img/espana.png" alt="Español" class="lang-flag-icon">
+                    <img src="img/espana.png" alt="Español" class="lang-flag-icon">
                 </button>
                 <button id="langEnBtn" class="lang-btn" title="English" data-lang="en">
-                    <img src="/img/estados-unidos.png" alt="English" class="lang-flag-icon">
+                    <img src="img/estados-unidos.png" alt="English" class="lang-flag-icon">
                 </button>
                 <!-- Botón de Configuración -->
                 <button id="settingsBtn" class="settings-btn" title="Configuración">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="3"/>
-                        <path d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22"/>
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                            d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22" />
                     </svg>
                 </button>
             </div>
@@ -89,12 +96,14 @@
                 </div>
                 <div class="filter-group">
                     <label>ID de Lote</label>
-                    <input type="text" id="filterBatchId" placeholder="Ej: BATCH-ABC123" style="text-transform: uppercase;">
+                    <input type="text" id="filterBatchId" placeholder="Ej: BATCH-ABC123"
+                        style="text-transform: uppercase;">
                 </div>
             </div>
             <div class="filter-actions">
                 <button class="btn btn-primary" onclick="applyFilters()" data-i18n="history.search">Buscar</button>
-                <button class="btn btn-secondary" onclick="clearFilters()" data-i18n="history.clear">Limpiar Filtros</button>
+                <button class="btn btn-secondary" onclick="clearFilters()" data-i18n="history.clear">Limpiar
+                    Filtros</button>
             </div>
         </div>
 
@@ -113,7 +122,9 @@
 
             <div id="emptyState" class="empty-state" style="display: none;">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-width="2"/>
+                    <path
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                        stroke-width="2" />
                 </svg>
                 <p data-i18n="history.no.predictions">No se encontraron predicciones con los filtros seleccionados</p>
             </div>
@@ -149,7 +160,7 @@
 
     <script>
         // Detectar URL base de la API
-        const API_BASE_URL = (function() {
+        const API_BASE_URL = (function () {
             const hostname = window.location.hostname;
             const port = window.location.port;
             const isLocalDev = hostname === 'localhost' || hostname === '127.0.0.1';
@@ -158,7 +169,7 @@
             }
             return '/api';
         })();
-        
+
         let currentPage = 0;
         let pageSize = 20;
         let totalPages = 0;
@@ -175,13 +186,13 @@
                 const destino = document.getElementById('filterDestino');
                 const prediccion = document.getElementById('filterPrediccion');
                 const batchId = document.getElementById('filterBatchId');
-                
+
                 if (!fechaInicio || !fechaFin || !aerolinea || !origen || !destino || !prediccion || !batchId) {
                     console.error('❌ Error: No se encontraron todos los elementos de filtro');
                     alert('Error: No se pudieron encontrar los campos de filtro. Por favor recarga la página.');
                     return;
                 }
-                
+
                 currentFilters = {
                     fechaInicio: fechaInicio.value || '',
                     fechaFin: fechaFin.value || '',
@@ -201,7 +212,7 @@
         };
 
         // Función para limpiar filtros
-        window.clearFilters = function() {
+        window.clearFilters = function () {
             console.log('🧹 Limpiando filtros...');
             try {
                 document.getElementById('filterFechaInicio').value = '';
@@ -213,10 +224,10 @@
                 document.getElementById('filterBatchId').value = '';
                 currentFilters = {};
                 currentPage = 0;
-                
+
                 // Restaurar fechas por defecto
                 setDefaultDates();
-                
+
                 // Ocultar todos los resultados y no cargar datos
                 const loading = document.getElementById('loading');
                 const table = document.getElementById('resultsTable');
@@ -224,18 +235,18 @@
                 const pagination = document.getElementById('pagination');
                 const statsSummary = document.getElementById('statsSummary');
                 const resultsInfo = document.getElementById('resultsInfo');
-                
+
                 if (loading) loading.style.display = 'none';
                 if (table) table.style.display = 'none';
                 if (emptyState) emptyState.style.display = 'none';
                 if (pagination) pagination.style.display = 'none';
                 if (statsSummary) statsSummary.style.display = 'none';
                 if (resultsInfo) resultsInfo.textContent = '';
-                
+
                 // Limpiar el cuerpo de la tabla
                 const tbody = document.getElementById('resultsBody');
                 if (tbody) tbody.innerHTML = '';
-                
+
                 console.log('✅ Filtros limpiados y resultados ocultos');
             } catch (error) {
                 console.error('❌ Error en clearFilters:', error);
@@ -250,10 +261,10 @@
                 console.error('❌ No se encontró el elemento filterAerolinea');
                 return;
             }
-            
+
             console.log('🔍 Poblando filtro de aerolíneas...');
             console.log('🔍 AIRLINE_DATA disponible?', typeof window.AIRLINE_DATA !== 'undefined');
-            
+
             // Mantener la opción "Todas"
             const todasOption = select.querySelector('option[value=""]');
             select.innerHTML = '';
@@ -265,7 +276,7 @@
                 defaultOption.textContent = window.i18n ? window.i18n.t('history.filter.all') : 'Todas';
                 select.appendChild(defaultOption);
             }
-            
+
             if (window.AIRLINE_DATA && typeof window.AIRLINE_DATA === 'object' && !Array.isArray(window.AIRLINE_DATA)) {
                 const airlineCodes = Object.keys(window.AIRLINE_DATA).sort();
                 console.log('🔍 Códigos de aerolíneas encontrados:', airlineCodes.length);
@@ -290,15 +301,15 @@
         function populateAirportFilters() {
             const origenSelect = document.getElementById('filterOrigen');
             const destinoSelect = document.getElementById('filterDestino');
-            
+
             if (!origenSelect || !destinoSelect) {
                 console.error('❌ No se encontraron los elementos de filtro de aeropuertos');
                 return;
             }
-            
+
             console.log('🔍 Poblando filtros de aeropuertos...');
             console.log('🔍 AIRPORT_INFO disponible?', typeof window.AIRPORT_INFO !== 'undefined');
-            
+
             // Guardar la opción "Todos" antes de limpiar
             let todasOrigenOption = origenSelect.querySelector('option[value=""]');
             if (!todasOrigenOption) {
@@ -306,21 +317,21 @@
                 todasOrigenOption.value = '';
                 todasOrigenOption.textContent = window.i18n ? window.i18n.t('history.filter.all.airports') : 'Todos';
             }
-            
+
             let todasDestinoOption = destinoSelect.querySelector('option[value=""]');
             if (!todasDestinoOption) {
                 todasDestinoOption = document.createElement('option');
                 todasDestinoOption.value = '';
                 todasDestinoOption.textContent = window.i18n ? window.i18n.t('history.filter.all.airports') : 'Todos';
             }
-            
+
             // Limpiar y agregar opción "Todos"
             origenSelect.innerHTML = '';
             origenSelect.appendChild(todasOrigenOption);
-            
+
             destinoSelect.innerHTML = '';
             destinoSelect.appendChild(todasDestinoOption);
-            
+
             if (window.AIRPORT_INFO && typeof window.AIRPORT_INFO === 'object') {
                 const airportCodes = Object.keys(window.AIRPORT_INFO).sort();
                 console.log('🔍 Códigos de aeropuertos encontrados:', airportCodes.length);
@@ -328,13 +339,13 @@
                     const info = window.AIRPORT_INFO[code];
                     if (info && info.name) {
                         const displayText = window.formatAirportDisplay ? window.formatAirportDisplay(code) : `${code} - ${info.name}${info.city ? ` (${info.city})` : ''}`;
-                        
+
                         // Agregar a origen
                         const optionOrigen = document.createElement('option');
                         optionOrigen.value = code;
                         optionOrigen.textContent = displayText;
                         origenSelect.appendChild(optionOrigen);
-                        
+
                         // Agregar a destino
                         const optionDestino = document.createElement('option');
                         optionDestino.value = code;
@@ -380,7 +391,7 @@
                     const data = await response.json();
                     const origenSelect = document.getElementById('filterOrigen');
                     const destinoSelect = document.getElementById('filterDestino');
-                    
+
                     if (data.origenes && Array.isArray(data.origenes)) {
                         data.origenes.forEach(origen => {
                             const option = document.createElement('option');
@@ -413,7 +424,7 @@
                         }
                     }
                 });
-                
+
                 // Escuchar cambios de idioma
                 window.addEventListener('languageChanged', () => {
                     console.log('🌐 Idioma cambiado, actualizando traducciones...');
@@ -442,11 +453,11 @@
             console.log('🔧 Inicializando filtros...');
             console.log('🔧 AIRLINE_DATA:', typeof window.AIRLINE_DATA, window.AIRLINE_DATA ? Object.keys(window.AIRLINE_DATA).length : 'no disponible');
             console.log('🔧 AIRPORT_INFO:', typeof window.AIRPORT_INFO, window.AIRPORT_INFO ? Object.keys(window.AIRPORT_INFO).length : 'no disponible');
-            
+
             // Poblar los filtros
             populateAirlineFilter();
             populateAirportFilters();
-            
+
             // Si los datos no están disponibles, intentar de nuevo después de un delay
             if (!window.AIRLINE_DATA || !window.AIRPORT_INFO) {
                 console.log('⏳ Datos no disponibles, reintentando en 500ms...');
@@ -461,17 +472,17 @@
         // Función de inicialización principal
         function initializeHistoryPage() {
             console.log('📄 Inicializando history page...');
-            
+
             // Inicializar i18n primero
             initializeI18n();
-            
+
             // Establecer fechas por defecto primero
             setDefaultDates();
-            
+
             // Esperar a que los scripts se carguen antes de poblar filtros
             setTimeout(() => {
                 initializeFilters();
-                
+
                 // Si los datos aún no están disponibles, reintentar
                 if (!window.AIRLINE_DATA || !window.AIRPORT_INFO) {
                     console.log('⏳ Datos aún no disponibles, esperando más tiempo...');
@@ -481,7 +492,7 @@
                     }, 1000);
                 }
             }, 500);
-            
+
             // Cargar predicciones iniciales después de un pequeño delay
             setTimeout(() => {
                 loadPredictions();
@@ -503,7 +514,7 @@
             const today = new Date();
             const lastMonth = new Date();
             lastMonth.setMonth(lastMonth.getMonth() - 1);
-            
+
             document.getElementById('filterFechaInicio').value = lastMonth.toISOString().split('T')[0];
             document.getElementById('filterFechaFin').value = today.toISOString().split('T')[0];
         }
@@ -552,13 +563,13 @@
 
                 const url = `${API_BASE_URL}/predictions?${params}`;
                 console.log('🔍 Consultando:', url);
-                
+
                 const response = await fetch(url);
-                
+
                 if (!response.ok) {
                     throw new Error(`Error HTTP ${response.status}: ${response.statusText}`);
                 }
-                
+
                 const data = await response.json();
                 console.log('📥 Datos recibidos:', data);
 
@@ -587,7 +598,7 @@
                 pagination.style.display = 'none';
                 statsSummary.style.display = 'none';
                 console.error('❌ Error cargando predicciones:', error);
-                
+
                 // Mostrar mensaje de error más descriptivo
                 const resultsSection = document.querySelector('.results-section');
                 if (resultsSection) {
@@ -595,7 +606,7 @@
                     errorMsg.style.cssText = 'background: #f8d7da; color: #721c24; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;';
                     errorMsg.innerHTML = `<strong>Error:</strong> ${error.message}<br>Verifique la consola del navegador para más detalles.`;
                     resultsSection.insertBefore(errorMsg, resultsSection.firstChild);
-                    
+
                     setTimeout(() => errorMsg.remove(), 5000);
                 }
             }
@@ -607,18 +618,18 @@
 
             // Declarar i18n una sola vez al inicio de la función
             const i18n = window.i18n || { t: (key) => key };
-            
+
             data.content.forEach(pred => {
                 const row = document.createElement('tr');
                 const predictionClass = pred.prediccion === 1 ? 'prediction-retrasado' : 'prediction-puntual';
                 const predictionText = pred.prediccion === 1 ? i18n.t('batch.delayed') : i18n.t('batch.on.time');
-                
+
                 // Mejorar formato de aerolínea
                 let aerolineaText = pred.aerolinea;
                 if (window.AIRLINE_DATA && window.AIRLINE_DATA[pred.aerolinea]) {
                     aerolineaText = window.AIRLINE_DATA[pred.aerolinea].name || pred.aerolinea;
                 }
-                
+
                 // Formatear fecha de predicción
                 let fechaPred = '-';
                 if (pred.fechaPrediccion) {
@@ -637,7 +648,7 @@
                         fechaPred = pred.fechaPrediccion;
                     }
                 }
-                
+
                 row.innerHTML = `
                     <td>${pred.id}</td>
                     <td>${fechaPred}</td>
@@ -718,23 +729,25 @@
                 <h2 data-i18n="settings.title">Configuración</h2>
                 <button id="settingsClose" class="settings-close-btn" aria-label="Cerrar">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M18 6L6 18M6 6L18 18"/>
+                        <path d="M18 6L6 18M6 6L18 18" />
                     </svg>
                 </button>
             </div>
-            
+
             <div class="settings-section">
                 <h3 data-i18n="settings.language">Idioma</h3>
                 <div class="settings-options">
                     <button id="langEs" class="settings-option active" data-lang="es">
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
-                            <img src="/img/espana.png" alt="Español" style="width: 24px; height: 24px; border-radius: 50%; object-fit: contain;">
+                            <img src="img/espana.png" alt="Español"
+                                style="width: 24px; height: 24px; border-radius: 50%; object-fit: contain;">
                             <span>Español</span>
                         </div>
                     </button>
                     <button id="langEn" class="settings-option" data-lang="en">
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
-                            <img src="/img/estados-unidos.png" alt="English" style="width: 24px; height: 24px; border-radius: 50%; object-fit: contain;">
+                            <img src="img/estados-unidos.png" alt="English"
+                                style="width: 24px; height: 24px; border-radius: 50%; object-fit: contain;">
                             <span>English</span>
                         </div>
                     </button>
@@ -760,7 +773,8 @@
             </div>
 
             <div class="settings-info">
-                <p data-i18n="settings.save.info" style="font-size: 0.85rem; color: var(--color-gray-600); margin: 0; padding: 1rem; background: var(--color-gray-50); border-radius: 8px;">
+                <p data-i18n="settings.save.info"
+                    style="font-size: 0.85rem; color: var(--color-gray-600); margin: 0; padding: 1rem; background: var(--color-gray-50); border-radius: 8px;">
                     💡 Las preferencias se guardan automáticamente y se aplicarán en toda la aplicación.
                 </p>
             </div>
@@ -776,5 +790,5 @@
     <script src="airline_data.js"></script>
     <!-- No cargar app.js aquí porque puede causar conflictos -->
 </body>
-</html>
 
+</html>

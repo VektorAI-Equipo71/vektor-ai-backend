@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +16,7 @@
     <!-- SheetJS para exportación a Excel -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
+
 <body>
     <!-- ================================================================ -->
     <!-- HEADER -->
@@ -22,33 +24,38 @@
     <header class="header">
         <div class="header-container">
             <div class="logo-section">
-                <img src="/img/LogoVektorAI.svg" alt="VEKTOR AI Logo" class="logo-icon" />
+                <img src="img/LogoVektorAI.svg" alt="VEKTOR AI Logo" class="logo-icon" />
                 <div class="logo-text">
                     <span class="brand-name">VEKTOR AI</span>
                     <h1 class="logo-title">FlightOnTime</h1>
                 </div>
             </div>
             <nav style="display: flex; gap: 1rem; align-items: center; margin-right: 1rem;">
-                <a href="index.html" style="color: white; text-decoration: none; font-weight: 600;" data-i18n="nav.home">Inicio</a>
-                <a href="index.html#prediccion-individual" style="color: white; text-decoration: none;" data-i18n="nav.individual">Predicción Individual</a>
-                <a href="batch.html" style="color: white; text-decoration: none; font-weight: 600;" data-i18n="nav.batch">Predicción por Lote</a>
-                <a href="history.html" style="color: white; text-decoration: none;" data-i18n="nav.history">Historial</a>
+                <a href="index.html" style="color: white; text-decoration: none; font-weight: 600;"
+                    data-i18n="nav.home">Inicio</a>
+                <a href="index.html#prediccion-individual" style="color: white; text-decoration: none;"
+                    data-i18n="nav.individual">Predicción Individual</a>
+                <a href="batch.html" style="color: white; text-decoration: none; font-weight: 600;"
+                    data-i18n="nav.batch">Predicción por Lote</a>
+                <a href="history.html" style="color: white; text-decoration: none;"
+                    data-i18n="nav.history">Historial</a>
                 <a href="stats.html" style="color: white; text-decoration: none;" data-i18n="nav.stats">Estadísticas</a>
                 <a href="about.html" style="color: white; text-decoration: none;" data-i18n="nav.about">Acerca de</a>
             </nav>
             <div style="display: flex; gap: 0.5rem; align-items: center;">
                 <!-- Selectores de Idioma (Banderas) -->
                 <button id="langEsBtn" class="lang-btn active" title="Español" data-lang="es">
-                    <img src="/img/espana.png" alt="Español" class="lang-flag-icon">
+                    <img src="img/espana.png" alt="Español" class="lang-flag-icon">
                 </button>
                 <button id="langEnBtn" class="lang-btn" title="English" data-lang="en">
-                    <img src="/img/estados-unidos.png" alt="English" class="lang-flag-icon">
+                    <img src="img/estados-unidos.png" alt="English" class="lang-flag-icon">
                 </button>
                 <!-- Botón de Configuración -->
                 <button id="settingsBtn" class="settings-btn" title="Configuración">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="3"/>
-                        <path d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22"/>
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                            d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22" />
                     </svg>
                 </button>
                 <div class="header-status">
@@ -73,19 +80,21 @@
                 <h2 class="upload-title">Subir Archivo CSV</h2>
                 <button class="btn btn-success btn-download-template" id="downloadTemplateBtn">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V15M7 10L12 15M12 15L17 10M12 15V3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path
+                            d="M21 15V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V15M7 10L12 15M12 15L17 10M12 15V3"
+                            stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                     <span>Descargar Plantilla CSV</span>
                 </button>
             </div>
-            
+
             <div class="file-upload" id="fileUpload">
                 <p class="file-upload-text">Arrastra y suelta tu archivo CSV aquí</p>
                 <p class="file-upload-hint">o haz clic para seleccionar</p>
                 <input type="file" id="fileInput" class="file-input" accept=".csv">
                 <button class="upload-btn" id="uploadBtn" disabled>Procesar Archivo</button>
             </div>
-            
+
             <div class="file-info" id="fileInfo"></div>
             <div class="batch-id" id="batchIdInfo">
                 <strong>ID de Lote:</strong> <code id="batchIdValue"></code>
@@ -97,7 +106,9 @@
         <div class="action-buttons">
             <button class="btn btn-success" id="exportExcelBtn" disabled>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 15V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V15M7 10L12 15M12 15L17 10M12 15V3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path
+                        d="M21 15V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V15M7 10L12 15M12 15L17 10M12 15V3"
+                        stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
                 <span>Exportar a Excel</span>
             </button>
@@ -109,15 +120,19 @@
                 <div class="progress-header">
                     <div class="progress-icon">
                         <svg class="progress-spinner" viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="31.416" stroke-dashoffset="31.416">
-                                <animate attributeName="stroke-dasharray" dur="2s" values="0 31.416;15.708 15.708;0 31.416;0 31.416" repeatCount="indefinite"/>
-                                <animate attributeName="stroke-dashoffset" dur="2s" values="0;-15.708;-31.416;-31.416" repeatCount="indefinite"/>
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-dasharray="31.416" stroke-dashoffset="31.416">
+                                <animate attributeName="stroke-dasharray" dur="2s"
+                                    values="0 31.416;15.708 15.708;0 31.416;0 31.416" repeatCount="indefinite" />
+                                <animate attributeName="stroke-dashoffset" dur="2s" values="0;-15.708;-31.416;-31.416"
+                                    repeatCount="indefinite" />
                             </circle>
                         </svg>
                     </div>
                     <div class="progress-info">
                         <h3 class="progress-title" id="progressTitle">Procesando archivo CSV...</h3>
-                        <p class="progress-subtitle" id="progressSubtitle">Analizando vuelos y generando predicciones</p>
+                        <p class="progress-subtitle" id="progressSubtitle">Analizando vuelos y generando predicciones
+                        </p>
                     </div>
                 </div>
                 <div class="progress-bar-container">
@@ -166,7 +181,7 @@
         const progressTime = document.getElementById('progressTime');
         const downloadTemplateBtn = document.getElementById('downloadTemplateBtn');
         const exportExcelBtn = document.getElementById('exportExcelBtn');
-        
+
         // Variables para el progreso
         let progressInterval = null;
         let progressStartTime = null;
@@ -174,7 +189,7 @@
         // ====================================================================
         // FUNCIONES AUXILIARES
         // ====================================================================
-        
+
         /**
          * Genera un ID de lote corto y memorable
          * Formato: BATCH-ABC123 (6 caracteres alfanuméricos)
@@ -238,18 +253,18 @@ UA,DFW,MIA,2026-01-17T08:00:00`;
                     'Fecha Partida': result.fecha_partida || '-',
                     'Distancia (km)': result.distancia_km || '-',
                     'Predicción': result.prediccion === 1 ? 'Retrasado' : 'Puntual',
-                    'Probabilidad Retraso (%)': result.probabilidad_retraso 
-                        ? (result.probabilidad_retraso * 100).toFixed(2) 
+                    'Probabilidad Retraso (%)': result.probabilidad_retraso
+                        ? (result.probabilidad_retraso * 100).toFixed(2)
                         : '-',
-                    'Confianza (%)': result.confianza 
-                        ? (result.confianza * 100).toFixed(2) 
+                    'Confianza (%)': result.confianza
+                        ? (result.confianza * 100).toFixed(2)
                         : '-'
                 }));
 
                 // Crear workbook
                 const wb = XLSX.utils.book_new();
                 const ws = XLSX.utils.json_to_sheet(data);
-                
+
                 // Ajustar ancho de columnas
                 ws['!cols'] = [
                     { wch: 12 },
@@ -267,7 +282,7 @@ UA,DFW,MIA,2026-01-17T08:00:00`;
                 // Generar nombre de archivo
                 const fecha = new Date().toISOString().split('T')[0];
                 const filename = `predicciones_lote_${currentBatchId || fecha}.xlsx`;
-                
+
                 // Descargar
                 XLSX.writeFile(wb, filename);
                 showMessage(`Archivo Excel exportado exitosamente: ${filename}`, 'success');
@@ -280,7 +295,7 @@ UA,DFW,MIA,2026-01-17T08:00:00`;
         // ====================================================================
         // MANEJO DE ARCHIVOS
         // ====================================================================
-        
+
         /**
          * Maneja la selección de archivo
          */
@@ -290,11 +305,11 @@ UA,DFW,MIA,2026-01-17T08:00:00`;
                 selectedFile = file;
                 fileInfo.textContent = `Archivo seleccionado: ${file.name} (${(file.size / 1024).toFixed(2)} KB)`;
                 uploadBtn.disabled = false;
-                
+
                 // Ocultar batch ID anterior si existe
                 batchIdInfo.style.display = 'none';
                 currentBatchId = null;
-                
+
                 // Deshabilitar botón de exportar
                 exportExcelBtn.disabled = true;
                 allResults = [];
@@ -314,12 +329,12 @@ UA,DFW,MIA,2026-01-17T08:00:00`;
             progressStartTime = Date.now();
             let progress = 0;
             let estimatedTotal = 10000; // Estimación inicial de 10 segundos
-            
+
             // Inicializar la barra de progreso con un pequeño valor para que sea visible
             progressBarFill.style.width = '5%';
             progressText.textContent = '5%';
             progressTime.textContent = 'Iniciando...';
-            
+
             // Mensajes informativos que rotan
             const messages = [
                 'Leyendo archivo CSV...',
@@ -330,27 +345,27 @@ UA,DFW,MIA,2026-01-17T08:00:00`;
                 'Finalizando procesamiento...'
             ];
             let messageIndex = 0;
-            
+
             // Actualizar inmediatamente después de mostrar
             setTimeout(() => {
                 progressInterval = setInterval(() => {
                     const elapsed = Date.now() - progressStartTime;
-                    
+
                     // Calcular progreso basado en tiempo (máximo 95% hasta que termine)
                     // Usamos una función logarítmica para que el progreso sea más realista
                     progress = Math.min(95, 20 + (elapsed / estimatedTotal) * 75);
-                    
+
                     // Actualizar barra de progreso
                     progressBarFill.style.width = progress + '%';
                     progressText.textContent = Math.round(progress) + '%';
-                    
+
                     // Cambiar mensaje cada 2 segundos
                     const messageChangeInterval = Math.floor(elapsed / 2000);
                     if (messageChangeInterval !== messageIndex && messageChangeInterval < messages.length) {
                         messageIndex = messageChangeInterval;
                         progressSubtitle.textContent = messages[messageIndex];
                     }
-                    
+
                     // Actualizar tiempo transcurrido
                     const seconds = Math.floor(elapsed / 1000);
                     if (seconds < 60) {
@@ -372,17 +387,17 @@ UA,DFW,MIA,2026-01-17T08:00:00`;
                 clearInterval(progressInterval);
                 progressInterval = null;
             }
-            
+
             // Completar la barra al 100%
             progressBarFill.style.width = '100%';
             progressText.textContent = '100%';
             progressTitle.textContent = 'Procesamiento completado';
             progressSubtitle.textContent = `${totalResults} predicciones generadas exitosamente`;
-            
+
             const elapsed = Date.now() - progressStartTime;
             const seconds = (elapsed / 1000).toFixed(1);
             progressTime.textContent = `Completado en ${seconds}s`;
-            
+
             // Ocultar después de 2 segundos
             setTimeout(() => {
                 progressSection.style.display = 'none';
@@ -484,7 +499,7 @@ UA,DFW,MIA,2026-01-17T08:00:00`;
                 console.error('❌ Error al procesar batch:', error);
                 stopProgressError();
                 showMessage(`Error: ${error.message}`, 'error');
-                
+
                 // En caso de error, habilitar el botón para que pueda intentar de nuevo
                 uploadBtn.disabled = false;
             }
@@ -493,7 +508,7 @@ UA,DFW,MIA,2026-01-17T08:00:00`;
         // ====================================================================
         // EVENT LISTENERS
         // ====================================================================
-        
+
         // Descargar plantilla
         if (downloadTemplateBtn) {
             downloadTemplateBtn.addEventListener('click', downloadTemplate);
@@ -527,7 +542,7 @@ UA,DFW,MIA,2026-01-17T08:00:00`;
             fileUpload.addEventListener('drop', (e) => {
                 e.preventDefault();
                 fileUpload.classList.remove('dragover');
-                
+
                 const files = e.dataTransfer.files;
                 if (files.length > 0) {
                     const file = files[0];
@@ -567,7 +582,7 @@ UA,DFW,MIA,2026-01-17T08:00:00`;
         console.log('- exportExcelBtn:', exportExcelBtn ? 'ENCONTRADO' : 'NO ENCONTRADO');
         console.log('- uploadBtn:', uploadBtn ? 'ENCONTRADO' : 'NO ENCONTRADO');
         console.log('- downloadTemplateBtn:', downloadTemplateBtn ? 'ENCONTRADO' : 'NO ENCONTRADO');
-        
+
         // Verificar que el botón de exportar esté visible
         if (exportExcelBtn) {
             const computedStyle = window.getComputedStyle(exportExcelBtn);
@@ -576,7 +591,7 @@ UA,DFW,MIA,2026-01-17T08:00:00`;
             console.log('- exportExcelBtn disabled:', exportExcelBtn.disabled);
         }
     </script>
-    
+
     <!-- Scripts para i18n y funcionalidad del header -->
     <script src="i18n.js?v=3.0"></script>
     <script>
@@ -584,18 +599,18 @@ UA,DFW,MIA,2026-01-17T08:00:00`;
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof window.i18n !== 'undefined') {
                 console.log('✅ i18n disponible');
-                
+
                 // Selectores de idioma
                 const langEsBtn = document.getElementById('langEsBtn');
                 const langEnBtn = document.getElementById('langEnBtn');
-                
+
                 if (langEsBtn && langEnBtn) {
                     langEsBtn.addEventListener('click', () => {
                         if (window.i18n) window.i18n.setLanguage('es');
                         langEsBtn.classList.add('active');
                         langEnBtn.classList.remove('active');
                     });
-                    
+
                     langEnBtn.addEventListener('click', () => {
                         if (window.i18n) window.i18n.setLanguage('en');
                         langEnBtn.classList.add('active');
@@ -606,4 +621,5 @@ UA,DFW,MIA,2026-01-17T08:00:00`;
         });
     </script>
 </body>
+
 </html>

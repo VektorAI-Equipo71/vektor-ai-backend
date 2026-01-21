@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Información sobre FlightOnTime - Sistema empresarial de predicción de puntualidad de vuelos">
+    <meta name="description"
+        content="Información sobre FlightOnTime - Sistema empresarial de predicción de puntualidad de vuelos">
     <title id="pageTitle">FlightOnTime - Acerca de</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="i18n.js" defer></script>
 </head>
+
 <body>
     <!-- ================================================================ -->
     <!-- HEADER EMPRESARIAL -->
@@ -18,7 +21,7 @@
     <header class="header">
         <div class="header-container">
             <div class="logo-section">
-                <img src="/img/LogoVektorAI.svg" alt="VEKTOR AI Logo" class="logo-icon" />
+                <img src="img/LogoVektorAI.svg" alt="VEKTOR AI Logo" class="logo-icon" />
                 <div class="logo-text">
                     <span class="brand-name">VEKTOR AI</span>
                     <h1 class="logo-title">FlightOnTime</h1>
@@ -26,25 +29,30 @@
             </div>
             <nav style="display: flex; gap: 1rem; align-items: center; margin-right: 1rem;">
                 <a href="index.html" style="color: white; text-decoration: none;" data-i18n="nav.home">Inicio</a>
-                <a href="index.html#prediccion-individual" style="color: white; text-decoration: none;" data-i18n="nav.individual">Predicción Individual</a>
-                <a href="batch.html" style="color: white; text-decoration: none;" data-i18n="nav.batch">Predicción por Lote</a>
-                <a href="history.html" style="color: white; text-decoration: none;" data-i18n="nav.history">Historial</a>
+                <a href="index.html#prediccion-individual" style="color: white; text-decoration: none;"
+                    data-i18n="nav.individual">Predicción Individual</a>
+                <a href="batch.html" style="color: white; text-decoration: none;" data-i18n="nav.batch">Predicción por
+                    Lote</a>
+                <a href="history.html" style="color: white; text-decoration: none;"
+                    data-i18n="nav.history">Historial</a>
                 <a href="stats.html" style="color: white; text-decoration: none;" data-i18n="nav.stats">Estadísticas</a>
-                <a href="about.html" style="color: white; text-decoration: none; font-weight: 600;" data-i18n="nav.about">Acerca de</a>
+                <a href="about.html" style="color: white; text-decoration: none; font-weight: 600;"
+                    data-i18n="nav.about">Acerca de</a>
             </nav>
             <div style="display: flex; gap: 0.5rem; align-items: center;">
                 <!-- Selectores de Idioma (Banderas) -->
                 <button id="langEsBtn" class="lang-btn active" title="Español" data-lang="es">
-                    <img src="/img/espana.png" alt="Español" class="lang-flag-icon">
+                    <img src="img/espana.png" alt="Español" class="lang-flag-icon">
                 </button>
                 <button id="langEnBtn" class="lang-btn" title="English" data-lang="en">
-                    <img src="/img/estados-unidos.png" alt="English" class="lang-flag-icon">
+                    <img src="img/estados-unidos.png" alt="English" class="lang-flag-icon">
                 </button>
                 <!-- Botón de Configuración -->
                 <button id="settingsBtn" class="settings-btn" title="Configuración">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="3"/>
-                        <path d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22"/>
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                            d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22" />
                     </svg>
                 </button>
                 <div class="header-status">
@@ -65,7 +73,8 @@
             <!-- Hero Section -->
             <div class="about-hero">
                 <h1>FlightOnTime</h1>
-                <p data-i18n="about.hero.subtitle">Sistema empresarial de predicción de puntualidad de vuelos con Machine Learning e integración meteorológica en tiempo real</p>
+                <p data-i18n="about.hero.subtitle">Sistema empresarial de predicción de puntualidad de vuelos con
+                    Machine Learning e integración meteorológica en tiempo real</p>
                 <div style="margin-top: 1.5rem;">
                     <span class="badge">v1.0.0</span>
                     <span class="badge">Oracle Enterprise Partner</span>
@@ -77,25 +86,34 @@
             <div class="about-section">
                 <h2 data-i18n="about.section.product.title">📋 Sobre el Producto</h2>
                 <p data-i18n="about.section.product.description1">
-                    <strong>FlightOnTime</strong> es una solución empresarial de misión crítica diseñada para predecir la puntualidad de vuelos comerciales. 
-                    La aplicación combina tecnologías avanzadas de Machine Learning con datos meteorológicos en tiempo real para proporcionar 
+                    <strong>FlightOnTime</strong> es una solución empresarial de misión crítica diseñada para predecir
+                    la puntualidad de vuelos comerciales.
+                    La aplicación combina tecnologías avanzadas de Machine Learning con datos meteorológicos en tiempo
+                    real para proporcionar
                     predicciones precisas y confiables.
                 </p>
                 <p data-i18n="about.section.product.description2">
-                    Nuestro sistema está diseñado para ayudar a aerolíneas, operadores aeroportuarios y pasajeros a tomar decisiones informadas 
-                    basadas en análisis predictivo avanzado. Utilizamos un modelo Random Forest entrenado que analiza múltiples variables 
+                    Nuestro sistema está diseñado para ayudar a aerolíneas, operadores aeroportuarios y pasajeros a
+                    tomar decisiones informadas
+                    basadas en análisis predictivo avanzado. Utilizamos un modelo Random Forest entrenado que analiza
+                    múltiples variables
                     incluyendo condiciones climáticas, distancias de vuelo, aerolíneas y rutas específicas.
                 </p>
                 <h3 data-i18n="about.section.problem.title">🎯 Problema que Resuelve</h3>
                 <p data-i18n="about.section.problem.description">
-                    Los retrasos en vuelos comerciales generan costos significativos tanto para las aerolíneas como para los pasajeros. 
+                    Los retrasos en vuelos comerciales generan costos significativos tanto para las aerolíneas como para
+                    los pasajeros.
                     FlightOnTime permite:
                 </p>
                 <ul style="color: var(--color-gray-700); line-height: 2; padding-left: 2rem;">
-                    <li data-i18n="about.section.problem.item1"><strong>Reducción de incertidumbre:</strong> Los pasajeros conocen la probabilidad de retraso antes del vuelo</li>
-                    <li data-i18n="about.section.problem.item2"><strong>Optimización operativa:</strong> Las aerolíneas pueden anticipar y mitigar retrasos</li>
-                    <li data-i18n="about.section.problem.item3"><strong>Mejora de experiencia:</strong> Información transparente y en tiempo real</li>
-                    <li data-i18n="about.section.problem.item4"><strong>Toma de decisiones:</strong> Datos precisos para planificación de recursos</li>
+                    <li data-i18n="about.section.problem.item1"><strong>Reducción de incertidumbre:</strong> Los
+                        pasajeros conocen la probabilidad de retraso antes del vuelo</li>
+                    <li data-i18n="about.section.problem.item2"><strong>Optimización operativa:</strong> Las aerolíneas
+                        pueden anticipar y mitigar retrasos</li>
+                    <li data-i18n="about.section.problem.item3"><strong>Mejora de experiencia:</strong> Información
+                        transparente y en tiempo real</li>
+                    <li data-i18n="about.section.problem.item4"><strong>Toma de decisiones:</strong> Datos precisos para
+                        planificación de recursos</li>
                 </ul>
             </div>
 
@@ -159,68 +177,75 @@
                     <div class="feature-card">
                         <div class="feature-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M9 11l3 3L22 4"/>
-                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                                <path d="M9 11l3 3L22 4" />
+                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
                             </svg>
                         </div>
                         <h4 data-i18n="about.feature.individual.title">Predicción Individual</h4>
-                        <p data-i18n="about.feature.individual.description">Realiza predicciones de puntualidad para vuelos individuales con análisis detallado de probabilidades y confianza del modelo.</p>
+                        <p data-i18n="about.feature.individual.description">Realiza predicciones de puntualidad para
+                            vuelos individuales con análisis detallado de probabilidades y confianza del modelo.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-                                <line x1="12" y1="22.08" x2="12" y2="12"/>
+                                <path
+                                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                                <line x1="12" y1="22.08" x2="12" y2="12" />
                             </svg>
                         </div>
                         <h4 data-i18n="about.feature.batch.title">Procesamiento por Lotes</h4>
-                        <p data-i18n="about.feature.batch.description">Procesa múltiples vuelos simultáneamente mediante carga de archivos CSV, ideal para análisis masivos y reportes.</p>
+                        <p data-i18n="about.feature.batch.description">Procesa múltiples vuelos simultáneamente mediante
+                            carga de archivos CSV, ideal para análisis masivos y reportes.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <line x1="18" y1="20" x2="18" y2="10"/>
-                                <line x1="12" y1="20" x2="12" y2="4"/>
-                                <line x1="6" y1="20" x2="6" y2="14"/>
+                                <line x1="18" y1="20" x2="18" y2="10" />
+                                <line x1="12" y1="20" x2="12" y2="4" />
+                                <line x1="6" y1="20" x2="6" y2="14" />
                             </svg>
                         </div>
                         <h4 data-i18n="about.feature.stats.title">Estadísticas y Análisis</h4>
-                        <p data-i18n="about.feature.stats.description">Visualiza estadísticas detalladas con gráficas interactivas, análisis por aerolínea, aeropuertos y franjas horarias.</p>
+                        <p data-i18n="about.feature.stats.description">Visualiza estadísticas detalladas con gráficas
+                            interactivas, análisis por aerolínea, aeropuertos y franjas horarias.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                                <polyline points="14 2 14 8 20 8"/>
-                                <line x1="16" y1="13" x2="8" y1="13"/>
-                                <line x1="16" y1="17" x2="8" y1="17"/>
-                                <polyline points="10 9 9 9 8 9"/>
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                <polyline points="14 2 14 8 20 8" />
+                                <line x1="16" y1="13" x2="8" y1="13" />
+                                <line x1="16" y1="17" x2="8" y1="17" />
+                                <polyline points="10 9 9 9 8 9" />
                             </svg>
                         </div>
                         <h4 data-i18n="about.feature.history.title">Historial de Predicciones</h4>
-                        <p data-i18n="about.feature.history.description">Mantén un registro completo de todas las predicciones realizadas con filtros avanzados y búsqueda por lote ID.</p>
+                        <p data-i18n="about.feature.history.description">Mantén un registro completo de todas las
+                            predicciones realizadas con filtros avanzados y búsqueda por lote ID.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21.21 15.89A10 10 0 1 1 8 2.83"/>
-                                <path d="M22 12A10 10 0 0 0 12 2v10z"/>
+                                <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
+                                <path d="M22 12A10 10 0 0 0 12 2v10z" />
                             </svg>
                         </div>
                         <h4 data-i18n="about.feature.ml.title">Machine Learning</h4>
-                        <p data-i18n="about.feature.ml.description">Modelo Random Forest entrenado que analiza múltiples features incluyendo clima, distancia, aerolínea y rutas.</p>
+                        <p data-i18n="about.feature.ml.description">Modelo Random Forest entrenado que analiza múltiples
+                            features incluyendo clima, distancia, aerolínea y rutas.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M17.5 19H9a7 7 0 0 1 1-13.95A7 7 0 0 1 17.5 19z"/>
-                                <line x1="12" y1="9" x2="12" y2="15"/>
-                                <line x1="9" y1="12" x2="15" y2="12"/>
+                                <path d="M17.5 19H9a7 7 0 0 1 1-13.95A7 7 0 0 1 17.5 19z" />
+                                <line x1="12" y1="9" x2="12" y2="15" />
+                                <line x1="9" y1="12" x2="15" y2="12" />
                             </svg>
                         </div>
                         <h4 data-i18n="about.feature.weather.title">Datos Meteorológicos</h4>
-                        <p data-i18n="about.feature.weather.description">Integración en tiempo real con OpenWeatherMap API para obtener condiciones climáticas actuales de aeropuertos.</p>
+                        <p data-i18n="about.feature.weather.description">Integración en tiempo real con OpenWeatherMap
+                            API para obtener condiciones climáticas actuales de aeropuertos.</p>
                     </div>
                 </div>
             </div>
@@ -229,48 +254,55 @@
             <div class="about-section">
                 <h2 data-i18n="about.section.architecture.title">🏗️ Arquitectura del Sistema</h2>
                 <p data-i18n="about.section.architecture.description">
-                    FlightOnTime utiliza una arquitectura de microservicios moderna y escalable, diseñada para alta disponibilidad 
+                    FlightOnTime utiliza una arquitectura de microservicios moderna y escalable, diseñada para alta
+                    disponibilidad
                     y rendimiento empresarial.
                 </p>
                 <div class="architecture-diagram" data-i18n="about.section.architecture.diagram">
-┌─────────────────────────────────────────────────────────────────┐
-│                         USUARIO FINAL                           │
-└────────────────────────────┬────────────────────────────────────┘
-                             │
-                             ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    FRONTEND (Nginx)                             │
-│  • HTML5 + CSS3 + JavaScript                                    │
-│  • Diseño Oracle Redwood                                        │
-│  • Puerto: 80                                                   │
-└────────────────────────────┬────────────────────────────────────┘
-                             │ HTTP
-                             ▼
-┌─────────────────────────────────────────────────────────────────┐
-│              BACKEND (Java 17 + Spring Boot)                    │
-│  • Orquestador empresarial                                      │
-│  • Validación de negocio                                        │
-│  • Persistencia PostgreSQL                                      │
-│  • Puerto: 8080                                                 │
-└────────────┬───────────────────────────────┬────────────────────┘
-             │ HTTP                          │ HTTP
-             ▼                               ▼
-┌──────────────────────────┐   ┌────────────────────────────────┐
-│  ML SERVICE (FastAPI)    │   │  OpenWeatherMap API            │
-│  • Carga modelo ML       │   │  • Clima en tiempo real        │
-│  • Cálculo Haversine     │   │                                │
-│  • Predicción ML         │   └────────────────────────────────┘
-│  • Puerto: 8001          │
-└──────────────────────────┘
+                    ┌─────────────────────────────────────────────────────────────────┐
+                    │ USUARIO FINAL │
+                    └────────────────────────────┬────────────────────────────────────┘
+                    │
+                    ▼
+                    ┌─────────────────────────────────────────────────────────────────┐
+                    │ FRONTEND (Nginx) │
+                    │ • HTML5 + CSS3 + JavaScript │
+                    │ • Diseño Oracle Redwood │
+                    │ • Puerto: 80 │
+                    └────────────────────────────┬────────────────────────────────────┘
+                    │ HTTP
+                    ▼
+                    ┌─────────────────────────────────────────────────────────────────┐
+                    │ BACKEND (Java 17 + Spring Boot) │
+                    │ • Orquestador empresarial │
+                    │ • Validación de negocio │
+                    │ • Persistencia PostgreSQL │
+                    │ • Puerto: 8080 │
+                    └────────────┬───────────────────────────────┬────────────────────┘
+                    │ HTTP │ HTTP
+                    ▼ ▼
+                    ┌──────────────────────────┐ ┌────────────────────────────────┐
+                    │ ML SERVICE (FastAPI) │ │ OpenWeatherMap API │
+                    │ • Carga modelo ML │ │ • Clima en tiempo real │
+                    │ • Cálculo Haversine │ │ │
+                    │ • Predicción ML │ └────────────────────────────────┘
+                    │ • Puerto: 8001 │
+                    └──────────────────────────┘
                 </div>
                 <h3 data-i18n="about.section.architecture.flow.title">Flujo de Datos</h3>
                 <ol style="color: var(--color-gray-700); line-height: 2; padding-left: 2rem;">
-                    <li data-i18n="about.section.architecture.flow.step1"><strong>Usuario</strong> ingresa datos del vuelo (aerolínea, origen, destino, fecha)</li>
-                    <li data-i18n="about.section.architecture.flow.step2"><strong>Frontend</strong> envía solicitud HTTP POST al Backend</li>
-                    <li data-i18n="about.section.architecture.flow.step3"><strong>Backend</strong> valida datos y reenvía al ML Service</li>
-                    <li data-i18n="about.section.architecture.flow.step4"><strong>ML Service</strong> calcula distancia, consulta clima y ejecuta predicción</li>
-                    <li data-i18n="about.section.architecture.flow.step5"><strong>Respuesta</strong> fluye de vuelta: ML → Backend → Frontend</li>
-                    <li data-i18n="about.section.architecture.flow.step6"><strong>Usuario</strong> visualiza predicción, probabilidades, clima y metadata</li>
+                    <li data-i18n="about.section.architecture.flow.step1"><strong>Usuario</strong> ingresa datos del
+                        vuelo (aerolínea, origen, destino, fecha)</li>
+                    <li data-i18n="about.section.architecture.flow.step2"><strong>Frontend</strong> envía solicitud HTTP
+                        POST al Backend</li>
+                    <li data-i18n="about.section.architecture.flow.step3"><strong>Backend</strong> valida datos y
+                        reenvía al ML Service</li>
+                    <li data-i18n="about.section.architecture.flow.step4"><strong>ML Service</strong> calcula distancia,
+                        consulta clima y ejecuta predicción</li>
+                    <li data-i18n="about.section.architecture.flow.step5"><strong>Respuesta</strong> fluye de vuelta: ML
+                        → Backend → Frontend</li>
+                    <li data-i18n="about.section.architecture.flow.step6"><strong>Usuario</strong> visualiza predicción,
+                        probabilidades, clima y metadata</li>
                 </ol>
             </div>
 
@@ -278,20 +310,20 @@
             <div class="about-section">
                 <h2 data-i18n="about.section.company.title">🏢 Información de la Empresa</h2>
                 <p data-i18n="about.section.company.description">
-                    <strong>FlightOnTime</strong> es desarrollado como sistema de misión crítica para 
-                    <strong>Oracle Enterprise Partner</strong>. Nuestra solución está diseñada siguiendo los más altos 
+                    <strong>FlightOnTime</strong> es desarrollado como sistema de misión crítica para
+                    <strong>Oracle Enterprise Partner</strong>. Nuestra solución está diseñada siguiendo los más altos
                     estándares de calidad empresarial y arquitectura escalable.
                 </p>
                 <h3 data-i18n="about.section.company.mission.title">Misión</h3>
                 <p data-i18n="about.section.company.mission">
-                    Proporcionar soluciones de predicción de vuelos precisas y confiables que ayuden a optimizar 
-                    las operaciones aeronáuticas y mejorar la experiencia de los pasajeros mediante el uso de 
+                    Proporcionar soluciones de predicción de vuelos precisas y confiables que ayuden a optimizar
+                    las operaciones aeronáuticas y mejorar la experiencia de los pasajeros mediante el uso de
                     tecnologías avanzadas de Machine Learning e inteligencia artificial.
                 </p>
                 <h3 data-i18n="about.section.company.vision.title">Visión</h3>
                 <p data-i18n="about.section.company.vision">
-                    Ser la plataforma líder en predicción de puntualidad de vuelos, reconocida por su precisión, 
-                    confiabilidad y capacidad de escalar para satisfacer las necesidades de las principales 
+                    Ser la plataforma líder en predicción de puntualidad de vuelos, reconocida por su precisión,
+                    confiabilidad y capacidad de escalar para satisfacer las necesidades de las principales
                     aerolíneas y operadores aeroportuarios del mundo.
                 </p>
             </div>
@@ -302,16 +334,23 @@
                 <div class="version-info">
                     <p><strong data-i18n="about.section.version.current">Versión Actual:</strong> 1.0.0</p>
                     <p><strong data-i18n="about.section.version.release">Fecha de Lanzamiento:</strong> 2025</p>
-                    <p><strong data-i18n="about.section.version.status">Estado:</strong> <span data-i18n="about.section.version.status.value">Producción</span></p>
+                    <p><strong data-i18n="about.section.version.status">Estado:</strong> <span
+                            data-i18n="about.section.version.status.value">Producción</span></p>
                 </div>
                 <h3 data-i18n="about.section.version.features.title">Características de la Versión 1.0.0</h3>
                 <ul style="color: var(--color-gray-700); line-height: 2; padding-left: 2rem;">
-                    <li data-i18n="about.section.version.feature1">✅ Predicción individual de vuelos con modelo ML Random Forest</li>
-                    <li data-i18n="about.section.version.feature2">✅ Procesamiento por lotes mediante carga de archivos CSV</li>
-                    <li data-i18n="about.section.version.feature3">✅ Integración con OpenWeatherMap API para datos meteorológicos</li>
-                    <li data-i18n="about.section.version.feature4">✅ Cálculo automático de distancias usando fórmula de Haversine</li>
-                    <li data-i18n="about.section.version.feature5">✅ Dashboard de estadísticas con gráficas interactivas</li>
-                    <li data-i18n="about.section.version.feature6">✅ Historial completo de predicciones con filtros avanzados</li>
+                    <li data-i18n="about.section.version.feature1">✅ Predicción individual de vuelos con modelo ML
+                        Random Forest</li>
+                    <li data-i18n="about.section.version.feature2">✅ Procesamiento por lotes mediante carga de archivos
+                        CSV</li>
+                    <li data-i18n="about.section.version.feature3">✅ Integración con OpenWeatherMap API para datos
+                        meteorológicos</li>
+                    <li data-i18n="about.section.version.feature4">✅ Cálculo automático de distancias usando fórmula de
+                        Haversine</li>
+                    <li data-i18n="about.section.version.feature5">✅ Dashboard de estadísticas con gráficas interactivas
+                    </li>
+                    <li data-i18n="about.section.version.feature6">✅ Historial completo de predicciones con filtros
+                        avanzados</li>
                     <li data-i18n="about.section.version.feature7">✅ Exportación de resultados a Excel</li>
                     <li data-i18n="about.section.version.feature8">✅ Arquitectura de microservicios con Docker</li>
                     <li data-i18n="about.section.version.feature9">✅ Persistencia de datos en PostgreSQL</li>
@@ -323,17 +362,19 @@
             <div class="about-section">
                 <h2 data-i18n="about.section.contact.title">📞 Contacto y Soporte</h2>
                 <p data-i18n="about.section.contact.description">
-                    Para soporte técnico, consultas o más información sobre FlightOnTime, puedes contactarnos a través de:
+                    Para soporte técnico, consultas o más información sobre FlightOnTime, puedes contactarnos a través
+                    de:
                 </p>
                 <div class="contact-info">
                     <div class="contact-card">
                         <h4 data-i18n="about.section.contact.docs">🌐 Documentación API</h4>
-                        <p><a href="http://localhost:8080/api/docs" target="_blank" data-i18n="about.section.contact.view.docs">Ver Documentación</a></p>
+                        <p><a href="http://localhost:8080/api/docs" target="_blank"
+                                data-i18n="about.section.contact.view.docs">Ver Documentación</a></p>
                     </div>
                     <div class="contact-card">
                         <h4 data-i18n="about.section.contact.health">💚 Health Checks</h4>
                         <p>
-                            <a href="http://localhost:8080/api/health" target="_blank">Backend</a> | 
+                            <a href="http://localhost:8080/api/health" target="_blank">Backend</a> |
                             <a href="http://localhost:8001/health" target="_blank">ML Service</a>
                         </p>
                     </div>
@@ -344,10 +385,14 @@
                 </div>
                 <h3 data-i18n="about.section.contact.resources.title">Recursos Adicionales</h3>
                 <ul style="color: var(--color-gray-700); line-height: 2; padding-left: 2rem;">
-                    <li data-i18n="about.section.contact.resource1"><strong>README:</strong> Documentación completa del proyecto</li>
-                    <li data-i18n="about.section.contact.resource2"><strong>Arquitectura:</strong> Detalles técnicos de la arquitectura del sistema</li>
-                    <li data-i18n="about.section.contact.resource3"><strong>Guía de Pruebas:</strong> Instrucciones para testing y validación</li>
-                    <li data-i18n="about.section.contact.resource4"><strong>Contrato de Integración:</strong> Especificaciones de la API</li>
+                    <li data-i18n="about.section.contact.resource1"><strong>README:</strong> Documentación completa del
+                        proyecto</li>
+                    <li data-i18n="about.section.contact.resource2"><strong>Arquitectura:</strong> Detalles técnicos de
+                        la arquitectura del sistema</li>
+                    <li data-i18n="about.section.contact.resource3"><strong>Guía de Pruebas:</strong> Instrucciones para
+                        testing y validación</li>
+                    <li data-i18n="about.section.contact.resource4"><strong>Contrato de Integración:</strong>
+                        Especificaciones de la API</li>
                 </ul>
             </div>
         </div>
@@ -359,14 +404,17 @@
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-left">
-                <p>&copy; 2025 FlightOnTime - Oracle Enterprise Partner. <span data-i18n="footer.all.rights">Todos los derechos reservados.</span></p>
+                <p>&copy; 2025 FlightOnTime - Oracle Enterprise Partner. <span data-i18n="footer.all.rights">Todos los
+                        derechos reservados.</span></p>
             </div>
             <div class="footer-right">
                 <a href="about.html" class="footer-link" data-i18n="nav.about">Acerca de</a>
                 <span class="footer-separator">|</span>
-                <a href="#" class="footer-link" onclick="alert('Próximamente'); return false;" data-i18n="footer.privacy">Política de Privacidad</a>
+                <a href="#" class="footer-link" onclick="alert('Próximamente'); return false;"
+                    data-i18n="footer.privacy">Política de Privacidad</a>
                 <span class="footer-separator">|</span>
-                <a href="#" class="footer-link" onclick="alert('Próximamente'); return false;" data-i18n="footer.terms">Términos de Uso</a>
+                <a href="#" class="footer-link" onclick="alert('Próximamente'); return false;"
+                    data-i18n="footer.terms">Términos de Uso</a>
             </div>
         </div>
     </footer>
@@ -375,11 +423,11 @@
         // Función para actualizar todos los elementos con data-i18n
         function updateTranslations() {
             if (!window.i18n) return;
-            
+
             // Actualizar título de la página
             const pageTitle = window.i18n.t('about.page.title');
             document.title = `FlightOnTime - ${pageTitle}`;
-            
+
             // Actualizar meta description
             const metaDescription = document.querySelector('meta[name="description"]');
             if (metaDescription) {
@@ -390,16 +438,16 @@
                     metaDescription.content = 'Información sobre FlightOnTime - Sistema empresarial de predicción de puntualidad de vuelos';
                 }
             }
-            
+
             // Actualizar atributo lang del HTML
             document.documentElement.lang = window.i18n.getLanguage();
-            
+
             // Actualizar todos los elementos con data-i18n
             document.querySelectorAll('[data-i18n]').forEach(element => {
                 const key = element.getAttribute('data-i18n');
                 if (key) {
                     const translation = window.i18n.t(key);
-                    
+
                     // Para el diagrama de arquitectura, usar textContent para preservar saltos de línea
                     if (element.classList.contains('architecture-diagram')) {
                         element.textContent = translation;
@@ -422,12 +470,12 @@
             function waitForI18n() {
                 if (window.i18n) {
                     updateTranslations();
-                    
+
                     // Actualizar estado de botones de idioma
                     const currentLang = window.i18n.getLanguage();
                     const langEsBtn = document.getElementById('langEsBtn');
                     const langEnBtn = document.getElementById('langEnBtn');
-                    
+
                     if (langEsBtn && langEnBtn) {
                         if (currentLang === 'es') {
                             langEsBtn.classList.add('active');
@@ -442,7 +490,7 @@
                     setTimeout(waitForI18n, 100);
                 }
             }
-            
+
             waitForI18n();
         }
 
@@ -455,12 +503,12 @@
         }
 
         // Manejar cambio de idioma con botones de banderas
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const langEsBtn = document.getElementById('langEsBtn');
             const langEnBtn = document.getElementById('langEnBtn');
-            
+
             if (langEsBtn) {
-                langEsBtn.addEventListener('click', function() {
+                langEsBtn.addEventListener('click', function () {
                     if (window.i18n) {
                         window.i18n.setLanguage('es');
                         updateTranslations();
@@ -469,9 +517,9 @@
                     if (langEnBtn) langEnBtn.classList.remove('active');
                 });
             }
-            
+
             if (langEnBtn) {
-                langEnBtn.addEventListener('click', function() {
+                langEnBtn.addEventListener('click', function () {
                     if (window.i18n) {
                         window.i18n.setLanguage('en');
                         updateTranslations();
@@ -483,14 +531,14 @@
         });
 
         // Escuchar evento de cambio de idioma
-        window.addEventListener('languageChanged', function() {
+        window.addEventListener('languageChanged', function () {
             updateTranslations();
-            
+
             // Actualizar estado de botones
             const currentLang = window.i18n ? window.i18n.getLanguage() : 'es';
             const langEsBtn = document.getElementById('langEsBtn');
             const langEnBtn = document.getElementById('langEnBtn');
-            
+
             if (langEsBtn && langEnBtn) {
                 if (currentLang === 'es') {
                     langEsBtn.classList.add('active');
@@ -514,7 +562,7 @@
                     }
                     return '';
                 })();
-                
+
                 const response = await fetch(`${API_BASE_URL}/api/health`);
                 if (response.ok) {
                     const statusDot = statusIndicator.querySelector('.status-dot');
@@ -545,10 +593,11 @@
         }
 
         // Verificar estado al cargar la página
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             checkConnectionStatus();
             setInterval(checkConnectionStatus, 30000); // Verificar cada 30 segundos
         });
     </script>
 </body>
+
 </html>

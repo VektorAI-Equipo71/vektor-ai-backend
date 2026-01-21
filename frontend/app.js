@@ -1821,7 +1821,7 @@
       if (porcentajeRetrasados !== null && porcentajeRetrasados !== undefined) {
         delayedEl.textContent = `${porcentajeRetrasados.toFixed(1)}%`;
       } else {
-        delayedEl.textContent = "N/A";
+        delayedEl.textContent = "0%";
       }
     }
 
@@ -1831,7 +1831,7 @@
       if (porcentajePuntuales !== null && porcentajePuntuales !== undefined) {
         onTimeEl.textContent = `${porcentajePuntuales.toFixed(1)}%`;
       } else {
-        onTimeEl.textContent = "N/A";
+        onTimeEl.textContent = "0%";
       }
     }
   }
