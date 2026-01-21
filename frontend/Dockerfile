@@ -9,9 +9,8 @@ FROM nginx:alpine
 COPY *.html /usr/share/nginx/html/
 COPY styles.css /usr/share/nginx/html/
 COPY *.js /usr/share/nginx/html/
-# Copiar archivos de imagen (logo)
-COPY *.png /usr/share/nginx/html/
-COPY *.svg /usr/share/nginx/html/
+# Copiar carpeta de imágenes
+COPY img/ /usr/share/nginx/html/img/
 # Copiar archivo JSON de aerolíneas y aeropuertos
 COPY aerolinea_origin_dest.json /usr/share/nginx/html/
 

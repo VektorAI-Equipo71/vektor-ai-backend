@@ -47,6 +47,23 @@ const translations = {
         'weather.humidity': 'Humedad',
         'weather.wind': 'Viento',
         'weather.visibility': 'Visibilidad',
+        
+        // Weather Conditions
+        'weather.condition.clear': 'cielo claro',
+        'weather.condition.clouds': 'nubes',
+        'weather.condition.rain': 'lluvia',
+        'weather.condition.drizzle': 'llovizna',
+        'weather.condition.thunderstorm': 'tormenta',
+        'weather.condition.snow': 'nieve',
+        'weather.condition.mist': 'niebla',
+        'weather.condition.fog': 'niebla',
+        'weather.condition.haze': 'neblina',
+        'weather.condition.dust': 'polvo',
+        'weather.condition.sand': 'arena',
+        'weather.condition.ash': 'ceniza',
+        'weather.condition.squall': 'chubasco',
+        'weather.condition.tornado': 'tornado',
+        'weather.condition.overcast': 'nublado',
 
         // Metadata
         'metadata.title': 'Información del Vuelo',
@@ -363,6 +380,23 @@ const translations = {
         'weather.humidity': 'Humidity',
         'weather.wind': 'Wind',
         'weather.visibility': 'Visibility',
+        
+        // Weather Conditions
+        'weather.condition.clear': 'clear sky',
+        'weather.condition.clouds': 'clouds',
+        'weather.condition.rain': 'rain',
+        'weather.condition.drizzle': 'drizzle',
+        'weather.condition.thunderstorm': 'thunderstorm',
+        'weather.condition.snow': 'snow',
+        'weather.condition.mist': 'mist',
+        'weather.condition.fog': 'fog',
+        'weather.condition.haze': 'haze',
+        'weather.condition.dust': 'dust',
+        'weather.condition.sand': 'sand',
+        'weather.condition.ash': 'ash',
+        'weather.condition.squall': 'squall',
+        'weather.condition.tornado': 'tornado',
+        'weather.condition.overcast': 'overcast',
 
         // Metadata
         'metadata.title': 'Flight Information',

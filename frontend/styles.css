@@ -129,15 +129,14 @@ body {
 }
 
 .logo-icon {
-    width: 80px;
-    height: 80px;
-    max-width: 80px;
-    max-height: 80px;
-    min-width: 80px;
-    min-height: 80px;
+    width: 100px;
+    height: 100px;
+    max-width: 100px;
+    max-height: 100px;
+    min-width: 100px;
+    min-height: 100px;
     object-fit: contain;
     display: block;
-    animation: pulse 3s ease-in-out infinite;
     transition: transform 0.3s ease, opacity 0.3s ease;
     flex-shrink: 0;
     opacity: 1;
@@ -179,6 +178,7 @@ body {
 }
 
 .brand-name {
+    font-family: 'Montserrat', sans-serif;
     font-size: var(--font-size-xl);
     font-weight: 800;
     letter-spacing: 0.05em;
@@ -213,6 +213,7 @@ body {
 }
 
 .logo-title {
+    font-family: 'Montserrat', sans-serif;
     font-size: var(--font-size-2xl);
     font-weight: 600;
     letter-spacing: -0.01em;
@@ -838,12 +839,12 @@ select option:focus {
     }
     
     .logo-icon {
-        width: 64px;
-        height: 64px;
-        min-width: 64px;
-        min-height: 64px;
-        max-width: 64px;
-        max-height: 64px;
+        width: 80px;
+        height: 80px;
+        min-width: 80px;
+        min-height: 80px;
+        max-width: 80px;
+        max-height: 80px;
     }
     
     .logo-section {
@@ -852,6 +853,10 @@ select option:focus {
 
     .main-container {
         padding: var(--spacing-lg);
+    }
+
+    .dashboard-grid {
+        gap: 2rem;
     }
 
     .form-actions {
@@ -1216,25 +1221,84 @@ select option:focus {
 .batch-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 3rem 2rem;
+}
+
+.batch-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1A2B48;
+    margin-bottom: 3rem;
+    text-align: center;
 }
 
 .upload-section {
     background: white;
     border-radius: 12px;
-    padding: 2rem;
-    margin-bottom: 2rem;
+    padding: 2.5rem;
+    margin-bottom: 3rem;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.upload-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    gap: 2rem;
+}
+
+.upload-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #1F2937;
+    margin: 0;
+}
+
+.btn-download-template {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.btn-download-template svg {
+    width: 16px;
+    height: 16px;
 }
 
 .file-upload {
     border: 2px dashed #4A90E2;
     border-radius: 8px;
-    padding: 2rem;
+    padding: 3rem 2rem;
     text-align: center;
     cursor: pointer;
     transition: all 0.3s;
-    margin-top: 1rem;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.file-upload-text {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.file-upload-hint {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
 }
 
 .file-upload:hover {
@@ -1255,13 +1319,18 @@ select option:focus {
     background: #1A2B48;
     color: white;
     border: none;
-    padding: 0.75rem 2rem;
+    padding: 0.875rem 2.5rem;
     border-radius: 8px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     margin-top: 1rem;
     transition: all 0.3s;
+    box-shadow: 0 2px 4px rgba(26, 43, 72, 0.2);
+}
+
+.upload-btn:hover:not(:disabled) {
+    box-shadow: 0 4px 8px rgba(26, 43, 72, 0.3);
 }
 
 .upload-btn:hover:not(:disabled) {
@@ -1278,21 +1347,47 @@ select option:focus {
 .btn-success {
     background: #28a745;
     color: white;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(40, 167, 69, 0.2);
+}
+
+.btn-success svg {
+    width: 16px;
+    height: 16px;
 }
 
 .btn-success:hover:not(:disabled) {
     background: #218838;
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+    transform: translateY(-1px);
+}
+
+.btn-success:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 .file-info {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     color: #666;
     font-size: 0.9rem;
+    padding: 0.75rem;
+    background: #f8f9fa;
+    border-radius: 6px;
 }
 
 .batch-id {
-    margin-top: 1rem;
-    padding: 0.75rem;
+    margin-top: 1.5rem;
+    padding: 1rem;
     background: #e7f3ff;
     border-radius: 8px;
     border-left: 4px solid #1A2B48;
@@ -1313,8 +1408,8 @@ select option:focus {
 .action-buttons {
     background: white;
     border-radius: 12px;
-    padding: 1.5rem;
-    margin-top: 2rem;
+    padding: 2rem;
+    margin-top: 3rem;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     display: flex;
     justify-content: flex-end;
@@ -1349,6 +1444,210 @@ select option:focus {
 
 .loading.active {
     display: block;
+}
+
+/* ============================================================================
+   BARRA DE PROGRESO PARA PROCESAMIENTO POR LOTE
+   ============================================================================ */
+.progress-section {
+    margin-top: 2rem;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.progress-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+}
+
+.progress-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.progress-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #00F2FF;
+    flex-shrink: 0;
+}
+
+.progress-spinner {
+    width: 48px;
+    height: 48px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.progress-info {
+    flex: 1;
+}
+
+.progress-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1F2937;
+    margin: 0 0 0.25rem 0;
+}
+
+.progress-subtitle {
+    font-size: 0.9rem;
+    color: #6B7280;
+    margin: 0;
+}
+
+.progress-bar-container {
+    margin-top: 1rem;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 12px;
+    background: #E5E7EB;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 0.75rem;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00F2FF 0%, #00D4FF 50%, #00F2FF 100%);
+    background-size: 200% 100%;
+    border-radius: 6px;
+    width: 0%;
+    min-width: 2%;
+    transition: width 0.3s ease;
+    animation: progressShimmer 2s ease-in-out infinite;
+    position: relative;
+}
+
+.progress-bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes progressShimmer {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.progress-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+}
+
+.progress-text {
+    font-weight: 600;
+    color: #00F2FF;
+}
+
+.progress-time {
+    color: #6B7280;
+}
+
+/* Responsive para batch.html */
+@media (max-width: 768px) {
+    .batch-container {
+        padding: 1.5rem 1rem;
+    }
+
+    .batch-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .upload-section {
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .upload-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .upload-title {
+        font-size: 1.5rem;
+    }
+
+    .btn-download-template {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .file-upload {
+        padding: 2rem 1rem;
+    }
+
+    .action-buttons {
+        padding: 1.5rem;
+        flex-direction: column;
+    }
+
+    .btn-success {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .progress-card {
+        padding: 1.5rem;
+    }
+
+    .progress-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ============================================================================
@@ -1531,7 +1830,7 @@ tbody tr:hover {
 }
 
 .dashboard-header {
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
 }
 
 .dashboard-header h1 {
@@ -1548,14 +1847,15 @@ tbody tr:hover {
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    margin-bottom: 2rem;
+    gap: 4rem;
+    margin-top: 4rem;
+    margin-bottom: 3rem;
 }
 
 .dashboard-card {
     background: white;
     border-radius: 12px;
-    padding: 2rem;
+    padding: 2.5rem;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer;
@@ -1621,8 +1921,8 @@ tbody tr:hover {
 .stats-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2rem;
+    gap: 2rem;
+    margin-bottom: 3rem;
 }
 
 .stat-card {
@@ -1650,7 +1950,8 @@ tbody tr:hover {
     border-radius: 12px;
     padding: 2rem;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    margin-top: 2rem;
+    margin-top: 3rem;
+    margin-bottom: 4rem;
 }
 
 .quick-access-section h2 {

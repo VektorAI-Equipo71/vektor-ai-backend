@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -20,7 +20,7 @@
     <header class="header">
         <div class="header-container">
             <div class="logo-section">
-                <img src="/frontend/img/LogoVektorAI.svg" alt="VEKTOR AI Logo" class="logo-icon" />
+                <img src="/img/LogoVektorAI.svg" alt="VEKTOR AI Logo" class="logo-icon" />
                 <div class="logo-text">
                     <span class="brand-name">VEKTOR AI</span>
                     <h1 class="logo-title">FlightOnTime</h1>
@@ -37,10 +37,10 @@
             <div style="display: flex; gap: 0.5rem; align-items: center;">
                 <!-- Selectores de Idioma (Banderas) -->
                 <button id="langEsBtn" class="lang-btn active" title="Español" data-lang="es">
-                    <img src="/frontend/img/espana.png" alt="Español" class="lang-flag-icon">
+                    <img src="/img/espana.png" alt="Español" class="lang-flag-icon">
                 </button>
                 <button id="langEnBtn" class="lang-btn" title="English" data-lang="en">
-                    <img src="/frontend/img/estados-unidos.png" alt="English" class="lang-flag-icon">
+                    <img src="/img/estados-unidos.png" alt="English" class="lang-flag-icon">
                 </button>
                 <!-- Botón de Configuración -->
                 <button id="settingsBtn" class="settings-btn" title="Configuración">
@@ -198,8 +198,9 @@
                             </svg>
                             <span data-i18n="form.origin">Aeropuerto de Origen</span>
                         </label>
-                        <input type="text" id="origen" name="origen" class="form-input" list="origen-list" data-i18n-placeholder="form.origin.select" placeholder="Ej: JFK" required disabled style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.5rem;">
-                        <datalist id="origen-list"></datalist>
+                        <select id="origen" name="origen" class="form-select" required disabled>
+                            <option value="" data-i18n="form.origin.select">Seleccione origen</option>
+                        </select>
                     </div>
 
                     <div class="form-group">
@@ -210,8 +211,9 @@
                             </svg>
                             <span data-i18n="form.destination">Aeropuerto de Destino</span>
                         </label>
-                        <input type="text" id="destino" name="destino" class="form-input" list="destino-list" data-i18n-placeholder="form.destination.select" placeholder="Ej: LAX" required disabled style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.5rem;">
-                        <datalist id="destino-list"></datalist>
+                        <select id="destino" name="destino" class="form-select" required disabled>
+                            <option value="" data-i18n="form.destination.select">Seleccione destino</option>
+                        </select>
                     </div>
 
                     <div class="form-group">
@@ -271,73 +273,73 @@
 
                     <div class="metrics-grid">
                         <div class="metric-card">
-                            <div class="metric-label">Probabilidad de Retraso</div>
+                            <div class="metric-label" data-i18n="metrics.probability">Probabilidad de Retraso</div>
                             <div class="metric-value" id="metricProbability">0%</div>
                             <div class="metric-bar">
                                 <div class="metric-bar-fill" id="probabilityBar"></div>
                             </div>
                         </div>
                         <div class="metric-card">
-                            <div class="metric-label">Confianza del Modelo</div>
+                            <div class="metric-label" data-i18n="metrics.confidence">Confianza del Modelo</div>
                             <div class="metric-value" id="metricConfidence">0%</div>
                             <div class="metric-bar">
                                 <div class="metric-bar-fill confidence" id="confidenceBar"></div>
                             </div>
                         </div>
                         <div class="metric-card">
-                            <div class="metric-label">Distancia del Vuelo</div>
+                            <div class="metric-label" data-i18n="metrics.distance">Distancia del Vuelo</div>
                             <div class="metric-value" id="metricDistance">0 km</div>
                         </div>
                     </div>
 
                     <div class="weather-container-split" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 2rem;">
                         <div class="weather-section" id="weatherSectionOrigin">
-                            <h4 class="section-subtitle">Clima en Origen</h4>
+                            <h4 class="section-subtitle" data-i18n="weather.title.origin">Clima en Origen</h4>
                             <div class="weather-grid">
                                 <div class="weather-item">
-                                    <span class="weather-label">Condición</span>
+                                    <span class="weather-label" data-i18n="weather.condition">Condición</span>
                                     <span class="weather-value" id="weatherCondition"></span>
                                 </div>
                                 <div class="weather-item">
-                                    <span class="weather-label">Temperatura</span>
+                                    <span class="weather-label" data-i18n="weather.temperature">Temperatura</span>
                                     <span class="weather-value" id="weatherTemp"></span>
                                 </div>
                                 <div class="weather-item">
-                                    <span class="weather-label">Humedad</span>
+                                    <span class="weather-label" data-i18n="weather.humidity">Humedad</span>
                                     <span class="weather-value" id="weatherHumidity"></span>
                                 </div>
                                 <div class="weather-item">
-                                    <span class="weather-label">Viento</span>
+                                    <span class="weather-label" data-i18n="weather.wind">Viento</span>
                                     <span class="weather-value" id="weatherWind"></span>
                                 </div>
                                 <div class="weather-item">
-                                    <span class="weather-label">Visibilidad</span>
+                                    <span class="weather-label" data-i18n="weather.visibility">Visibilidad</span>
                                     <span class="weather-value" id="weatherVisibility"></span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="weather-section" id="weatherSectionDest">
-                            <h4 class="section-subtitle">Clima en Destino</h4>
+                            <h4 class="section-subtitle" data-i18n="weather.title.dest">Clima en Destino</h4>
                             <div class="weather-grid">
                                 <div class="weather-item">
-                                    <span class="weather-label">Condición</span>
+                                    <span class="weather-label" data-i18n="weather.condition">Condición</span>
                                     <span class="weather-value" id="weatherConditionDest"></span>
                                 </div>
                                 <div class="weather-item">
-                                    <span class="weather-label">Temperatura</span>
+                                    <span class="weather-label" data-i18n="weather.temperature">Temperatura</span>
                                     <span class="weather-value" id="weatherTempDest"></span>
                                 </div>
                                 <div class="weather-item">
-                                    <span class="weather-label">Humedad</span>
+                                    <span class="weather-label" data-i18n="weather.humidity">Humedad</span>
                                     <span class="weather-value" id="weatherHumidityDest"></span>
                                 </div>
                                 <div class="weather-item">
-                                    <span class="weather-label">Viento</span>
+                                    <span class="weather-label" data-i18n="weather.wind">Viento</span>
                                     <span class="weather-value" id="weatherWindDest"></span>
                                 </div>
                                 <div class="weather-item">
-                                    <span class="weather-label">Visibilidad</span>
+                                    <span class="weather-label" data-i18n="weather.visibility">Visibilidad</span>
                                     <span class="weather-value" id="weatherVisibilityDest"></span>
                                 </div>
                             </div>
@@ -345,7 +347,7 @@
                     </div>
 
                     <div class="metadata-section" id="metadataSection">
-                        <h4 class="section-subtitle">Información del Vuelo</h4>
+                        <h4 class="section-subtitle" data-i18n="metadata.title">Información del Vuelo</h4>
                         <div class="metadata-grid" id="metadataGrid"></div>
                     </div>
 
@@ -379,13 +381,13 @@
                     <div class="settings-options">
                         <button id="langEs" class="settings-option active" data-lang="es">
                             <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <img src="/espana.png" alt="Español" style="width: 24px; height: 24px; border-radius: 50%; object-fit: contain;">
+                                <img src="/img/espana.png" alt="Español" style="width: 24px; height: 24px; border-radius: 50%; object-fit: contain;">
                                 <span>Español</span>
                             </div>
                         </button>
                         <button id="langEn" class="settings-option" data-lang="en">
                             <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <img src="/estados-unidos.png" alt="English" style="width: 24px; height: 24px; border-radius: 50%; object-fit: contain;">
+                                <img src="/img/estados-unidos.png" alt="English" style="width: 24px; height: 24px; border-radius: 50%; object-fit: contain;">
                                 <span>English</span>
                             </div>
                         </button>

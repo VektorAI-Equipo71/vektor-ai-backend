@@ -575,10 +575,6 @@
         throw new Error(result.metadata.error);
       }
 
-      // Agregar tiempo del cliente a la metadata
-      if (!result.metadata) result.metadata = {};
-      result.metadata.tiempo_cliente_ms = clientTime;
-
       // Mostrar resultados
       displayResults(result);
     } catch (error) {
@@ -617,6 +613,76 @@
       showLoading(false);
       disableButtons(false);
     }
+  }
+
+  // ============================================================================
+  // FUNCIONES AUXILIARES DE TRADUCCIÓN
+  // ============================================================================
+  
+  /**
+   * Traduce una condición climática al idioma actual
+   * @param {string} condition - Condición climática en español
+   * @returns {string} - Condición traducida o la original si no hay traducción
+   */
+  function translateWeatherCondition(condition) {
+    if (!condition || typeof condition !== 'string') {
+      return condition || '';
+    }
+    
+    const currentLang = window.i18n ? window.i18n.getLanguage() : 'es';
+    
+    // Si el idioma actual es español, devolver sin cambios
+    if (currentLang === 'es') {
+      return condition;
+    }
+    
+    // Mapeo de condiciones climáticas comunes en español a inglés
+    const weatherConditionsMap = {
+      'cielo claro': 'clear sky',
+      'cielo despejado': 'clear sky',
+      'despejado': 'clear',
+      'nubes': 'clouds',
+      'nublado': 'cloudy',
+      'parcialmente nublado': 'partly cloudy',
+      'mayormente nublado': 'mostly cloudy',
+      'lluvia': 'rain',
+      'llovizna': 'drizzle',
+      'lluvia ligera': 'light rain',
+      'lluvia moderada': 'moderate rain',
+      'lluvia intensa': 'heavy rain',
+      'tormenta': 'thunderstorm',
+      'tormenta eléctrica': 'thunderstorm',
+      'nieve': 'snow',
+      'nieve ligera': 'light snow',
+      'nieve intensa': 'heavy snow',
+      'niebla': 'fog',
+      'neblina': 'mist',
+      'bruma': 'haze',
+      'polvo': 'dust',
+      'arena': 'sand',
+      'ceniza': 'ash',
+      'chubasco': 'squall',
+      'tornado': 'tornado',
+      'sobrecargado': 'overcast'
+    };
+    
+    // Normalizar la condición (minúsculas y trim)
+    const normalizedCondition = condition.toLowerCase().trim();
+    
+    // Buscar traducción exacta
+    if (weatherConditionsMap[normalizedCondition]) {
+      return weatherConditionsMap[normalizedCondition];
+    }
+    
+    // Buscar traducción parcial (por si contiene la palabra clave)
+    for (const [spanish, english] of Object.entries(weatherConditionsMap)) {
+      if (normalizedCondition.includes(spanish) || spanish.includes(normalizedCondition)) {
+        return english;
+      }
+    }
+    
+    // Si no se encuentra traducción, devolver la original
+    return condition;
   }
 
   // ============================================================================
@@ -742,8 +808,8 @@
           elements.weatherCondition &&
           elements.weatherCondition.textContent !== undefined
         ) {
-          elements.weatherCondition.textContent =
-            clima.descripcion || clima.condicion;
+          const conditionText = clima.descripcion || clima.condicion || '';
+          elements.weatherCondition.textContent = translateWeatherCondition(conditionText);
         }
         if (
           elements.weatherTemp &&
@@ -784,8 +850,8 @@
           elements.weatherConditionDest &&
           elements.weatherConditionDest.textContent !== undefined
         ) {
-          elements.weatherConditionDest.textContent =
-            clima.descripcion || clima.condicion;
+          const conditionText = clima.descripcion || clima.condicion || '';
+          elements.weatherConditionDest.textContent = translateWeatherCondition(conditionText);
         }
         if (
           elements.weatherTempDest &&
@@ -873,7 +939,8 @@
 
     // 1. NOTAS IMPORTANTES (Full Width)
     if (metadata.nota) {
-      addMetadataItem("Nota del Sistema", metadata.nota, "warning", true);
+      const noteLabel = window.i18n ? window.i18n.t("metadata.note") : "Nota del Sistema";
+      addMetadataItem(noteLabel, metadata.nota, "warning", true);
     }
 
     // 2. RESTO DE METADATA (Grid normal)
@@ -881,23 +948,40 @@
     const metadataMap = {};
 
     // Aerolínea: mostrar nombre completo si está disponible, sino código
+    const airlineLabel = window.i18n ? window.i18n.t("metadata.airline") : "Aerolínea";
     if (metadata.aerolinea_nombre) {
-      metadataMap["aerolinea_nombre"] = "Aerolínea";
+      metadataMap["aerolinea_nombre"] = airlineLabel;
     } else if (metadata.aerolinea) {
-      metadataMap["aerolinea"] = "Aerolínea";
+      metadataMap["aerolinea"] = airlineLabel;
     }
 
-    // Agregar otros campos
-    metadataMap["ruta"] = "Ruta de Vuelo";
-    metadataMap["distancia_km"] = "Distancia";
-    metadataMap["origen_nombre"] = "Aeropuerto Origen";
-    metadataMap["destino_nombre"] = "Aeropuerto Destino";
-    metadataMap["fecha_partida"] = "Salida Programada";
-    metadataMap["timestamp_prediccion"] = "Cálculo Realizado";
-    metadataMap["tiempo_respuesta_ms"] = "Tiempo ML (Backend)";
-    metadataMap["tiempo_cliente_ms"] = "Tiempo Total (Cliente)";
+    // Agregar otros campos usando traducciones
+    metadataMap["ruta"] = window.i18n ? window.i18n.t("metadata.route") : "Ruta de Vuelo";
+    metadataMap["distancia_km"] = window.i18n ? window.i18n.t("metadata.distance") : "Distancia";
+    metadataMap["origen_nombre"] = window.i18n ? window.i18n.t("metadata.origin") : "Origen";
+    metadataMap["destino_nombre"] = window.i18n ? window.i18n.t("metadata.destination") : "Destino";
+    metadataMap["fecha_partida"] = window.i18n ? window.i18n.t("metadata.departure") : "Salida Programada";
+    metadataMap["timestamp_prediccion"] = window.i18n ? window.i18n.t("metadata.calculated") : "Cálculo Realizado";
 
     for (const [key, label] of Object.entries(metadataMap)) {
+      // Para "Cálculo Realizado", siempre mostrar con la fecha actual del cliente
+      if (key === "timestamp_prediccion") {
+        const date = new Date(); // Fecha actual del cliente
+        // Usar el idioma actual para formatear la fecha
+        const currentLang = window.i18n ? window.i18n.getLanguage() : "es";
+        const locale = currentLang === "en" ? "en-US" : "es-ES";
+        const value = date.toLocaleString(locale, {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+        addMetadataItem(label, value, "default", false);
+        continue; // Continuar con el siguiente item
+      }
+
+      // Para los demás campos, solo mostrar si existen en el metadata
       if (metadata[key]) {
         let value = metadata[key];
 
@@ -924,8 +1008,12 @@
         // Formatear timestamp y fechas
         if (key.includes("timestamp") || key.includes("fecha")) {
           try {
+            // Para otras fechas/timestamps, usar el valor del metadata
+            // Usar el idioma actual para formatear la fecha
+            const currentLang = window.i18n ? window.i18n.getLanguage() : "es";
+            const locale = currentLang === "en" ? "en-US" : "es-ES";
             const date = new Date(value);
-            value = date.toLocaleString("es-ES", {
+            value = date.toLocaleString(locale, {
               day: "2-digit",
               month: "short",
               year: "numeric",
@@ -1482,23 +1570,21 @@
   // ============================================================================
   function handleAirlineChange() {
     const airlineId = elements.aerolinea.value;
-    const originInput = elements.origen;
-    const destInput = elements.destino;
-    const originList = document.getElementById("origen-list");
-    const destList = document.getElementById("destino-list");
+    const originSelect = elements.origen;
+    const destSelect = elements.destino;
 
-    // Limpiar datalists
-    originList.innerHTML = "";
-    destList.innerHTML = "";
+    // Limpiar selects
+    originSelect.innerHTML = '<option value="" data-i18n="form.origin.select">Seleccione origen</option>';
+    destSelect.innerHTML = '<option value="" data-i18n="form.destination.select">Seleccione destino</option>';
 
-    // Limpiar inputs si cambia la aerolínea
-    originInput.value = "";
-    destInput.value = "";
+    // Limpiar valores si cambia la aerolínea
+    originSelect.value = "";
+    destSelect.value = "";
 
     // Deshabilitar si no hay aerolínea seleccionada
     if (!airlineId) {
-      originInput.disabled = true;
-      destInput.disabled = true;
+      originSelect.disabled = true;
+      destSelect.disabled = true;
       return;
     }
 
@@ -1567,11 +1653,71 @@
       } else {
         option.textContent = code;
       }
-      originList.appendChild(option);
+      originSelect.appendChild(option);
     });
 
-    // Poblar Destino (Datalist) - Solo aeropuertos donde opera esta aerolínea
-    const destinosSorted = [...new Set(destinos)].sort();
+    // Poblar Destino inicialmente con todos los destinos disponibles
+    // Esta función se actualizará cuando se seleccione un origen
+    updateDestinationOptions(destinos, "");
+
+    // Habilitar selects ahora que tenemos los datos cargados
+    originSelect.disabled = false;
+    destSelect.disabled = false;
+
+    // Agregar listener al select de origen para actualizar destinos cuando cambie
+    originSelect.removeEventListener("change", handleOriginChange);
+    originSelect.addEventListener("change", handleOriginChange);
+
+    console.log(
+      `✅ Aeropuertos cargados para ${airlineId}: ${originesSorted.length} orígenes, ${destinosSorted.length} destinos`
+    );
+  }
+
+  // ============================================================================
+  // MANEJO DE CAMBIO DE ORIGEN
+  // ============================================================================
+  function handleOriginChange() {
+    const airlineId = elements.aerolinea.value;
+    const originSelect = elements.origen;
+    const destSelect = elements.destino;
+    const selectedOrigin = originSelect.value;
+
+    // Si no hay aerolínea seleccionada, no hacer nada
+    if (!airlineId || !AIRLINE_AIRPORTS_DATA || !AIRLINE_AIRPORTS_DATA[airlineId]) {
+      return;
+    }
+
+    // Obtener destinos disponibles para esta aerolínea
+    const airlineAirports = AIRLINE_AIRPORTS_DATA[airlineId];
+    const destinos = airlineAirports.DEST || [];
+
+    // Actualizar opciones de destino excluyendo el aeropuerto de origen seleccionado
+    updateDestinationOptions(destinos, selectedOrigin);
+
+    // Si el destino actualmente seleccionado es el mismo que el origen, limpiarlo
+    if (destSelect.value === selectedOrigin) {
+      destSelect.value = "";
+    }
+  }
+
+  // ============================================================================
+  // ACTUALIZAR OPCIONES DE DESTINO
+  // ============================================================================
+  function updateDestinationOptions(destinos, excludeOrigin) {
+    const destSelect = elements.destino;
+    const currentValue = destSelect.value;
+
+    // Limpiar select de destino manteniendo solo la opción vacía
+    destSelect.innerHTML = '<option value="" data-i18n="form.destination.select">Seleccione destino</option>';
+
+    // Filtrar destinos excluyendo el aeropuerto de origen si está seleccionado
+    const destinosFiltrados = excludeOrigin
+      ? destinos.filter(code => code !== excludeOrigin)
+      : destinos;
+
+    // Usamos Set para evitar duplicados si los hubiera y ordenar alfabéticamente
+    const destinosSorted = [...new Set(destinosFiltrados)].sort();
+    
     destinosSorted.forEach((code) => {
       const option = document.createElement("option");
       option.value = code;
@@ -1586,15 +1732,16 @@
       } else {
         option.textContent = code;
       }
-      destList.appendChild(option);
+      destSelect.appendChild(option);
     });
 
-    // Habilitar inputs ahora que tenemos los datos cargados
-    originInput.disabled = false;
-    destInput.disabled = false;
+    // Restaurar el valor anterior si aún está disponible
+    if (currentValue && destinosFiltrados.includes(currentValue)) {
+      destSelect.value = currentValue;
+    }
 
     console.log(
-      `✅ Aeropuertos cargados para ${airlineId}: ${originesSorted.length} orígenes, ${destinosSorted.length} destinos`
+      `✅ Opciones de destino actualizadas: ${destinosSorted.length} destinos${excludeOrigin ? ` (excluyendo ${excludeOrigin})` : ""}`
     );
   }
 
