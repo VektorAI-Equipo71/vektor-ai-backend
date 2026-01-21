@@ -2,8 +2,6 @@
 
 Análisis y desarrollo del modelo RandomForest para predicción de retrasos.
 
-**Desarrollado por:** Equipo Data Science (Líder: Sofia Martinez)
-
 ## Notebooks
 
 - Análisis exploratorio (EDA)
@@ -15,3 +13,7 @@ Análisis y desarrollo del modelo RandomForest para predicción de retrasos.
 - **Accuracy:** 85.23%
 - **Modelo:** RandomForest (98 árboles)
 - **Dataset:** 6M registros USA
+
+## 👥 Team
+- Líder Técnico DS: Sofía Martínez Véjar
+- Data Scientists: Karen Brenes; Mario Baillon; Carolina Guerrero; Ronald Varela; Cristian Maje; Kevin Lemos.
