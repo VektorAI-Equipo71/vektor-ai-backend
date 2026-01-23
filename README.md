@@ -223,6 +223,7 @@ vektor-ai-backend/
 ├── docs/                             # Documentación
 │   ├── ARCHITECTURE.md               # Arquitectura del sistema
 │   ├── CONTRATO_INTEGRACION.md       # Contrato de integración API
+│   ├── MANUAL-DESPLIEGUE-OCI.pdf     # Manual de despliegue en Oracle Cloud
 │   └── testing/                      # Guías de pruebas
 │
 ├── postman/                          # Colección Postman
@@ -398,6 +399,7 @@ Organización en GitHub: **[VektorAI-Equipo71](https://github.com/VektorAI-Equip
 
 - **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Arquitectura del sistema
 - **[CONTRATO_INTEGRACION.md](docs/CONTRATO_INTEGRACION.md)** - Contrato de integración API
+- **[MANUAL-DESPLIEGUE-OCI.pdf](docs/MANUAL-DESPLIEGUE-OCI.pdf)** - Manual de despliegue en Oracle Cloud
 - **[GUIA_PRUEBAS.md](docs/testing/GUIA_PRUEBAS.md)** - Guía de pruebas
 - **[Colección Postman](postman/)** - Colección para probar la API
 
