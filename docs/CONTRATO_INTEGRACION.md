@@ -7,9 +7,27 @@
 | **Nombre del Servicio** | FlightOnTime API |
 | **Versión** | 1.0.0 |
 | **Base URL (Local)** | `http://localhost:8080/api` |
+| **Base URL (Producción)** | `http://159.54.159.244/api` |
+| **Frontend (Producción)** | `http://159.54.159.244/index.html` |
 | **Formato de Datos** | JSON |
 | **Codificación** | UTF-8 |
 | **Autenticación** | No requerida (v1.0.0) |
+
+## 🌐 Entornos Disponibles
+
+### Entorno de Producción
+- **URL Base**: `http://159.54.159.244`
+- **Frontend**: `http://159.54.159.244/index.html`
+- **Backend API**: `http://159.54.159.244/api`
+- **Estado**: ✅ Activo y funcionando
+
+### Entorno Local (Docker)
+- **URL Base**: `http://localhost:8080`
+- **Frontend**: `http://localhost:8081`
+- **Backend API**: `http://localhost:8080/api`
+- **ML Service**: `http://localhost:8001`
+- **PostgreSQL**: `localhost:5432`
+
 
 ---
 
@@ -328,12 +346,7 @@ El ML Service es utilizado internamente por el Backend. Estos endpoints no deben
 | **URL** | `http://localhost:8001/predict_internal` |
 | **Método** | `POST` |
 
-### Lista de Aeropuertos
 
-| Atributo | Valor |
-|----------|-------|
-| **URL** | `http://localhost:8001/airports` |
-| **Método** | `GET` |
 
 ### Health Check ML
 
@@ -423,7 +436,7 @@ El ML Service es utilizado internamente por el Backend. Estos endpoints no deben
 
 ## 📝 Ejemplos de Uso
 
-### cURL - Predicción Individual
+### cURL - Predicción Individual (Local)
 
 ```bash
 curl -X POST http://localhost:8080/api/predict \
@@ -436,23 +449,55 @@ curl -X POST http://localhost:8080/api/predict \
   }'
 ```
 
-### cURL - Consultar Estadísticas
+### cURL - Predicción Individual (Producción)
+
+```bash
+curl -X POST http://159.54.159.244/api/predict \
+  -H "Content-Type: application/json" \
+  -d '{
+    "aerolinea": "DL",
+    "origen": "ATL",
+    "destino": "JFK",
+    "fecha_partida": "2026-01-15T14:30:00"
+  }'
+```
+
+### cURL - Consultar Estadísticas (Local)
 
 ```bash
 curl http://localhost:8080/api/stats
 ```
 
-### cURL - Consultar Historial con Filtros
+### cURL - Consultar Estadísticas (Producción)
+
+```bash
+curl http://159.54.159.244/api/stats
+```
+
+### cURL - Consultar Historial con Filtros (Local)
 
 ```bash
 curl "http://localhost:8080/api/predictions?page=0&size=20&aerolinea=DL"
 ```
 
-### cURL - Health Check
+### cURL - Consultar Historial con Filtros (Producción)
+
+```bash
+curl "http://159.54.159.244/api/predictions?page=0&size=20&aerolinea=DL"
+```
+
+### cURL - Health Check (Local)
 
 ```bash
 curl http://localhost:8080/api/health
 ```
+
+### cURL - Health Check (Producción)
+
+```bash
+curl http://159.54.159.244/api/health
+```
+
 
 ---
 
@@ -489,6 +534,7 @@ La API sigue versionado semántico (SemVer):
 
 Para soporte técnico o consultas sobre la integración:
 
+- **Repositorio del Equipo**: [https://github.com/VektorAI-Equipo71](https://github.com/VektorAI-Equipo71)
 - **Documentación técnica**: Este documento
 - **Colección Postman**: `postman/FlightOnTime_Postman_Collection.json`
 - **Logs del sistema**: `docker compose logs -f`
@@ -496,4 +542,4 @@ Para soporte técnico o consultas sobre la integración:
 ---
 
 **Última actualización**: Enero 2026  
-**Versión del documento**: 1.0.0
+**Versión del documento**: 1.0.2

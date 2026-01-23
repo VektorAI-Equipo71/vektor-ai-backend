@@ -773,43 +773,7 @@
       "name": "ML Service API (Interno)",
       "description": "Endpoints del servicio ML - Uso interno",
       "item": [
-        {
-          "name": "Listar Aeropuertos",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
-                  "",
-                  "pm.test(\"Response is an object with airports\", function () {",
-                  "    var jsonData = pm.response.json();",
-                  "    pm.expect(Object.keys(jsonData).length).to.be.above(100);",
-                  "});",
-                  "",
-                  "pm.test(\"ATL airport exists\", function () {",
-                  "    var jsonData = pm.response.json();",
-                  "    pm.expect(jsonData).to.have.property('ATL');",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{ml_service_url}}/airports",
-              "host": ["{{ml_service_url}}"],
-              "path": ["airports"]
-            },
-            "description": "Lista todos los aeropuertos disponibles en el sistema.\n\n**Formato:**\n```json\n{\n  \"ATL\": {\n    \"name\": \"Hartsfield-Jackson Atlanta International Airport\",\n    \"lat\": 33.6407,\n    \"lon\": -84.4277\n  }\n}\n```"
-          },
-          "response": []
-        },
+
         {
           "name": "Predicción Interna (ML directo)",
           "event": [

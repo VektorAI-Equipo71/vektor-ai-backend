@@ -422,6 +422,109 @@ Todos los servicios están conectados a `flightontime-network` (bridge).
 
 ---
 
+## 🌐 Entorno de Producción
+
+### Información de Deployment
+
+El sistema **FlightOnTime** está desplegado en un servidor de producción y accesible públicamente.
+
+| Componente | URL/Endpoint |
+|------------|--------------|
+| **Frontend** | `http://159.54.159.244/index.html` |
+| **Backend API** | `http://159.54.159.244/api` |
+| **Estado** | ✅ Activo y funcionando |
+
+### Acceso a la Aplicación
+
+```
+🔗 URL de Producción: http://159.54.159.244/index.html
+```
+
+**Funcionalidades disponibles en producción:**
+- ✅ Predicción individual de vuelos
+- ✅ Predicción por lotes (CSV)
+- ✅ Historial de predicciones
+- ✅ Dashboard de estadísticas
+- ✅ Exportación de datos (Excel)
+
+### Arquitectura de Producción
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    INTERNET                                  │
+│                        │                                     │
+│                        ▼                                     │
+│              http://159.54.159.244                           │
+│                        │                                     │
+│         ┌──────────────┴──────────────┐                     │
+│         │                              │                     │
+│    Frontend (Nginx)              Backend API                 │
+│    Puerto 80/8081               Puerto 8080                  │
+│         │                              │                     │
+│         │                    ┌─────────┴─────────┐          │
+│         │                    │                   │          │
+│         │               ML Service         PostgreSQL       │
+│         │               Puerto 8001        Puerto 5432      │
+│         │                    │                              │
+│         │              ┌─────┴─────┐                        │
+│         │              │           │                        │
+│         │         Random Forest  OpenWeatherMap API         │
+│         │            Model        (Externo)                 │
+│         │                                                    │
+│    ┌────┴────────────────────────────────────────┐          │
+│    │        Docker Network (Producción)          │          │
+│    │         flightontime-network                │          │
+│    └─────────────────────────────────────────────┘          │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Diferencias entre Entornos
+
+| Aspecto | Local (Docker) | Producción |
+|---------|----------------|------------|
+| Frontend URL | `http://localhost:8081` | `http://159.54.159.244/index.html` |
+| Backend URL | `http://localhost:8080/api` | `http://159.54.159.244/api` |
+| ML Service | `http://localhost:8001` | Interno (no expuesto) |
+| PostgreSQL | `localhost:5432` | Interno (no expuesto) |
+| HTTPS | ❌ No | ⏳ Roadmap |
+| DNS | ❌ No | ⏳ Roadmap |
+| CDN | ❌ No | ⏳ Roadmap |
+
+### Configuración del Servidor
+
+**Plataforma de Deployment:**
+- Servidor dedicado / VPS
+- Sistema Operativo: Linux (Oracle Linux / Ubuntu)
+- Docker Compose para orquestación
+- Nginx como reverse proxy y servidor de archivos estáticos
+
+**Puertos expuestos:**
+| Puerto | Servicio | Acceso Público |
+|--------|----------|----------------|
+| 80 | Frontend (Nginx) | ✅ Sí |
+| 8080 | Backend API | ✅ Sí (API) |
+| 8001 | ML Service | ❌ No (interno) |
+| 5432 | PostgreSQL | ❌ No (interno) |
+
+### Monitoreo y Logs
+
+**Health Checks en Producción:**
+```bash
+# Verificar estado del Backend
+curl http://159.54.159.244/api/health
+
+# Verificar disponibilidad del Frontend
+curl -I http://159.54.159.244/index.html
+```
+
+**Métricas disponibles:**
+```bash
+# Prometheus metrics
+curl http://159.54.159.244/actuator/prometheus
+```
+
+---
+
 ## 📈 Escalabilidad
 
 ### Horizontal
@@ -545,5 +648,35 @@ vektor-ai-backend/
 
 ---
 
+## 👥 Equipo de Desarrollo
+
+El proyecto **FlightOnTime** fue desarrollado por el **Equipo 71 - Vektor AI** como parte del **Hackathon Oracle ONE 2025**.
+
+### 🎯 Product Owner
+- **Kevin Joel Lemos** - [@niveKJ](https://github.com/niveKJ)
+
+### 📊 Scrum Master
+- **Gloria Carolina Guerrero Velandia** - [@CarolinaG2024](https://github.com/CarolinaG2024)
+
+### 🤖 Data Science Team
+- **Líder Técnico DS**: Sofía Martínez Véjar - [@smv1980](https://github.com/smv1980)
+- **Data Scientists**:
+  - Karen Brenes - [@Karen-13C](https://github.com/Karen-13C)
+  - Miguel Baillon - [@MPBOga](https://github.com/MPBOga)
+  - Ronald Varela - [@Ronaldvarela852](https://github.com/Ronaldvarela852)
+  - Gloria Carolina Guerrero Velandia - [@CarolinaG2024](https://github.com/CarolinaG2024)
+  - Cristian Camilo Maje - [@CamiloTrr](https://github.com/CamiloTrr)
+  - Kevin Lemos - [@niveKJ](https://github.com/niveKJ)
+
+### ⚙️ FullStack Team
+- **Líder Técnico Backend & Frontend**: Edgar Alejandro Nestor Castillo - [@EdgarNestorC](https://github.com/EdgarNestorC)
+- **Desarrollador FullStack**: Jose Julio Rodriguez - [@JoseBenin82](https://github.com/JoseBenin82)
+
+### 🔗 Repositorio del Equipo
+
+Organización en GitHub: **[VektorAI-Equipo71](https://github.com/VektorAI-Equipo71)**
+
+---
+
 **Última actualización**: Enero 2026  
-**Versión del documento**: 1.0.0
+**Versión del documento**: 1.0.1

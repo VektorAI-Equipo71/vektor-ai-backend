@@ -25,6 +25,18 @@
 
 ---
 
+## 🌐 Acceso al Sistema
+
+### 🚀 Entorno de Producción
+
+El sistema está desplegado y disponible en:
+
+**🔗 URL de Producción**: [http://159.54.159.244/index.html](http://159.54.159.244/index.html)
+
+> 🌟 Accede directamente a la aplicación en producción para probar todas las funcionalidades del sistema.
+
+---
+
 ## 🚀 Cómo Levantar el Sistema en Local (Docker)
 
 ### Prerrequisitos
@@ -349,6 +361,36 @@ OPENWEATHER_API_KEY=tu_api_key_valida
 | UA | United Airlines |
 | WN | Southwest Airlines |
 | YX | Republic Airways |
+
+---
+
+## 👥 Equipo de Desarrollo
+
+El proyecto **FlightOnTime** fue desarrollado por el **Equipo 71 - Vektor AI** como parte del **Hackathon Oracle ONE 2025**.
+
+### 🎯 Product Owner
+- **Kevin Joel Lemos** - [@niveKJ](https://github.com/niveKJ)
+
+### 📊 Scrum Master
+- **Gloria Carolina Guerrero Velandia** - [@CarolinaG2024](https://github.com/CarolinaG2024)
+
+### 🤖 Data Science Team
+- **Líder Técnico DS**: Sofía Martínez Véjar - [@smv1980](https://github.com/smv1980)
+- **Data Scientists**:
+  - Karen Brenes - [@Karen-13C](https://github.com/Karen-13C)
+  - Miguel Baillon - [@MPBOga](https://github.com/MPBOga)
+  - Ronald Varela - [@Ronaldvarela852](https://github.com/Ronaldvarela852)
+  - Gloria Carolina Guerrero Velandia - [@CarolinaG2024](https://github.com/CarolinaG2024)
+  - Cristian Camilo Maje - [@CamiloTrr](https://github.com/CamiloTrr)
+  - Kevin Lemos - [@niveKJ](https://github.com/niveKJ)
+
+### ⚙️ FullStack Team
+- **Líder Técnico Backend & Frontend**: Edgar Alejandro Nestor Castillo - [@EdgarNestorC](https://github.com/EdgarNestorC)
+- **Desarrollador FullStack**: Jose Julio Rodriguez - [@JoseBenin82](https://github.com/JoseBenin82)
+
+### 🔗 Repositorio del Equipo
+
+Organización en GitHub: **[VektorAI-Equipo71](https://github.com/VektorAI-Equipo71)**
 
 ---
 
