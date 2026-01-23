@@ -54,7 +54,7 @@ El sistema está desplegado y disponible en:
 
 ```bash
 git clone <url-del-repositorio>
-cd vektor-ai-backend
+cd vektor-ai
 ```
 
 ---
