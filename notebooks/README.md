@@ -25,6 +25,13 @@
 - [FlightonTime_5_Modelos_Gridsearch_con_Clima](https://github.com/VektorAI-Equipo71/vektor-ai/blob/main/notebooks/FlightonTime_5_Modelos_Gridsearch_con_Clima.ipynb)
 
   Notebook que contiene pruebas de Random Forest, Regresión Logística, XGBoost y LightGBM para set de datos con quince aerolíneas y variables climáticas.
+
+- [Notebook_DatosClima_1](https://github.com/VektorAI-Equipo71/vektor-ai/blob/main/notebooks/Notebook_DatosClima_1.ipynb)
+  [Notebook_DatosClima_2](https://github.com/VektorAI-Equipo71/vektor-ai/blob/main/notebooks/Notebook_DatosClima_2.ipynb)
+  [Notebook_DatosClima_3](https://github.com/VektorAI-Equipo71/vektor-ai/blob/main/notebooks/Notebook_DatosClima_3.ipynb)
+  [Modelo Visibilidad](https://github.com/VektorAI-Equipo71/vektor-ai/blob/main/notebooks/ModeloVisibilidad.ipynb)
+
+  Notebooks que contienen todo el procesamiento involucrado en la incorporación de las variables climáticas al set de datos de aeropuertos. Todos los notebooks junto con los set de datos utilizados son descargables desde: [Kaggle](https://www.kaggle.com/datasets/spmv1980/hackaton-2025-equipo-71?select=Notebooks_DatosClima)
   
 - [FlightonTime_6_Random_Forest_con_Clima_para_Backend](https://github.com/VektorAI-Equipo71/vektor-ai/blob/main/notebooks/FlightonTime_6_Random_Forest_con_Clima_para_Backend.ipynb)
 
