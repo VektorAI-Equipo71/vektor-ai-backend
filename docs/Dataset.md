@@ -16,3 +16,5 @@ Para formar el set de datos propio se recurrió a datos de aerolíneas del [Bure
 
 5) Finalmente, al set de datos procesado con todas las aerolíneas se le agregaron variables climáticas a partir de estaciones meteorológicas asociadas a cada aeropuerto:
   https://www.kaggle.com/datasets/spmv1980/hackaton-2025-equipo-71?select=df_procesado_clima.csv
+
+NOTA: Los notebooks y set de datos usados para llegar a fusuiona las variables climáticas con los datos de vuelos se pueden descargar desde [Kaggle](https://www.kaggle.com/datasets/spmv1980/hackaton-2025-equipo-71?select=Notebooks_DatosClima)
